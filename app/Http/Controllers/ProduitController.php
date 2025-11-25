@@ -10,6 +10,8 @@ use App\Models\Stock;
 use App\Models\TypeProduits;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProduitController extends Controller
 {
@@ -18,8 +20,7 @@ class ProduitController extends Controller
      */
     public function index()
     {
-        $produits = Produit::all();
-        // $brands = Brand::all();
+        $produits = Produit::with('categorie')->get();
         return view('administration.produits.index', compact('produits'));
     }
 
@@ -28,8 +29,6 @@ class ProduitController extends Controller
      */
     public function create()
     {
-        // $categories = Category::all(); 
-        // $typeproduits = TypeProduits::all(); 
         $typeproduits = TypeProduits::with('categories')->get(); 
         return view('administration.produits.create', compact('typeproduits'));
     }
@@ -39,86 +38,77 @@ class ProduitController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nomproduit'     => 'required|string|max:255',
-            'imgproduit'     => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'categories'   => 'required|exists:categories,id',
-            'prix'           => 'required|numeric|min:0',
-            'stock'          => 'integer|min:0',
-            'sku'            => 'nullable|string|max:255',
-            'description'    => 'required|string',
+        $validated = $request->validate([
+            'nomproduit'    => 'required|string|max:255',
+            'imgproduit'    => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categories'    => 'required|exists:categories,id',
+            'prix'          => 'required|numeric|min:0',
+            'stock'         => 'required|integer|min:0',
+            'sku'           => 'nullable|string|max:255|unique:produits,sku',
+            'description'   => 'required|string',
         ]);
 
-         // Génération du slug à partir du nom
-        $slug = Str::slug($request->nomproduit);
+        DB::beginTransaction();
 
-        // Vérifie l'unicité du slug (ajout d'un suffixe si nécessaire)
-        $originalSlug = $slug;
-        $counter = 1;
-        while (Produit::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $counter;
-            $counter++;
-        }
+        try {
+            // Generate unique slug
+            $slug = $this->generateUniqueSlug($validated['nomproduit']);
 
+            // Upload main image
+            $imagePath = $this->uploadImage($request->file('imgproduit'), 'produits');
 
-        // Upload de l'image
-        if($request->has('imgproduit'))
-        {
-            $file = $request->file('imgproduit');
-            $extension = $file->getClientOriginalExtension();
+            // Create product
+            $produit = Produit::create([
+                'name' => $validated['nomproduit'],
+                'slug' => $slug,
+                'sku' => $validated['sku'],
+                'description' => $validated['description'],
+                'image_principale' => $imagePath,
+                'categorie_id' => $validated['categories'],
+                'prix' => $validated['prix'],
+            ]);
 
-            $imagePath = "produits_".time().'.'.$extension;
-            $file->move('uploads/produits/', $imagePath);
-        }
-
-        // dd($all_products);
-
-        // Enregistrement du produit principal
-        $produit = Produit::create([
-            'name' => $request->nomproduit,
-            'slug' => $slug,
-            'sku' => $request->sku,
-            'description' => $request->description,
-            'image_principale' => $imagePath,
-            'categorie_id' => $request->categories,
-            'prix' => $request->prix,
-        ]);
-
-        
-
-        // Images secondaires
-        if ($request->hasFile('images')) {
-
-            $images = $request->file('images');
-
-            // Limiter à 3 images maximum
-            $images = array_slice($images, 0, 3);
-
-            foreach ($request->file('images') as $image) {
-
-
-                $extension = $image->getClientOriginalExtension();
-                $imageName = 'image_' . time() . '_' . uniqid() . '.' . $extension;
-                 // Déplacement dans public/uploads/produit_images/
-                $image->move(public_path('uploads/produit_images/'), $imageName);
-                $chemin = 'uploads/produit_images/' . $imageName;
-
-                ImageProduit::create([
-                    'produit_id' => $produit->id,
-                    'chemin_image' => $chemin,
-                ]);
+            // Handle secondary images (limit to 3)
+            if ($request->hasFile('images')) {
+                $images = array_slice($request->file('images'), 0, 3);
+                
+                foreach ($images as $image) {
+                    $chemin = $this->uploadImage($image, 'produit_images');
+                    
+                    ImageProduit::create([
+                        'produit_id' => $produit->id,
+                        'chemin_image' => $chemin,
+                    ]);
+                }
             }
+
+            // Create initial stock record
+            Stock::create([
+                'produit_id' => $produit->id,
+                'quantité' => $validated['stock'],
+                'mouvement' => 'ajout'
+            ]);
+
+            DB::commit();
+
+            return redirect()
+                ->route('produits.index')
+                ->with('success', 'Produit enregistré avec succès.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            // Clean up uploaded images if transaction fails
+            if (isset($imagePath)) {
+                Storage::delete($imagePath);
+            }
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Erreur lors de l\'enregistrement du produit.');
         }
-
-        // Enregistrer la quantité dans la table "stocks"
-        Stock::create([
-            'produit_id' => $produit->id,
-            'quantité' => $request->stock, // Par exemple 10
-            'mouvement' => 'ajout'
-        ]);
-
-        return redirect()->route('produits.index')->with('success', 'Produit enregistré avec succès.');
-    
     }
 
     /**
@@ -126,6 +116,7 @@ class ProduitController extends Controller
      */
     public function show(Produit $produit)
     {
+        $produit->load('images', 'categorie', 'stocks');
         return view('administration.produits.show', compact('produit'));
     }
 
@@ -134,10 +125,7 @@ class ProduitController extends Controller
      */
     public function edit(Produit $produit)
     {
-        // $brands = Brand::all();
-        $categories = Category::all(); 
         $typeproduits = TypeProduits::with('categories')->get(); 
-
         return view('administration.produits.edit', compact('produit', 'typeproduits'));
     }
 
@@ -146,72 +134,88 @@ class ProduitController extends Controller
      */
     public function update(Request $request, Produit $produit)
     {
-        $request->validate([
-            'nomproduit'     => 'required|string|max:255',
-            'imgproduit'     => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'categories'   => 'required|exists:categories,id',
-            'prix'           => 'required|numeric|min:0',
-            'stock'          => 'integer|min:0',
-            'sku'            => 'nullable|string|max:255',
-            'description'    => 'required|string',
+        $validated = $request->validate([
+            'nomproduit'    => 'required|string|max:255',
+            'imgproduit'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categories'    => 'required|exists:categories,id',
+            'prix'          => 'required|numeric|min:0',
+            'stock'         => 'required|integer|min:0',
+            'sku'           => 'nullable|string|max:255|unique:produits,sku,' . $produit->id,
+            'description'   => 'required|string',
         ]);
 
-        // Mise à jour du slug uniquement si le nom change
-        if ($produit->name !== $request->nomproduit) {
-            $slug = Str::slug($request->nomproduit);
-            $originalSlug = $slug;
-            $counter = 1;
-            while (Produit::where('slug', $slug)->where('id', '!=', $produit->id)->exists()) {
-                $slug = $originalSlug . '-' . $counter;
-                $counter++;
+        DB::beginTransaction();
+
+        try {
+            $oldImagePath = $produit->image_principale;
+
+            // Update slug if name changed
+            if ($produit->name !== $validated['nomproduit']) {
+                $produit->slug = $this->generateUniqueSlug($validated['nomproduit'], $produit->id);
             }
-            $produit->slug = $slug;
-        }
 
-        // Gestion de l’image
-        if ($request->hasFile('imgproduit')) {
-            $file = $request->file('imgproduit');
-            $extension = $file->getClientOriginalExtension();
-            $imagePath = "produits_" . time() . '.' . $extension;
-            $file->move('uploads/produits/', $imagePath);
-            $produit->image_principale = $imagePath;
-        }else {
-            // Si aucune image n'est téléchargée, garder l'ancienne image
-            $imagePath = $produit->image;
-        }
+            // Handle main image upload
+            if ($request->hasFile('imgproduit')) {
+                $newImagePath = $this->uploadImage($request->file('imgproduit'), 'produits');
+                $produit->image_principale = $newImagePath;
 
-        // Mise à jour des autres champs
-        $produit->update([
-            'name' => $request->nomproduit,
-            'sku' => $request->sku,
-            'description' => $request->description,
-            'categorie_id' => $request->categories,
-            'prix' => $request->prix,
-        ]);
+                // Delete old image
+                if ($oldImagePath && Storage::exists($oldImagePath)) {
+                    Storage::delete($oldImagePath);
+                }
+            }
 
-        // Mise à jour du stock
-        $stock = Stock::where('produit_id', $produit->id)->latest()->first();
-        if ($stock && $stock->quantité != $request->stock) {
-            Stock::create([
-                'produit_id' => $produit->id,
-                'quantité' => $request->stock,
-                'mouvement' => 'modification'
+            // Update product fields
+            $produit->update([
+                'name' => $validated['nomproduit'],
+                'sku' => $validated['sku'],
+                'description' => $validated['description'],
+                'categorie_id' => $validated['categories'],
+                'prix' => $validated['prix'],
             ]);
-        }
 
-        // Ajout d’images secondaires (facultatif)
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $chemin = $image->store('produits', 'public');
-                ImageProduit::create([
+            // Update stock if quantity changed
+            $currentStock = Stock::where('produit_id', $produit->id)->latest()->first();
+            
+            if (!$currentStock || $currentStock->quantité != $validated['stock']) {
+                Stock::create([
                     'produit_id' => $produit->id,
-                    'chemin_image' => $chemin,
+                    'quantité' => $validated['stock'],
+                    'mouvement' => 'modification'
                 ]);
             }
-        }
 
-        return redirect()->route('produits.index')->with('success', 'Produit mis à jour avec succès.');
-        
+            // Handle secondary images
+            if ($request->hasFile('images')) {
+                $currentImagesCount = $produit->images()->count();
+                $maxNewImages = max(0, 3 - $currentImagesCount);
+                $images = array_slice($request->file('images'), 0, $maxNewImages);
+                
+                foreach ($images as $image) {
+                    $chemin = $this->uploadImage($image, 'produit_images');
+                    
+                    ImageProduit::create([
+                        'produit_id' => $produit->id,
+                        'chemin_image' => $chemin,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()
+                ->route('produits.index')
+                ->with('success', 'Produit mis à jour avec succès.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Erreur lors de la mise à jour du produit.');
+        }
     }
 
     /**
@@ -219,19 +223,125 @@ class ProduitController extends Controller
      */
     public function destroy(Produit $produit)
     {
-        // Supprimer les images secondaires
-        foreach ($produit->images as $image) {
-            // Optionnel : supprimer le fichier physique avec Storage::delete()
-            $image->delete();
+        DB::beginTransaction();
+
+        try {
+            // Delete main image
+            if ($produit->image_principale && Storage::exists($produit->image_principale)) {
+                Storage::delete($produit->image_principale);
+            }
+
+            // Delete secondary images
+            foreach ($produit->images as $image) {
+                if (Storage::exists($image->chemin_image)) {
+                    Storage::delete($image->chemin_image);
+                }
+                $image->delete();
+            }
+
+            // Delete stocks
+            Stock::where('produit_id', $produit->id)->delete();
+
+            // Delete product
+            $produit->delete();
+
+            DB::commit();
+
+            return redirect()
+                ->route('produits.index')
+                ->with('success', 'Produit supprimé avec succès.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()
+                ->back()
+                ->with('error', 'Erreur lors de la suppression du produit.');
         }
-
-        // Supprimer les stocks associés
-        Stock::where('produit_id', $produit->id)->delete();
-
-        // Supprimer le produit
-        $produit->delete();
-
-        return redirect()->route('produits.index')->with('success', 'Produit supprimé avec succès.');
     }
 
+    /**
+     * Generate a unique slug from a name
+     */
+    private function generateUniqueSlug(string $name, ?int $excludeId = null): string
+    {
+        $slug = Str::slug($name);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        $query = Produit::where('slug', $slug);
+        
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        while ($query->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+            $query = Produit::where('slug', $slug);
+            
+            if ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            }
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Upload and store an image
+     */
+    private function uploadImage($file, string $directory): string
+    {
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . '_' . uniqid() . '.' . $extension;
+        
+        // Store in storage/app/public directory
+        return $file->storeAs($directory, $filename, 'public');
+    }
+
+    /**
+     * Search products by name or category (case-insensitive)
+     */
+    public function search(Request $request)
+    {
+        try {
+            $query = Produit::with('categorie');
+
+            if ($request->filled('search')) {
+                $searchTerm = strtolower($request->search); // Convertir en minuscules
+                
+                $query->where(function($q) use ($searchTerm) {
+                    // Rechercher dans le nom du produit (insensible à la casse)
+                    $q->whereRaw('LOWER(name) LIKE ?', ['%' . $searchTerm . '%'])
+                      // OU rechercher dans le nom de la catégorie (insensible à la casse)
+                      ->orWhereHas('categorie', function($query) use ($searchTerm) {
+                          $query->whereRaw('LOWER(Nom_Categorie) LIKE ?', ['%' . $searchTerm . '%']);
+                      });
+                });
+            }
+
+            $produits = $query->select('id', 'name', 'prix', 'image_principale', 'slug', 'categorie_id')
+                ->take(10)
+                ->get()
+                ->map(function($produit) {
+                    return [
+                        'id' => $produit->id,
+                        'nom' => $produit->name,
+                        'prix' => $produit->prix,
+                        'image' => $produit->image_principale,
+                        'slug' => $produit->slug,
+                        'categorie' => $produit->categorie ? $produit->categorie->Nom_Categorie : ''
+                    ];
+                });
+
+            return response()->json($produits);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erreur lors de la recherche',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

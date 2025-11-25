@@ -33,7 +33,15 @@
           </div>   
           <div class="container2">
             <span class="">
-              <a href="#" class="text-white me-3" id="login-btn">Se connecter</a>
+              @if(auth()->check())
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                  @csrf
+                  <button type="submit" class="btn btn-link text-white me-3" id="login-btn">Se déconnecter</button>
+                </form> 
+             
+              @else
+                <a href="#" class="text-white me-3" id="login-btn">Se connecter</a>
+              @endif
             </span>
             <span>
               <a href="{{ route('contact') }}#devis" class="text-white text-decoration-none devis-hide">Demander un devis</a>
@@ -70,11 +78,25 @@
             <!-- Icônes -->
             <div class="d-flex align-items-center search-cart">
               <!-- Formulaire visible que sur grands écrans -->
-              <div class="search-box d-none d-lg-flex align-items-center">
-                <input type="text" placeholder="">
-                <span class="separator">|</span>
-                <i class="fas fa-search search-icon"></i>
+              <div class="search-box d-none d-lg-flex align-items-center" style="position:relative;">
+                  <input type="text" id="searchInput" placeholder="Rechercher...">
+                  <span class="separator">|</span>
+                  <i class="fas fa-search search-icon"></i>
+
+                  <!-- Zone des suggestions -->
+                  <div id="suggestionsBox" 
+                      style="position:absolute; top:40px; left:0; width:100%; background:white; 
+                              border:1px solid #ddd; display:none; z-index:999;">
+                  </div>
               </div>
+                    <script>
+            const routes = {
+              produit: "{{ route('produit.description', ':slug') }}",
+              conseil: "{{ route('conseils.show', ':slug') }}"
+          };
+                </script>
+
+
               <!-- Panier (toujours visible) -->
               <div class="cart me-2" id="panier">
                   <i class="fas fa-shopping-cart"></i>
@@ -95,56 +117,62 @@
       </div>
 
 
-    <form action="" class="login-form">
+    <form action="{{ route('login') }}" method="POST" class="login-form">
+      @csrf 
       <div class="titles">
         <h1>connexion</h1>
       </div>
       <div class="erreur">
-        <input type="text" placeholder="Entrer votre email ou numero de téléphone" class="box">
+        <input type="text" name="email" placeholder="Entrer votre email ou numero de téléphone" class="box">
       </div>
       <div class="erreur">
-        <input type="password" placeholder="Entrer votre mot de passe " class="box">
-      </div>
+        <input type="password" name="password" placeholder="Entrer votre mot de passe " class="box">
+      </div>  
 
-      <button class="btn">Se connecter</button>
+      <button class="btn" type="submit">Se connecter</button>
         <div class="authentication">
           <p>Un nouveau client ? <a id="sigin">S'inscrire.</a></p>
           <p>mot de passe oublié ? <a href="#" id="removePass">Rénitialisé</a></p>
         </div>
     </form>
-    <form action="" class="update-form">
+    <form action="{{ route('password.email') }}" method="POST" class="update-form">
+      @csrf
       <div class="titless">
         <h1>mot de passe oublié</h1>
       </div>
       <div class="erreur">
         <input type="email" placeholder="Entrer votre email" class="box">
       </div>
-      <button class="btn-password">recupérer</button>
+      <button class="btn-password" type="submit">recupérer</button>
       <div class="authentication">
         <p>je me souviens de mon mot de passe, <a id="update-pass">Se connecter.</a></p>
       </div>
     </form>
-    <form action="" class="sigin-form">
+    <form action="{{ route('register') }}" method="POST" class="sigin-form">  
+      @csrf
       <div class="titles">
         <h1>Inscription</h1>
       </div>
       <div class="erreur">
-        <input type="text" placeholder="Entrer votre nom" class="box">
+        <input type="text" name="name" placeholder="Entrer votre nom" class="box">
       </div>
       <div class="erreur">
-        <input type="text" placeholder="Entrer votre prenom" class="box">
+        <input type="text" name="prenom" placeholder="Entrer votre prenom" class="box">
       </div>
       <div class="erreur">
-        <input type="email" placeholder="Entrer votre email " class="box">
+        <input type="email" name="email" placeholder="Entrer votre email " class="box">
       </div>
       <div class="erreur">
-        <input type="tel" placeholder="Entrer numero de téléphone" class="box">
+        <input type="tel" name="telephone" placeholder="Entrer numero de téléphone" class="box">
       </div>
       <div class="erreur">
-        <input type="password" placeholder="Entrer votre mot de passe " class="box">
+        <input type="password" name="password" placeholder="Entrer votre mot de passe " class="box">
+      </div>
+      <div class="erreur">
+        <input type="password" name="password_confirmation" placeholder="Confirmer votre mot de passe" class="box">
       </div>
 
-      <button class="btn-inscription">S'inscrire</button>
+      <button class="btn-inscription" type="submit">S'inscrire</button> 
         <div class="authentication">
           <p>Un nouveau client ? <a id="login-from-signup">Se connecter.</a></p>
         </div>
@@ -154,7 +182,7 @@
       <div class="wrap">
 
           <!-- Popup panier -->
-          <div class="carts" style="display: none;">
+          <div class="carts" style="display: none; z-index: 1000;">
             
           </div>
 
@@ -223,7 +251,7 @@
           const wrapDiv = document.querySelector('.wrap');
 
           
-          // Ajouter un produit au panier
+          // Ajouter un produit au panier (bouton unique pour page description)
           if (addToCartBtn) {
               addToCartBtn.addEventListener('click', function () {
                   const data = {
@@ -248,6 +276,40 @@
                   });
               });
           }
+
+          // Ajouter un produit au panier (tous les boutons de la liste des produits)
+          // Utilisation de la délégation d'événements pour les éléments chargés dynamiquement
+          document.addEventListener('click', function(e) {
+              const addToCartBtn = e.target.closest('.add-to-cart-btn');
+              if (addToCartBtn) {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  const data = {
+                      id: addToCartBtn.dataset.id,
+                      name: addToCartBtn.dataset.name,
+                      prix: addToCartBtn.dataset.price,
+                      image: addToCartBtn.dataset.image
+                  };
+
+                  fetch("{{ route('panier.ajouter') }}", {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                      },
+                      body: JSON.stringify(data)
+                  })
+                  .then(res => res.json())
+                  .then(() => {
+                      // alert('Produit ajouté au panier !');
+                      loadCart();
+                  })
+                  .catch(error => {
+                      console.error('Erreur lors de l\'ajout au panier:', error);
+                  });
+              }
+          });
 
           // Cliquer sur l’icône panier
           if (panierIcon) {
@@ -564,8 +626,66 @@
       });
     }
   });
-
       </script>
+<script>
+document.getElementById('searchInput').addEventListener('keyup', function () {
+
+    let query = this.value.trim();
+    let box = document.getElementById('suggestionsBox');
+
+    if (query.length === 0) {
+        box.style.display = 'none';
+        return;
+    }
+
+    fetch(`/search?query=${query}`)
+        .then(res => res.json())
+        .then(results => {
+
+            if (results.length === 0) {
+                box.innerHTML = "<div style='padding:10px;'>Aucun résultat</div>";
+                box.style.display = 'block';
+                return;
+            }
+
+            let html = "";
+
+            results.forEach(item => {
+
+                // Produit
+                if (item.name) {
+                    let link = routes.produit.replace(':slug', item.slug);
+                    html += `
+                        
+                        <a href="${link}" class="suggest-item">
+                            ${item.name}
+                        </a>
+                        <br>
+                    `;
+                }
+
+                // Conseil
+                else if (item.titre) {
+                    let link = routes.conseil.replace(':slug', item.slug);
+                    html += `
+                        <a href="${link}" class="suggest-item">
+                          ${item.titre}
+                        </a>
+                        <br>
+                    `;
+                }
+            });
+
+            box.innerHTML = html;
+            box.style.display = 'block';
+        });
+});
+</script>
+
+
+
+ 
+
       
 
       <script src="{{ url('assets/frontend/js/back.js') }}"></script>
@@ -573,7 +693,7 @@
       <script src="{{ url('assets/frontend/js/connect.js') }}"></script>
       {{-- <script src="{{ url('assets/frontend/js/panier.js') }}"></script> --}}
       <script src="{{ url('assets/frontend/js/category.js')}}"></script>
-      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></sc>
+      <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
       <script src="{{ url('assets/frontend/js/swiper.js') }}"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

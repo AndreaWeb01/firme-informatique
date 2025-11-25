@@ -58,14 +58,12 @@
                             <div class="text-actu">
                                 <p>{!! Str::limit(strip_tags($conseil->description ), 100) !!}</</p>
                             </div>
-                            <div class="conseil-date mt-4">
-                                <p>Publié le {{ $conseilsRecent->created_at->format('d/m/Y') }}</p>
-                            </div>
+                            
                         </div>
                     </a>
                 @endforeach
                    
-                {{-- <a href="detailActu.html">
+             <!-- <a href="detailActu.html">
                     <div class="cadre1">
                         <div class="cadImage">
                             <img src="image/accessoire.png" alt="">
@@ -96,7 +94,8 @@
                             <p>Publié le 30/01/2025</p>
                         </div>
                     </div>
-                </a>    --}}
+                </a>    
+            -->
             </div>
         </div>
     </section>

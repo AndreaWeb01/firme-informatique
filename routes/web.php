@@ -12,12 +12,18 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StockController;
+
 use App\Http\Controllers\SousCategoryController;
 use App\Http\Controllers\TypeProduitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+
+Route::get('/search-produits', [ProduitController::class, 'search'])->name('produits.search');
+
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
 
 
 Route::get('/', [HomeController::class, 'accueil'])->name('accueil');
@@ -34,13 +40,13 @@ Route::post('/contactstore', [HomeController::class, 'contact_store'])->name('co
 Route::get('/fourniture-de-materiels-accessoires-informatique-et-consommables', [HomeController::class, 'accessoiresmaterielinfo'])->name('accessoiresmaterielinfo');
 Route::get('/fourniture-de-materiels-informatique', [HomeController::class, 'materielinfo'])->name('materielinfo');
 Route::get('/installation-de-camera-de-surveillance-et-systeme-de-securité', [HomeController::class, 'installationcamera'])->name('installationcamera');
+Route::get('/boutique/filter/{id}', [HomeController::class, 'filterAjax'])->name('boutique.filterAjax');
+Route::get('/boutique/filter-category/{id}', [HomeController::class, 'filterByCategory'])->name('boutique.filterByCategory');
 
 // Services 
 Route::get('/fourniture-de-solution-informatique', [HomeController::class, 'solution'])->name('solution');
 Route::get('/entretien-et-maintenance-de-materiels-informatiques', [HomeController::class, 'maintenance'])->name('maintenance');
 Route::get('/travaux-de-cablages-reseaux-informatique-et-telephonique', [HomeController::class, 'cablage'])->name('cablage');
-
-
 
 
 //------------------- END VUE UTILISATEUR ------------------------------------//
@@ -220,6 +226,7 @@ Route::get('users/{userId}/delete', [UserController::class, 'destroy'])->name('u
 // ------------------ ROLES ------------------------------- //
 
 Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+
 Route::get('roles/create', [RoleController::class, 'create'])->name('roles.create');
 Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
 Route::get('roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
@@ -227,6 +234,12 @@ Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.updat
 Route::get('roles/{roleId}/delete', [RoleController::class, 'destroy'])->name('roles.destroy');
 Route::get('roles/{roleId}/give-permissions', [RoleController::class, 'addPermissionToRole'])->name('roles.addPermissionToRole');
 Route::put('roles/{roleId}/give-permissions', [RoleController::class, 'givePermissionToRole'])->name('roles.givePermissionToRole');
+
+
+//------------------------------------stocks-------------------------------------//
+
+Route::resource('stocks', StockController::class);
+
 
 
 // ------------------ PERMISSIONS ------------------------------- //

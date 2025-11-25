@@ -59,7 +59,7 @@
 
             <li class="menu-item">
                 <a href="" class="menu-link waves-effect waves-light">
-                    <span class="menu-icon"><i class="bx bx-folder"></i></span>
+                    <span class="menu-icon"><i class="bx bx-basket"></i></span>
                     <span class="menu-text"> Commandes </span>
                 </a>
             </li>
@@ -67,8 +67,8 @@
              <li class="menu-title"></li>
 
             <li class="menu-item">
-                <a href="" class="menu-link waves-effect waves-light">
-                    <span class="menu-icon"><i class="bx bx-folder"></i></span>
+                <a href="{{ route('stocks.index') }}" class="menu-link waves-effect waves-light">
+                    <span class="menu-icon"><i class="bx bx-box"></i></span>
                     <span class="menu-text"> Stocks </span>
                 </a>
             </li>

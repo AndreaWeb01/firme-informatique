@@ -32,23 +32,17 @@
                     <div class="product-img">
                         <div class="large-img">
                             <div class="caImg">
-                                <img src="{{ url('/uploads/produits/', $produit->image_principale )}}" alt="">
+                                <img src="{{ url('storage/'. $produit->image_principale )}}" alt="">
                             </div>
                         </div>
 
                         <div class="sim-img">
                              @foreach($produit->images as $image)
                                 <div class="caImgs">
-                                    <img src="{{ asset($image->chemin_image )}}" alt="">
+                                    <img src="{{ asset('storage/'.$image->chemin_image )}}" alt="">
                                 </div>
                              @endforeach
                             
-                            {{-- <div class="caImgs">
-                                <img src="image/ordi2.png" alt="">
-                            </div>
-                            <div class="caImgs">
-                                <img src="image/ordi2.png" alt="">
-                            </div> --}}
                         </div>
                     </div>
                     <div class="explit-product">
@@ -71,16 +65,18 @@
                             <p>
                                 ●intel UHD Graphics 630 (8 Go totale) / Bluetooth / Port HDMI
                             </p>
-                            
                             <p>●Clavier Retroeclairé (Lumineux) / Autonomie: 4H/ Bang & Olufsen 
                             Avec GARANTIE / Livraison Gratuite   </p>
                             ■■ Conçu pour Exécuter des Applications 
                               Professionnelles, Réaliser  des modélisations en 3D et d'autres tâches gourmandes
                                en ressources  graphique
                         </p>
-
-                        <button id="addToCart" data-id="{{ $produit->id }}" data-name="{{ $produit->name }}" data-price="{{ $produit->prix }}" data-image="{{ url('/uploads/produits', $produit->image_pp )}}">Ajouter au panier</button>
-
+                        <button 
+                        id="addToCart" 
+                        data-id="{{ $produit->id }}" 
+                        data-name="{{ $produit->name }}"
+                        data-price="{{ $produit->prix }}" 
+                        ata-image="{{ url('/storage/'. $produit->image_principale )}}">Ajouter au panier</button>
                     </div>
                 </div>
            </div>
@@ -115,66 +111,7 @@
                         <div class="price">
                             <p>200 0000 Fcfa</p>
                         </div>
-                    </div>
-                    <div class="cadre">
-                        <div class="cadImage">
-                            <img src="image/cable1.jpg" alt="">
-                        </div>
-                        <a href="#">
-                            <div class="search-cart">
-                                <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                            </div>
-                        </a>
-                        <div class="product-detail">
-                            <p>Casques</p>
-                        </div>
-                        <div class="prix">
-                            <p>200 0000 Fcfa</p>
-                        </div>
-                        <div class="price">
-                            <p>200 0000 Fcfa</p>
-                        </div>
-                    </div>
-                    <div class="cadre">
-                        <div class="cadImage">
-                            <img src="image/camera1.png" alt="">
-                        </div>
-                        <a href="#">
-                            <div class="search-cart">
-                                <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                            </div>
-                        </a>
-                        
-                        <div class="product-detail">
-                            <p>microphone PPP</p>
-                            
-                        </div>
-                        <p class="prix">200 0000 Fcfa</p>
-                        <div class="price">
-                            <p>200 0000 Fcfa</p>
-                        </div>
-                    </div>
-                    <div class="cadre">
-                        <div class="cadImage">
-                            <img src="image/baffe.jpg" alt="">
-                        </div>
-                        <a href="#">
-                            <div class="search-cart">
-                                <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                            </div>
-                        </a>
-                        <div class="product-detail">
-                            <p>Casques</p>
-                        </div>
-                        <div class="prix">
-                            <p>200 0000 Fcfa</p>
-                        </div>
-                        
-                        <div class="price">
-                            <p>200 0000 Fcfa</p>
-                        </div>
-                    </div>
-                    <div class="cadre">
+
                         <div class="cadImage">
                             <img src="image/headphone.png" alt="">
                         </div>

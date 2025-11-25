@@ -9,13 +9,13 @@
     <div class="py-3 py-lg-4">
         <div class="row">
             <div class="col-lg-6">
-                <h4 class="page-title mb-0">Liste Produits</h4>
+                <h4 class="page-title mb-0">Liste Stocks</h4>
             </div>
             <div class="col-lg-6">
                 <div class="d-none d-lg-block">
                 <ol class="breadcrumb m-0 float-end">
                     <li class="breadcrumb-item"><a href="">Tableau de bord</a></li>
-                    <li class="breadcrumb-item active">Produits</li>
+                    <li class="breadcrumb-item active">Stocks</li>  
                 </ol>
                 </div>
             </div>
@@ -28,50 +28,52 @@
             <div class="card">
                 <div class="card-body">
                     
-                    <a href="{{ route('typeproduits.create') }}" class="btn btn-soft-danger"> Creer un type produit</a>
+                    {{-- <a href="{{ route('categories.create') }}" class="btn btn-soft-danger"> Ajouter un categorie</a> --}}
                     
                     <p class="sub-header"></p>
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
-                    
                     @endif
-                    @if(session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('error') }}
-                        </div>
-                    @endif  
 
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Titre</th>
-                                    <th>Action</th>
+                                    <th>N°</th>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>Mouvement</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                                @if ($typeproduits->isEmpty())
+                                @if ($stocks->isEmpty())
                                     <tr>
-                                        <td colspan="6" class="text-center">Aucun produit pour l'instant</td>
+                                        <td colspan="4" class="text-center">Aucun stock pour l'instant</td>
                                     </tr>
                                 @else
-                                    @foreach ($typeproduits as $key => $typeproduit)
+                                    @foreach ($stocks as $key => $stock)
                                     <tr>
                                         <th scope="row">{{ $key + 1 }}</th>
+                                        <td>{{ $stock->produit->name }}</td>
+                                        <td>{{ $stock->quantité }}</td>
+                                        <td>{{ $stock->mouvement }}</td>
                                         <td>
-                                            {{ $typeproduit->Nom_TypeProduit }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('typeproduits.edit', $typeproduit->id) }}" class="btn btn-soft-success btn-sm">Editer</a>
-                                            <form action="{{ route('typeproduits.destroy', $typeproduit->id) }}" method="POST" style="display: inline;">
+
+                                            <a href="{{ route('stocks.show', $stock->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>    
+                                             <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
+
+                                            <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-soft-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de produit ?')">Supprimer</button>
-                                            </form>
+                                                <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce stock?')">
+                                                    <i class="mdi mdi-delete"></i>
+                                                </button>
+                                            </form>  
+                                            
                                         </td>
                                     </tr>
                                     @endforeach
@@ -79,7 +81,8 @@
                                 
                             </tbody>
                         </table>
-                    </div> <!-- end table-responsive-->
+                    </div> 
+                    <!-- end table-responsive-->
                 </div>
             </div> <!-- end card -->
         </div> <!-- end col -->

@@ -84,104 +84,27 @@
     <section class="py-5">
         <div class="wrap">
             <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+                @foreach ($productsRecents as $product)
                 <div class="cadre">
                     <div class="cadImage">
-                        <img src="{{ url('assets/frontend/image/microphone.jpg') }}" alt="">
+                        <img src="{{ url('storage/'. $product->image_principale) }}" alt="">        
                     </div>
-                    <a href="#">
+                    <a href="{{ route('produit.description', $product->slug) }}">
                         <div class="search-cart">
                             <div class="cart"><i class="fas fa-shopping-cart"></i></div>
                         </div>
                     </a>
                     <div class="product-detail">
-                        <p>Casques</p>
+                        <p>{{ $product->nom }}</p>
                     </div>
                     <div class="prix">
-                        <p>200 0000 Fcfa</p>
+                        <p>{{ $product->prix }} Fcfa</p>
                     </div>
                     <div class="price">
-                        <p>200 0000 Fcfa</p>
+                        <p>{{ $product->prix }} Fcfa</p>    
                     </div>
-                </div>
-                <div class="cadre">
-                    <div class="cadImage">
-                        <img src="{{ url('assets/frontend/image/cable1.jpg') }}" alt="">
-                    </div>
-                    <a href="#">
-                        <div class="search-cart">
-                            <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                        </div>
-                    </a>
-                    <div class="product-detail">
-                        <p>Casques</p>
-                    </div>
-                    <div class="prix">
-                        <p>200 0000 Fcfa</p>
-                    </div>
-                    <div class="price">
-                        <p>200 0000 Fcfa</p>
-                    </div>
-                </div>
-                <div class="cadre">
-                    <div class="cadImage">
-                        <img src="{{ url('assets/frontend/image/camera1.png') }}" alt="">
-                    </div>
-                    <a href="#">
-                        <div class="search-cart">
-                            <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                        </div>
-                    </a>
-                    
-                    <div class="product-detail">
-                        <p>microphone PPPPPPPPP
-                            PPPPPPPP PPPPPP PPPPPP</p>
-                        
-                    </div>
-                    <p class="prix">200 0000 Fcfa</p>
-                    <div class="price">
-                        <p>200 0000 Fcfa</p>
-                    </div>
-                </div>
-                <div class="cadre">
-                    <div class="cadImage">
-                        <img src="{{ url('assets/frontend/image/baffe.jpg')}}" alt="">
-                    </div>
-                    <a href="#">
-                        <div class="search-cart">
-                            <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                        </div>
-                    </a>
-                    <div class="product-detail">
-                        <p>Casques</p>
-                    </div>
-                    <div class="prix">
-                        <p>200 0000 Fcfa</p>
-                    </div>
-                    
-                    <div class="price">
-                        <p>200 0000 Fcfa</p>
-                    </div>
-                </div>
-                <div class="cadre">
-                    <div class="cadImage">
-                        <img src="{{ url('assets/frontend/image/headphone.png')}}" alt="">
-                    </div>
-                    <a href="#">
-                        <div class="search-cart">
-                            <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                        </div>
-                    </a>
-                    <div class="product-detail">
-                        <p>Casques</p>
-                    </div>
-                    <div class="prix">
-                        <p>200 0000 Fcfa</p>
-                    </div>
-                    <div class="price">
-                        <p>200 0000 Fcfa</p>
-                    </div>
-                </div>
             </div>
+            @endforeach
         </div>
     </section>
     <section class="py-5 describe">
@@ -247,8 +170,7 @@
                 </div>
                 <div class="patern-image">
                     <img src="{{ url('assets/frontend/image/logo_AFB.png')}}" alt="">
-                </div>
-                
+                </div>   
             </div>
         </div>
     </section>
@@ -261,18 +183,22 @@
     </section>
     <section class="py-5">
         <div class="wrap">
-            <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-                
+            <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">  
                 @foreach ($productsRecents as $productsRecent)
                     <div class="cadre">
                         <div class="cadImage">
-                            <img src="{{ url('/uploads/produits', $productsRecent->image_principale)}}" alt="">
+                            <img src="{{ url('storage/'. $productsRecent->image_principale)}}" alt="">
                         </div>
-                        <a href="#">
-                            <div class="search-cart">
-                                <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                            </div>
-                        </a>
+                        <div class="search-cart">
+                        <button href="#" class="add-to-cart-btn" 
+                                        data-id="{{ $productsRecent->id }}" 
+                                        data-name="{{ $productsRecent->name }}" 
+                                        data-price="{{ $productsRecent->prix }}" 
+                                        data-image="{{ asset('storage/' . $productsRecent->image_principale) }}"
+                                        title="Ajouter au panier">
+                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
+                                 </button>
+                                 </div>
                         <div class="product-detail">
                             <p>{{ $productsRecent->name }}</p>
                         </div>

@@ -59,7 +59,7 @@
                                     @foreach ($produits as $key => $produit)
                                     <tr>
                                         <th scope="row">{{ $key + 1 }}</th>
-                                        <td><img src="{{ url('/uploads/produits', $produit->image_principale )}}" alt="" width="50" height="50"></td>
+                                        <td><img src="{{ url('/storage/'. $produit->image_principale )}}" alt="" width="50" height="50"></td>
                                         <td>{{ $produit->name }}</td>
                                         <td>
                                             <strong>{{ number_format($produit->prix, 0, ',', ' ') }} FCFA</strong><br>

@@ -56,7 +56,7 @@ class TypeProduitController extends Controller
      */
     public function edit(TypeProduits $typeProduits)
     {
-        //
+        return view('administration.typeproduits.edit', compact('typeProduits'));
     }
 
     /**
@@ -64,14 +64,25 @@ class TypeProduitController extends Controller
      */
     public function update(Request $request, TypeProduits $typeProduits)
     {
-        //
+        $request->validate([
+            'nomtypeproduit'     => 'required|string|max:255',
+        ]);
+
+        $typeProduits->update([
+            'Nom_TypeProduit' => $request->nomtypeproduit,
+            ]);
+
+        return redirect()->route('typeproduits.index')->with('success', 'Type Produit modifié avec succès.');   
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TypeProduits $typeProduits)
+    public function destroy($id)
     {
-        //
+        $typeProduits = TypeProduits::findOrFail($id);  
+        $typeProduits->delete();
+
+        return redirect()->route('typeproduits.index')->with('success', 'Type Produit supprimé avec succès.');
     }
 }

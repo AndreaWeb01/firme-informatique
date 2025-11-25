@@ -31,7 +31,7 @@ class ActuConseilsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'imgconseil' => 'required|mimes:jpeg,jpg,png|max:2048',
+            'imgconseil' => 'required',
             'titreconseil' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
@@ -65,7 +65,8 @@ class ActuConseilsController extends Controller
      */
     public function show(Conseils $actuconseil)
     {
-        return view('administration.actuconseils.show', compact('actuconseil'));
+
+        return view('administration.conseilshow', compact('actuconseil'));
     }
 
     /**
