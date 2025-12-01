@@ -27,7 +27,8 @@
             <p class="return"><a href="{{ route('accueil') }}">Accueil</a> / <a href="{{ route('boutique') }}">Boutique</a> / Paiement</p>
             <div class="paie">
                 <div class="pay-form">
-                    <form action="" >
+                    <form action="{{ route('commande.valider') }}" method="POST" >
+                        @csrf
                         <div class="contacts-form">
                             <div class="inform-contact">
                                 <div class="bloc1">

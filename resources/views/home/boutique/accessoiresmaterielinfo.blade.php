@@ -29,242 +29,159 @@
             </div>
         </div>
     </section>
-    <section class="py-5">
+       <section class="py-5">
         <div class="wrap">
             <div class="service-solution">
+                @foreach ($types as $index => $type)
                 <div class="serviceF">
-                    <a href="{{ route('materielinfo') }}">
+                    <a href="#" class="filter-btn {{ $index === 0 ? 'active' : '' }}" data-id="{{ $type->id }}">
                         <div class="overlays"></div>
-                        <img  src="{{ url('assets/frontend/image/backgroundF.png') }}" alt="">
-                    </a>
-                    <p>Fourniture de materiel informatique</p>
-                        <!-- <a href="installation.html">En savoir plus</a> -->
-                </div>
-                <div class="serviceF">
-                    <a href="{{ route('accessoiresmaterielinfo') }}">
-                        <div class="overlays"></div>
-                        <img class="actives" src="{{ url('assets/frontend/image/backgroundF1.png') }}" alt="">
-                    </a>
-                    <p>Fourniture de consommables et accessoires pour MATERIELS INFORMATIQUES</p>
-                    <!-- <a href="maintenance.html">En savoir plus</a> -->
-                </div>
-                <div class="serviceF">
-                    <a href="{{ route('solution') }}">
-                        <div class="overlays"></div>
-                        <img  src="{{ url('assets/frontend/image/backgroundF2.png') }}" alt="">
-                    </a>
-                    <p>FOURNITURE DE SOLUTIONS INFORMATIQUES</p>
-                    <!-- <a href="#">En savoir plus</a> -->
-                </div>
-                </div>
+                        <img class="{{ $index === 0 ? 'actives' : '' }}" src="{{ asset('assets/frontend/image/backgroundF2.png') }}" alt="Matériel informatique">
+                    
+                     <p>{{ $type->Nom_TypeProduit }}</p> </a>
+                </div> 
+                 @endforeach 
+
            </div>
-        </section>
+        </div>
+    </section> 
 
 
         <section class="py-5">
             <div class="wrap">
-                <div class="cadreProduit">
-                    <div class="categorie">
-                        <div class="search-carts">
-                            <div class="search-boxs">
-                                <input type="text" placeholder="Rechercher...">
-                                <span class="separator">|</span>
-                                <i class="fas fa-search search-icon"></i>
-                            </div>
-                        </div>
-                        <div class="category-produit mt-3">
-                            <div class="category-title">
-                                <h6>Categories</h6><br>
-                                <p>voir plus</p>
-                            </div>
-                            <div class="category-name">
-                                <p class="categorie-item">Ordinateurs</p>
-                                <p class="categorie-item">Téléphones</p>
-                                <p class="categorie-item">Accessoires</p>
-                                <p class="categorie-item">TV</p>
-                                <p class="categorie-item">Autres</p>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/microphone.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/cable1.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/camera1.png') }}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            
-                            <div class="product-detail">
-                                <p>microphone PPPPPPPPP
-                                    PPPPPPPP PPPPPP PPPPPP</p>
-                                
-                            </div>
-                            <p class="prix">200 0000 Fcfa</p>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/microphone.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/microphone.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/microphone.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/microphone.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/microphone.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                        <div class="cadre">
-                            <div class="cadImage">
-                                <img src="{{ url('assets/frontend/image/microphone.jpg')}}" alt="">
-                            </div>
-                            <a href="#">
-                                <div class="search-cart">
-                                    <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                                </div>
-                            </a>
-                            <div class="product-detail">
-                                <p>Casques</p>
-                            </div>
-                            <div class="prix">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                            <div class="price">
-                                <p>200 0000 Fcfa</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>   
+                   <div class="cadreProduit" id="products-container">
+               @include('home.partials.accessoire')
+                </div>  
+            </div> 
             </div>
         </section>
         
     </main>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const container = document.getElementById('products-container');
+
+    // Filtre par type de produit
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // Retirer la classe active de tous les boutons
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                const img = button.querySelector('img');
+                if (img) {
+                    img.classList.remove('actives');
+                }
+            });
+
+            // Ajouter la classe active au bouton cliqué
+            this.classList.add('active');
+            const img = this.querySelector('img');
+            if (img) {
+                img.classList.add('actives');
+            }
+
+            const typeId = this.dataset.id;
+
+            fetch(`/boutique/filter/${typeId}`)
+                .then(res => res.text())
+                .then(html => {
+                    container.innerHTML = html;
+                });
+        });
+    });
+
+    // Délégation d'événements pour les filtres par catégorie (chargés dynamiquement)
+    document.addEventListener('click', function(e) {
+        const categoryBtn = e.target.closest('.filter-category-btn');
+        if (categoryBtn) {
+            e.preventDefault();
+            
+            const categoryId = categoryBtn.dataset.categoryId;
+            
+            // Retirer active de tous les boutons de catégories
+            document.querySelectorAll('.filter-category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            categoryBtn.classList.add('active');
+            
+            // Filtrer par catégorie (à implémenter selon vos besoins)
+            fetch(`/boutique/filter-category/${categoryId}`)
+                .then(res => res.text())
+                .then(html => {
+                    container.innerHTML = html;
+                })
+                .catch(error => console.error('Erreur:', error));
+        }
+    });
+});
+
+// Recherche de produits (par nom ou catégorie) - insensible à la casse
+$(document).ready(function() {
+    console.log('Script de recherche chargé');
+    console.log('Input trouvé:', $('#search-input').length);
+    
+    // Recherche avec délégation d'événements
+    $(document).on('keyup', '#search-input', function() {
+        let search = $(this).val();
+        console.log('Recherche pour:', search); // Debug
+
+        if (search.length < 2) {
+            $('#search-results').hide().html('');
+            return;
+        }
+
+        $('#loader').show();
+
+        $.ajax({
+            url: "{{ route('produits.search') }}",
+            type: "GET",
+            data: { search: search },
+            success: function(data) {
+                console.log('Résultats reçus:', data); // Debug
+                $('#loader').hide();
+                let html = '';
+
+                if (data.length === 0) {
+                    html = '<p style="padding: 10px; color: #999;">Aucun résultat trouvé pour "' + search + '"</p>';
+                } else {
+                    data.forEach(p => {
+                        html += `
+                            <div class="result-item" onclick="window.location.href='/boutique/${p.slug}'">
+                                <img src="/storage/${p.image}" alt="${p.nom}" onerror="this.src='/assets/frontend/image/default-product.png'">
+                                <div>
+                                    <p><strong>${p.nom}</strong></p>
+                                    <p style="font-size: 12px; color: #666;">${p.categorie}</p>
+                                    <p style="color: #0261CD; font-weight: bold;">${Number(p.prix).toLocaleString()} FCFA</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                $('#search-results').html(html).show();
+            },
+            error: function(xhr, status, error) {
+                $('#loader').hide();
+                console.error('Erreur de recherche:', error);
+                console.error('Status:', status);
+                console.error('Response:', xhr.responseText);
+                $('#search-results').html('<p style="padding: 10px; color: red;">Erreur lors de la recherche</p>').show();
+            }
+        });
+    });
+
+    // Cacher la liste quand on clique à l'extérieur
+    $(document).click(function(event) {
+        if (!$(event.target).closest('#search-input, #search-results').length) {
+            $('#search-results').hide();
+        }
+    });
+});
+</script> 
 
 @endsection

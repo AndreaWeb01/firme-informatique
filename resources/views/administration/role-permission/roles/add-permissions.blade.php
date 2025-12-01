@@ -48,7 +48,7 @@
                      
                     --}}
 
-                    <form action="{{ url('roles/'.$role->id.'/give-permissions') }}" method="POST">
+                    <form action="{{ route('roles.givePermissionToRole', $role->id) }}" method="POST">
                         @csrf
                         @method('PUT')
 

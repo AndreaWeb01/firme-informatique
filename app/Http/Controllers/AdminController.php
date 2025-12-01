@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commande;
+use App\Models\Produit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +67,16 @@ class AdminController extends Controller
     
     public function dashboard()
     {
-        return view('dashboard-admin');
-    }
+            $commandesrecent = Commande::orderBy('created_at', 'desc')
+                               ->limit(10)
+                               ->get();
+     
+    return view('dashboard-admin', [
+        'produits'  => Produit::count(),
+        'commandes' => Commande::count(),
+        'clients'   => User::count(),
+        'ca'        => Commande::sum('montant_total') . ' FCFA',
+        'commandesrecent' => $commandesrecent,
+    ]);
+}
 }

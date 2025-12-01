@@ -61,10 +61,10 @@
                                         <td>{{ $role->permissions->pluck('name')->implode(', ') }}</td>
                                         <td>{{ $role->created_at->diffForHumans() }}</td>
                                         <td>
-                                            <a href="{{ url('roles/'.$role->id.'/give-permissions') }}" class="btn btn-warning">
+                                            <a href="{{ route('roles.addPermissionToRole', $role->id) }}" class="btn btn-warning">
                                                 Autorisations
                                             </a>
-                                            <a href="{{ url('roles/'.$role->id.'/edit') }}" class="btn btn-success">Modifier</a>
+                                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-success">Modifier</a> 
 
                                             <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display: inline;">
                                                 @csrf

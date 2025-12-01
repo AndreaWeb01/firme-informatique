@@ -38,7 +38,7 @@
                   @csrf
                   <button type="submit" class="btn btn-link text-white me-3" id="login-btn">Se déconnecter</button>
                 </form> 
-             
+                <a href="{{ route('mescommandes') }}" class="text-white me-3" id="login-btn">Mes commandes</a>
               @else
                 <a href="#" class="text-white me-3" id="login-btn">Se connecter</a>
               @endif

@@ -49,7 +49,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @if ($stocks->isEmpty())
                                     <tr>
                                         <td colspan="4" class="text-center">Aucun stock pour l'instant</td>
@@ -62,7 +61,6 @@
                                         <td>{{ $stock->quantité }}</td>
                                         <td>{{ $stock->mouvement }}</td>
                                         <td>
-
                                             <a href="{{ route('stocks.show', $stock->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>    
                                              <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
 
@@ -73,7 +71,7 @@
                                                     <i class="mdi mdi-delete"></i>
                                                 </button>
                                             </form>  
-                                            
+                                           
                                         </td>
                                     </tr>
                                     @endforeach

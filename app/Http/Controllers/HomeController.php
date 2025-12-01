@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Commande;
 use App\Models\Conseils;
 use App\Models\Devis;
 use App\Models\Produit;
@@ -117,8 +118,8 @@ class HomeController extends Controller
 
         $devis = new Devis();
         $devis->nom = $request->nom;
-        $devis->prenom = $request->nom;
-        $devis->email = $request->nom;
+        $devis->prenom = $request->prenom;
+        $devis->email = $request->email;
         $devis->telephone = $request->telephone;
         $devis->service = $request->digit;
         $devis->besoin = $request->besoin;
@@ -131,12 +132,18 @@ class HomeController extends Controller
 
     public function accessoiresmaterielinfo()
     {
-        return view('home.boutique.accessoiresmaterielinfo');
+        $accessoires = Produit::get();
+        $materiels = Produit::get();
+        $types = TypeProduits::with('categories')->get();
+        $categories = Category::all();
+        return view('home.boutique.accessoiresmaterielinfo', compact('accessoires', 'materiels', 'categories', 'types'));
     }
 
     public function materielinfo()
     {
-        return view('home.boutique.materielinfo');
+        $materiels = Produit::get();
+        $categories = Category::all();
+        return view('home.boutique.materielinfo', compact('materiels', 'categories'));    
     }
 
     public function solution()
@@ -160,4 +167,14 @@ class HomeController extends Controller
 
         return view('home.services.cablage', compact('conseilsRecents'));
     }
+    public function mescommandes()
+    {
+        $commandes = Commande::where('user_id', auth()->user()->id)->get();
+        return view('home.commande', compact('commandes'));
+    }
+    public function detailcommande($numero_commande)
+    {
+        $commande = Commande::where('numero_commande', $numero_commande)->firstOrFail();
+        return view('home.detailcommande', compact('commande'));
+    }   
 }
