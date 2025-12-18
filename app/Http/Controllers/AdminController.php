@@ -25,21 +25,15 @@ class AdminController extends Controller
             'motdepasse' => 'required|min:8|confirmed',
         ]);
 
-        // dd($request->all());
-
-        // $admin = new User();
-        // $admin->name = $request->nom;
-        // $admin->prenom = $request->prenom;
-        // $admin->email = $request->email;
-        // $admin->password = $request->motdepasse;
-        // $admin->save();
-
         User::create([
             'name' => $request->nom,
             'prenom' => $request->prenom,
             'email' => $request->email,
             'password' => Hash::make($request->motdepasse),
         ]);
+
+        $admin = User::where('email', $request->email)->first();
+        $admin->assignRole('Client');
 
         return redirect()->route('admin.dashboard');
     }
@@ -51,17 +45,17 @@ class AdminController extends Controller
 
     public function loginstore(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $request->authenticate();
 
-        if (Auth::attempt($credentials)) {
-            
-            return redirect()->route('admin.dashboard');
+        $request->session()->regenerate();
+        
+        // Vérifier si l'utilisateur est un admin
+        $user = User::find(Auth::id());
+        if ($user->hasRole('Administrateur')) {
+            return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        return back()->withErrors(['email' => 'Identifiants incorrects.']);
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     

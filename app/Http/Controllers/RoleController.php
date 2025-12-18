@@ -29,7 +29,8 @@ class RoleController extends Controller
         $role = $request->name;
 
         Role::create([
-            'name' => $role
+            'name' => $role,
+            'guard_name' => 'web'
         ]);
 
         return redirect()->route('roles.index')->with('status', 'Role enregistré avec succès');
@@ -44,21 +45,24 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name,'.$role->id
+            'name' => 'required|string|unique:roles,name,'.$role->id.'|max:255',
+            
         ]);
 
         $role->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'guard_name' => 'web'
+            
         ]);
 
-        return redirect('roles')->with('status','Role modifié avec succès');
+        return redirect()->route('roles.index')->with('status','Role modifié avec succès');
     }
 
     public function destroy($roleId)
     {
         $role = Role::find($roleId);
         $role->delete();
-        return redirect('roles')->with('status','Role supprimé avec succès');
+        return redirect()->route('roles.index')->with('status','Role supprimé avec succès');
     }
 
     public function addPermissionToRole($roleId)

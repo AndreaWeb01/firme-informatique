@@ -44,6 +44,7 @@
                                     <th>Id</th>
                                     <th>Image</th>
                                     <th>Titre</th>
+                                    <th>Catégorie</th>
                                     <th>Prix</th>
                                     <th>Stock</th>
                                     <th>Actions</th>
@@ -61,11 +62,12 @@
                                         <th scope="row">{{ $key + 1 }}</th>
                                         <td><img src="{{ url('/storage/'. $produit->image_principale )}}" alt="" width="50" height="50"></td>
                                         <td>{{ $produit->name }}</td>
+                                        <td>{{ $produit->categorie->Nom_Categorie }}</td>
                                         <td>
                                             <strong>{{ number_format($produit->prix, 0, ',', ' ') }} FCFA</strong><br>
                                         </td>
                                         <td>
-                                            {{-- {{ $produit->stockDisponible() }} --}}
+                                            {{ $produit->stockDisponible() }}
                                         </td>
                                         <td>
                                             <a href="{{ route('produits.show', $produit->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>
@@ -79,7 +81,7 @@
                                                 </button>
                                             </form> 
                                         </td>
-                                        
+                                       
                                     </tr>
                                     @endforeach
                                 @endif

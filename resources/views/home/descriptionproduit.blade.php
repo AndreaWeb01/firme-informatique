@@ -53,23 +53,7 @@
                         </div>
                         <p>
                             {{ $produit->description }}</p><p>
-                            HP EliteBook X360 1040 G8 Core i7 -1185G7 (11ème Génération) @ 3.00 GHz, 
-                            avec la Reconnaissance Faciale, Ecran Tactile Pliable à 360°,
-                             avec 1  Tera SSD et 16 Go Ram, Un Sac et une Souris externe Offerts, 
-                             En Stock,  En Excellent Etat [image réelle].
-                            <p>● intel Core i7 -1185G7 (11ème Génération) @ 3.00 GHz/ Ram: 16 Go
-                            </p>
-                            <p>
-                                ●SSD: 1000 Go / Écran TactileQHD 14" Pliable 360°
-                            </p>
-                            <p>
-                                ●intel UHD Graphics 630 (8 Go totale) / Bluetooth / Port HDMI
-                            </p>
-                            <p>●Clavier Retroeclairé (Lumineux) / Autonomie: 4H/ Bang & Olufsen 
-                            Avec GARANTIE / Livraison Gratuite   </p>
-                            ■■ Conçu pour Exécuter des Applications 
-                              Professionnelles, Réaliser  des modélisations en 3D et d'autres tâches gourmandes
-                               en ressources  graphique
+                           
                         </p>
                         <button 
                         id="addToCart" 
@@ -93,43 +77,33 @@
         <section class="py-5">
             <div class="wrap">
                 <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+                    @foreach($produits as $vue)
                     <div class="cadre">
                         <div class="cadImage">
-                            <img src="image/microphone.jpg" alt="">
+                            <img src="{{ url('storage/'. $vue->produit->image_principale )}}" alt="">
                         </div>
                         <a href="#">
                             <div class="search-cart">
                                 <div class="cart"><i class="fas fa-shopping-cart"></i></div>
                             </div>
                         </a>
+                     
+                        
                         <div class="product-detail">
-                            <p>Casques</p>
+                            <p>{{ $vue->produit->name }}</p>
                         </div>
                         <div class="prix">
-                            <p>200 0000 Fcfa</p>
+                            <p>{{ $vue->produit->prix }} FCFA</p>
                         </div>
                         <div class="price">
-                            <p>200 0000 Fcfa</p>
+                            <p>{{ $vue->produit->prix }} FCFA</p>
                         </div>
-
-                        <div class="cadImage">
-                            <img src="image/headphone.png" alt="">
-                        </div>
-                        <a href="#">
-                            <div class="search-cart">
-                                <div class="cart"><i class="fas fa-shopping-cart"></i></div>
-                            </div>
-                        </a>
-                        <div class="product-detail">
-                            <p>Casques</p>
-                        </div>
-                        <div class="prix">
-                            <p>200 0000 Fcfa</p>
-                        </div>
-                        <div class="price">
-                            <p>200 0000 Fcfa</p>
-                        </div>
-                    </div>
+ 
+                       
+               
+                     
+                    </div> 
+                    @endforeach
                 </div>
             </div>
         </section>

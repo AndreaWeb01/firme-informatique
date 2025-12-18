@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\RecentlyViewed;
 use App\Models\ImageProduit;
 use App\Models\Produit;
 use App\Models\Stock;
@@ -20,7 +21,7 @@ class ProduitController extends Controller
      */
     public function index()
     {
-        $produits = Produit::with('categorie')->get();
+        $produits = Produit::with('categorie','stocks')->orderBy('created_at', 'desc')->get();
         return view('administration.produits.index', compact('produits'));
     }
 
@@ -116,8 +117,14 @@ class ProduitController extends Controller
      */
     public function show(Produit $produit)
     {
-        $produit->load('images', 'categorie', 'stocks');
-        return view('administration.produits.show', compact('produit'));
+
+    $userId = auth()->id() ?? null; // Assurez-vous que l'utilisateur est connecté
+
+ 
+    // Récupérer le produit
+    $product = Produit::findOrFail($produit->id);
+    $produit->load('images', 'categorie', 'stocks');
+    return view('administration.produits.show', compact('produit'));
     }
 
     /**
@@ -140,7 +147,6 @@ class ProduitController extends Controller
             'images.*'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'categories'    => 'required|exists:categories,id',
             'prix'          => 'required|numeric|min:0',
-            'stock'         => 'required|integer|min:0',
             'sku'           => 'nullable|string|max:255|unique:produits,sku,' . $produit->id,
             'description'   => 'required|string',
         ]);
@@ -176,15 +182,7 @@ class ProduitController extends Controller
             ]);
 
             // Update stock if quantity changed
-            $currentStock = Stock::where('produit_id', $produit->id)->latest()->first();
-            
-            if (!$currentStock || $currentStock->quantité != $validated['stock']) {
-                Stock::create([
-                    'produit_id' => $produit->id,
-                    'quantité' => $validated['stock'],
-                    'mouvement' => 'modification'
-                ]);
-            }
+
 
             // Handle secondary images
             if ($request->hasFile('images')) {
@@ -309,14 +307,12 @@ class ProduitController extends Controller
             $query = Produit::with('categorie');
 
             if ($request->filled('search')) {
-                $searchTerm = strtolower($request->search); // Convertir en minuscules
-                
-                $query->where(function($q) use ($searchTerm) {
-                    // Rechercher dans le nom du produit (insensible à la casse)
-                    $q->whereRaw('LOWER(name) LIKE ?', ['%' . $searchTerm . '%'])
-                      // OU rechercher dans le nom de la catégorie (insensible à la casse)
-                      ->orWhereHas('categorie', function($query) use ($searchTerm) {
-                          $query->whereRaw('LOWER(Nom_Categorie) LIKE ?', ['%' . $searchTerm . '%']);
+                $term = $request->search;
+
+                $query->where(function($q) use ($term) {
+                    $q->where('name', 'LIKE', '%' . $term . '%')
+                      ->orWhereHas('categorie', function($sub) use ($term) {
+                          $sub->where('Nom_Categorie', 'LIKE', '%' . $term . '%');
                       });
                 });
             }
@@ -336,7 +332,7 @@ class ProduitController extends Controller
                 });
 
             return response()->json($produits);
-            
+        
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Erreur lors de la recherche',

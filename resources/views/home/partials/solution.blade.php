@@ -12,7 +12,7 @@
                                         </div>                                      
                                     </div>
                                     <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-                                        @forelse ($accessoires as $product)
+                                        @forelse ($solutions as $product)
                                         <div class="cadre">
                                             <div class="cadImage">
                                                 <img src="{{ asset('storage/' . $product->image_principale) }}"
@@ -32,7 +32,7 @@
                                                     <div class="cart"><i class="fas fa-shopping-cart"></i></div>
                                                 </button>
                                             </div>
-                                            <a href="{{ route('produit.description', ['slug' => $product->slug, 'id' => $product->id]) }}">
+        <a href="{{ route('produit.description', ['slug' => $product->slug, 'id' => $product->id]) }}">
                                                 <div class="product-detail">
                                                     <p>{{ $product->name }}</p>
                                                 </div>

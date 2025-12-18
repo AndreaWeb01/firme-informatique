@@ -219,9 +219,9 @@
             @foreach($commandesrecent as $commander)
                 <tr>
                     <td>{{ $commander->numero_commande }}</td>
-                    <td>{{ $commander->user->name }}</td>
+                    <td>{{ $commander->user->name ?? $commander->nom }}</td>    
                     <td>{{ $commander->montant_total }}</td>
-                    <td><span class="badge {{ $commander->statut == 'payée' ? 'success' : ($commander->statut == 'en attente' ? 'warning' : 'danger') }}">{{ $commander->statut }}</span></td>  
+                    <td><span class="badge {{ $commander->statut == 'payée' ? 'success' : ($commander->statut == 'en_attente' ? 'warning' : 'danger') }}">{{ $commander->statut }}</span></td>  
                 </tr>
             @endforeach 
             </table>

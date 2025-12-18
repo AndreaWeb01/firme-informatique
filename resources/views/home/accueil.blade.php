@@ -37,8 +37,8 @@
                 <div class="materiel">
                     <div class="overlay"></div>
                     <img src="{{ url('assets/frontend/image/materiel-info.jpg')}}" alt="">
-                    <p>Fourniture de matériels, accessoires informatiques et consommables</p>
-                    <a href="{{ route('accessoiresmaterielinfo') }}">En savoir plus</a>
+                    <p>Fourniture de matériels, accessoires informatiques et consommables</p>
+                    <a href="{{ route('accessoiresmaterielinfo',1) }}">En savoir plus</a>  
                 </div>
                 <div class="service">
                     <div class="service1">
@@ -60,7 +60,7 @@
                                 <div class="overlay"></div>
                                 <img src="{{ url('assets/frontend/image/solution-informatique.png')}}" alt="">
                                 <p>FOURNITURE DE SOLUTIONS INFORMATIQUES</p>
-                                <a href="{{ route('solution') }}">En savoir plus</a>
+                                 <a href="{{ route('solution',2) }}">En savoir plus</a>
                             </div>
                             <div class="service2a">
                                 <div class="overlay"></div>
@@ -73,7 +73,6 @@
                 </div>
         </div>
     </section>
-
     <section class="mb-4">
         <div class="wrap">
             <div class="title">
@@ -89,13 +88,13 @@
                     <div class="cadImage">
                         <img src="{{ url('storage/'. $product->image_principale) }}" alt="">        
                     </div>
-                    <a href="{{ route('produit.description', $product->slug) }}">
+                    <a href="{{ route('produit.description', ['slug' => $product->slug, 'id' => $product->id]) }}">
                         <div class="search-cart">
                             <div class="cart"><i class="fas fa-shopping-cart"></i></div>
                         </div>
                     </a>
                     <div class="product-detail">
-                        <p>{{ $product->nom }}</p>
+                        <p>{{ $product->name }}</p>
                     </div>
                     <div class="prix">
                         <p>{{ $product->prix }} Fcfa</p>

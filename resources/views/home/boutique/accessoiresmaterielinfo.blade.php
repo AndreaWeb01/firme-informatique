@@ -62,6 +62,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.filter-btn');
     const container = document.getElementById('products-container');
+    let selectedTypeId = document.querySelector('.filter-btn.active') ? document.querySelector('.filter-btn.active').dataset.id : null;
+    let selectedCategoryId = document.querySelector('.filter-category-btn.active') ? document.querySelector('.filter-category-btn.active').dataset.categoryId : null;
 
     // Filtre par type de produit
     buttons.forEach(btn => {
@@ -85,8 +87,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const typeId = this.dataset.id;
+            selectedTypeId = typeId;
 
-            fetch(`/boutique/filter/${typeId}`)
+            fetch(`/boutique/filter-combined?type_id=${encodeURIComponent(selectedTypeId || '')}&category_id=${encodeURIComponent(selectedCategoryId || '')}`)
                 .then(res => res.text())
                 .then(html => {
                     container.innerHTML = html;
@@ -101,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             
             const categoryId = categoryBtn.dataset.categoryId;
+            selectedCategoryId = categoryId;
             
             // Retirer active de tous les boutons de catégories
             document.querySelectorAll('.filter-category-btn').forEach(btn => {
@@ -109,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
             
             categoryBtn.classList.add('active');
             
-            // Filtrer par catégorie (à implémenter selon vos besoins)
-            fetch(`/boutique/filter-category/${categoryId}`)
+            // Filtre combiné type + catégorie
+            fetch(`/boutique/filter-combined?type_id=${encodeURIComponent(selectedTypeId || '')}&category_id=${encodeURIComponent(selectedCategoryId || '')}`)
                 .then(res => res.text())
                 .then(html => {
                     container.innerHTML = html;
@@ -122,13 +126,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Recherche de produits (par nom ou catégorie) - insensible à la casse
 $(document).ready(function() {
-    console.log('Script de recherche chargé');
-    console.log('Input trouvé:', $('#search-input').length);
-    
-    // Recherche avec délégation d'événements
+
+    // Recherche en temps réel
     $(document).on('keyup', '#search-input', function() {
-        let search = $(this).val();
-        console.log('Recherche pour:', search); // Debug
+
+        let search = $(this).val().trim();
 
         if (search.length < 2) {
             $('#search-results').hide().html('');
@@ -140,48 +142,49 @@ $(document).ready(function() {
         $.ajax({
             url: "{{ route('produits.search') }}",
             type: "GET",
-            data: { search: search },
+            data: { search },
             success: function(data) {
                 console.log('Résultats reçus:', data); // Debug
                 $('#loader').hide();
+
                 let html = '';
 
                 if (data.length === 0) {
-                    html = '<p style="padding: 10px; color: #999;">Aucun résultat trouvé pour "' + search + '"</p>';
+                    html = `<p class="no-result">Aucun résultat trouvé pour "${search}"</p>`;
                 } else {
                     data.forEach(p => {
                         html += `
                             <div class="result-item" onclick="window.location.href='/boutique/${p.slug}'">
-                                <img src="/storage/${p.image}" alt="${p.nom}" onerror="this.src='/assets/frontend/image/default-product.png'">
-                                <div>
+                                <img src="/storage/${p.image}" alt="${p.nom}"
+                                     onerror="this.src='/assets/frontend/image/default-product.png'">
+                                <div class="info">
                                     <p><strong>${p.nom}</strong></p>
-                                    <p style="font-size: 12px; color: #666;">${p.categorie}</p>
-                                    <p style="color: #0261CD; font-weight: bold;">${Number(p.prix).toLocaleString()} FCFA</p>
+                                    <p class="cat">${p.categorie}</p>
+                                    <p class="prix">${Number(p.prix).toLocaleString()} FCFA</p>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     });
                 }
 
                 $('#search-results').html(html).show();
             },
-            error: function(xhr, status, error) {
+            error: function(xhr) {
                 $('#loader').hide();
-                console.error('Erreur de recherche:', error);
-                console.error('Status:', status);
-                console.error('Response:', xhr.responseText);
-                $('#search-results').html('<p style="padding: 10px; color: red;">Erreur lors de la recherche</p>').show();
+                console.error("Erreur recherche:", xhr.responseText);
+                $('#search-results').html('<p class="error">Erreur lors de la recherche</p>').show();
             }
         });
     });
 
-    // Cacher la liste quand on clique à l'extérieur
+    // Cacher la recherche si clic extérieur
     $(document).click(function(event) {
         if (!$(event.target).closest('#search-input, #search-results').length) {
             $('#search-results').hide();
         }
     });
+
 });
-</script> 
+</script>
+
 
 @endsection

@@ -28,8 +28,6 @@
             <div class="card">
                 <div class="card-body">
                     
-                    <a href="{{ route('actuconseils.create') }}" class="btn btn-soft-danger"> Ajouter un conseil</a>
-                    
                     <p class="sub-header"></p>
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -64,7 +62,7 @@
                                         <td>
 
                                             <a href="{{ route('actuconseils.show', $conseils->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>
-                                            <a href="{{ route('actuconseils.edit', $conseils->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
+                                            <!-- <a href="{{ route('actuconseils.edit', $conseils->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a> -->
 
                                             <form action="{{ route('actuconseils.destroy', $conseils->id) }}" method="POST" style="display: inline;">
                                                 @csrf

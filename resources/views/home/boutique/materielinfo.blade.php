@@ -35,7 +35,7 @@
                 <div class="serviceF">
                     <a href="{{ route('materielinfo') }}">
                         <div class="overlays"></div>
-                        <img class="actives" src="{{ url('assets/frontend/image/backgroundF.png') }}" alt="">
+                        <img class="{{ request()->routeIs('materielinfo') ? 'actives' : '' }}" src="{{ url('assets/frontend/image/backgroundF.png') }}" alt="">
                     </a>
                     <p>Fourniture de materiel informatique</p>
                         <!-- <a href="installation.html">En savoir plus</a> -->
@@ -43,7 +43,7 @@
                 <div class="serviceF">
                     <a href="{{ route('accessoiresmaterielinfo') }}">
                         <div class="overlays"></div>
-                        <img src="{{ url('assets/frontend/image/backgroundF1.png') }}" alt="">
+                        <img class="{{ request()->routeIs('accessoiresmaterielinfo') ? 'actives' : '' }}" src="{{ url('assets/frontend/image/backgroundF1.png') }}" alt="">
                     </a>
                     <p>Fourniture de consommables et accessoires pour MATERIELS INFORMATIQUES</p>
                     <!-- <a href="maintenance.html">En savoir plus</a> -->
@@ -51,7 +51,7 @@
                 <div class="serviceF">
                     <a href="{{ route('solution') }}">
                         <div class="overlays"></div>
-                        <img  src="{{ url('assets/frontend/image/backgroundF2.png') }}" alt="">
+                        <img class="{{ request()->routeIs('solution') ? 'actives' : '' }}" src="{{ url('assets/frontend/image/backgroundF2.png') }}" alt="">
                     </a>
                     <p>FOURNITURE DE SOLUTIONS INFORMATIQUES</p>
                     <!-- <a href="#">En savoir plus</a> -->

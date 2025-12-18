@@ -31,25 +31,21 @@ class UserController extends Controller
             'firstname' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|max:20',
-            'roles' => 'required'
+        
         ]);
-
         $user = User::create([
                         'name' => $request->name,
                         'prenom' => $request->firstname,
                         'email' => $request->email,
                         'password' => Hash::make($request->password),
                     ]);
-
-        $user->syncRoles($request->roles);
-
+        $user = User::where('email', $request->email)->first();
+        $user->assignRole('Client');
         return redirect()->route('users.index')->with('status','Utilisateur créé avec succès');
     }
-
     public function edit(User $user)
     {
-        // $roles = Role::pluck('name','name')->all();
-        // $userRoles = $user->roles->pluck('name','name')->all();
+
 
         $roles = Role::where('name', '!=', 'superadmin')->pluck('name', 'name')->all();
         $userRoles = $user->roles->pluck('name', 'name')->all();

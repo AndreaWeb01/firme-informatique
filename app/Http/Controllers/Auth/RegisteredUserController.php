@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('home.accueil');
     }
 
     /**
@@ -29,24 +29,28 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+ 
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'prenom' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'telephone' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'confirmed'],
+            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|max:20|confirmed',
+            'telephone' => 'nullable|string|max:50',
         ]);
         $user = User::create([
-            'name' => $request->name,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'telephone' => $request->telephone, 
-            'password' => Hash::make($request->password),
-        ]);
-
+                        'name' => $request->name,
+                        'prenom' => $request->firstname,
+                        'telephone' => $request->telephone,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                    ]);
+        $user = User::where('email', $request->email)->first();
+        $user->assignRole('Client');
+    
         event(new Registered($user));
 
         Auth::login($user);
+
 
         return redirect(route('dashboard', absolute: false));
     }

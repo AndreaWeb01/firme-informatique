@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="card-body">
                     
-                    {{-- <a href="{{ route('categories.create') }}" class="btn btn-soft-danger"> Ajouter un categorie</a> --}}
+                    <a href="{{ route('stocks.create') }}" class="btn btn-soft-danger"> Ajouter un stock</a>    
                     
                     <p class="sub-header"></p>
                     @if (session('status'))
@@ -36,7 +36,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -63,20 +62,18 @@
                                         <td>
                                             <a href="{{ route('stocks.show', $stock->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>    
                                              <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
-
                                             <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce stock?')">
                                                     <i class="mdi mdi-delete"></i>
                                                 </button>
-                                            </form>  
-                                           
+                                            </form>    
                                         </td>
                                     </tr>
                                     @endforeach
                                 @endif
-                                
+  
                             </tbody>
                         </table>
                     </div> 
@@ -85,8 +82,6 @@
             </div> <!-- end card -->
         </div> <!-- end col -->
     </div>
-    <!-- end row -->
-    
 </div> <!-- container -->
 
 @endsection

@@ -34,7 +34,7 @@ class Produit extends Model
 
     public function stockDisponible()
     {
-        return $this->stocks()->sum('quantite');
+        return $this->stocks()->sum('quantité');
     }
 
 }

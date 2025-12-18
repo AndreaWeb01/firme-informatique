@@ -12,10 +12,12 @@ class Commande extends Model
         'montant_total',
         'montant_paye',
         'mode_paiement',
+        'nom',
+        'prenom',
         'statut',
         'adresse_livraison',
         'ville',
-        'telephone',
+        'numero',
         'notes'
     ];
 

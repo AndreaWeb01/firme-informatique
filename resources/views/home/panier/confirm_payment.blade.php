@@ -56,19 +56,25 @@
                             <h5  style="margin-bottom: 15px;">Adresse de livraison</h5>
                             <div class="presentation">
                                 <div class="erreurs">
-                                    <input type="text" placeholder="Entrer votre nom" class="box">
+                                    <input type="text"  name="nom" placeholder="Entrer votre nom" class="box">
                                 </div>
                                 <div class="erreurs">
-                                    <input type="text" placeholder="Entrer votre prenom" class="box">
+                                    <input type="text" name="prenom" placeholder="Entrer votre prenom" class="box">
                                 </div>
                             </div>
                             <div class="erreur">
                                 <input type="email" placeholder="Entrer votre email " class="box">
                             </div>
                             <div class="erreur">
-                                <input type="tel" placeholder="Entrer numero de téléphone" class="box">
+                                <input type="tel" name="numero" placeholder="Entrer numero de téléphone" class="box">
                             </div>
                             <div class="erreur">
+                                <input type="text" name="adresse_livraison" placeholder="Entrer votre adresse de livraison" class="box">
+                            </div>
+                            <div class="erreur">
+                                <input type="text" name="ville" placeholder="Entrer votre ville" class="box">
+                            </div>
+                            <div class="erreur">    
                                 <input type="password" placeholder="Entrer votre mot de passe " class="box">
                             </div>
                         </div>

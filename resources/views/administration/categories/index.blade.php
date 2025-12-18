@@ -62,7 +62,12 @@
                                         <td>{{ $categorie->typeProduit->Nom_TypeProduit ?? 'Non défini' }}</td>
                                         <td>{{ $categorie->created_at->diffForHumans() }}</td>
                                         <td>
-
+                                            <a href="{{ route('categories.edit', $categorie->id) }}" class="btn btn-soft-success btn-sm">Editer</a>
+                                            <form action="{{ route('categories.destroy', $categorie->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-soft-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette categorie ?')">Supprimer</button>
+                                            </form> 
                                         </td>
                                     </tr>
                                     @endforeach

@@ -32,8 +32,7 @@ Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])-
 Route::get('/', [HomeController::class, 'accueil'])->name('accueil');
 Route::get('/a-propos', [HomeController::class, 'about'])->name('about');
 Route::get('/notre-boutique', [HomeController::class, 'boutique'])->name('boutique');
-Route::get('/boutique/{slug}', [HomeController::class, 'descriptionProduit'])->name('produit.description');
-Route::get('/mescommandes', [HomeController::class, 'mescommandes'])->name('mescommandes');
+Route::get('/mescommandes', [HomeController::class, 'dashboard'])->name('mescommandes');
 Route::get('/detailcommande/{numero_commande}', [HomeController::class, 'detailcommande'])->name('detailcommande');
 
 
@@ -49,9 +48,11 @@ Route::get('/fourniture-de-materiels-informatique', [HomeController::class, 'mat
 Route::get('/installation-de-camera-de-surveillance-et-systeme-de-securité', [HomeController::class, 'installationcamera'])->name('installationcamera');
 Route::get('/boutique/filter/{id}', [HomeController::class, 'filterAjax'])->name('boutique.filterAjax');
 Route::get('/boutique/filter-category/{id}', [HomeController::class, 'filterByCategory'])->name('boutique.filterByCategory');
+Route::get('/boutique/filter-combined', [HomeController::class, 'filterCombined'])->name('boutique.filterCombined');
+Route::get('/boutique/{slug}/{id}', [HomeController::class, 'descriptionProduit'])->name('produit.description');
 
 // Services
-Route::get('/fourniture-de-solution-informatique', [HomeController::class, 'solution'])->name('solution');
+Route::get('/fourniture-de-solution-informatique/{Id}', [HomeController::class, 'solution'])->name('solution');
 Route::get('/entretien-et-maintenance-de-materiels-informatiques', [HomeController::class, 'maintenance'])->name('maintenance');
 Route::get('/travaux-de-cablages-reseaux-informatique-et-telephonique', [HomeController::class, 'cablage'])->name('cablage');
 
@@ -110,20 +111,23 @@ Route::prefix('administration')->group(function () {
 /* --------------------------------------------------------------------------
 | Dashboard Management Routes
 | -------------------------------------------------------------------------- */
-Route::prefix('dashboard')->middleware('auth')->group(function () {
+Route::prefix('dashboard')->middleware('auth','role:Administrateur')->group(function () {
     Route::get('/devis', [DashboardController::class, 'liste_devis'])->name('devis.index');
     Route::get('/devis/{devis}', [DashboardController::class, 'show_devis'])->name('devis.show');
+    Route::delete('/devis/{devis}', [DashboardController::class, 'destroy_devis'])->name('devis.destroy');
+     Route::resource('commandes', CommandeController::class)->except(['show']);
     Route::resources([
     'typeproduits' => TypeProduitController::class,
     'actuconseils' => ActuConseilsController::class,
     'categories'   => CategoryController::class,
     'produits'     => ProduitController::class,
     'stocks'       => StockController::class,
+  
 ]);
-Route::resource('commandes', CommandeController::class)->except(['show']);
 Route::get('/commandes/{commande}/valider', [CommandeController::class, 'valider'])->name('commandes.valider');
 Route::get('/commandes/{commande}/annuler', [CommandeController::class, 'annuler'])->name('commandes.annuler');
-
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::get('/commandes/{commande}', [CommandeController::class, 'show'])->name('commandes.show');
 });
 
 /* --------------------------------------------------------------------------
@@ -138,7 +142,7 @@ Route::post('brands', [BrandController::class, 'store'])->name('brands.store');
 /* --------------------------------------------------------------------------
 | Users & Roles & Permissions Management
 | -------------------------------------------------------------------------- */
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth','role:Administrateur')->group(function () {
     // Users
     Route::resource('users', UserController::class)->except(['show']);
     // Roles
@@ -152,16 +156,10 @@ Route::prefix('admin')->group(function () {
 /* --------------------------------------------------------------------------
 | Authenticated User Profile Routes
 | -------------------------------------------------------------------------- */
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    Route::prefix('profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
+Route::middleware('auth','role:Client')->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/mescommandes', [HomeController::class, 'dashboard'])->name('mescommandes');
+    Route::get('/detailcommande/{numero_commande}', [HomeController::class, 'detailcommande'])->name('detailcommande');
 });
 
 /* --------------------------------------------------------------------------

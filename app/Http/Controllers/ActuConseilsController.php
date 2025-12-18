@@ -36,7 +36,7 @@ class ActuConseilsController extends Controller
             'description' => 'required|string',
         ]);
 
-        // dd($request->all());
+      
 
         if ($request->hasFile('imgconseil')) {
 
@@ -66,7 +66,7 @@ class ActuConseilsController extends Controller
     public function show(Conseils $actuconseil)
     {
 
-        return view('administration.conseilshow', compact('actuconseil'));
+        return view('administration.actuconseils.show', compact('actuconseil'));
     }
 
     /**

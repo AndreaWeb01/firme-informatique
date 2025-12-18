@@ -38,7 +38,7 @@
                   @csrf
                   <button type="submit" class="btn btn-link text-white me-3" id="login-btn">Se déconnecter</button>
                 </form> 
-                <a href="{{ route('mescommandes') }}" class="text-white me-3" id="login-btn">Mes commandes</a>
+                <a href="{{ route('dashboard') }}" class="text-white me-3" id="login-btn">Tableau de bord</a>
               @else
                 <a href="#" class="text-white me-3" id="login-btn">Se connecter</a>
               @endif
@@ -91,7 +91,7 @@
               </div>
                     <script>
             const routes = {
-              produit: "{{ route('produit.description', ':slug') }}",
+              produit: "{{ route('produit.description', ['slug' => ':slug', 'id' => ':id']) }}",
               conseil: "{{ route('conseils.show', ':slug') }}"
           };
                 </script>
@@ -123,10 +123,10 @@
         <h1>connexion</h1>
       </div>
       <div class="erreur">
-        <input type="text" name="email" placeholder="Entrer votre email ou numero de téléphone" class="box">
+        <input type="email" name="email" id="email" placeholder="Entrer votre email ou numero de téléphone" class="box">
       </div>
       <div class="erreur">
-        <input type="password" name="password" placeholder="Entrer votre mot de passe " class="box">
+        <input type="password" name="password"  id="password" placeholder="Entrer votre mot de passe " class="box">
       </div>  
 
       <button class="btn" type="submit">Se connecter</button>
@@ -135,48 +135,60 @@
           <p>mot de passe oublié ? <a href="#" id="removePass">Rénitialisé</a></p>
         </div>
     </form>
+   
+   
     <form action="{{ route('password.email') }}" method="POST" class="update-form">
       @csrf
       <div class="titless">
         <h1>mot de passe oublié</h1>
       </div>
       <div class="erreur">
-        <input type="email" placeholder="Entrer votre email" class="box">
+        <input type="email" name="email" placeholder="Entrer votre email" class="box">
       </div>
       <button class="btn-password" type="submit">recupérer</button>
       <div class="authentication">
         <p>je me souviens de mon mot de passe, <a id="update-pass">Se connecter.</a></p>
       </div>
     </form>
-    <form action="{{ route('register') }}" method="POST" class="sigin-form">  
+        @if ($errors->any())
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form action="{{  route('adminstore.register') }}" method="POST" class="sigin-form">  
       @csrf
       <div class="titles">
-        <h1>Inscription</h1>
+        <h1>Inscription </h1>
       </div>
       <div class="erreur">
-        <input type="text" name="name" placeholder="Entrer votre nom" class="box">
+        <input type="text" name="nom" id="nom" placeholder="Entrer votre nom" class="box">
       </div>
       <div class="erreur">
-        <input type="text" name="prenom" placeholder="Entrer votre prenom" class="box">
+        <input type="text" name="prenom" id="prenom" placeholder="Entrer votre prenom" class="box">
       </div>
       <div class="erreur">
-        <input type="email" name="email" placeholder="Entrer votre email " class="box">
+        <input type="email" name="email" id="email" placeholder="Entrer votre email " class="box">
       </div>
       <div class="erreur">
-        <input type="tel" name="telephone" placeholder="Entrer numero de téléphone" class="box">
+        <input type="tel" name="telephone" id="telephone" placeholder="Entrer numero de téléphone" class="box">
       </div>
       <div class="erreur">
-        <input type="password" name="password" placeholder="Entrer votre mot de passe " class="box">
+        <input type="password" name="motdepasse" id="motdepasse" placeholder="Entrer votre mot de passe " class="box">
       </div>
       <div class="erreur">
-        <input type="password" name="password_confirmation" placeholder="Confirmer votre mot de passe" class="box">
+        <input type="password" name="motdepasse_confirmation" id="motdepasse_confirmation" placeholder="Confirmer votre mot de passe" class="box">
       </div>
-
       <button class="btn-inscription" type="submit">S'inscrire</button> 
         <div class="authentication">
           <p>Un nouveau client ? <a id="login-from-signup">Se connecter.</a></p>
         </div>
     </form>
+
+
   </header>
 
       <div class="wrap">

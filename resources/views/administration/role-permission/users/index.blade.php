@@ -70,8 +70,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ url('users/'.$user->id.'/edit') }}" class="btn btn-success">Modifier</a>
-                                            <a href="{{ url('users/'.$user->id.'/delete') }}" class="btn btn-danger">Delete</a>
+                                            <a href="{{ route('users.edit', $user->id)  }}" class="btn btn-success">Modifier</a>
 
                                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline;">
                                                 @csrf

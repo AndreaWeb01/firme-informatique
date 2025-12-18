@@ -14,7 +14,7 @@
             <div class="col-lg-6">
                 <div class="d-none d-lg-block">
                 <ol class="breadcrumb m-0 float-end">
-                    <li class="breadcrumb-item"><a href="">Tableau de bord</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Tableau de bord</a></li>
                     <li class="breadcrumb-item active">Produits</li>
                 </ol>
                 </div>
@@ -49,7 +49,7 @@
                                         <input type="file" name="imgproduit" class="form-control" id="imgproduit">
                                         @if($produit->image_principale)
                                             <div>
-                                                <img src="{{ asset('uploads/produits/' . $produit->image_principale) }}" alt="Image actuelle" width="100">
+                                                <img src="{{ url('storage/' . $produit->image_principale) }}" alt="Image actuelle" width="100">
                                             </div>
                                         @endif
                                         @error('imgproduit')
@@ -82,10 +82,7 @@
                                         <label for="prix" class="form-label">Prix</label>
                                         <input type="number" step="0.01" name="prix" class="form-control" value="{{ old('prix', $produit->prix) }}">
                                     </div>
-                                    <div class="col-md-3 mb-3">
-                                        <label for="stock" class="form-label">Stock</label>
-                                        <input type="number" name="stock" class="form-control" value="{{ old('stock', optional($produit->stocks->last())->quantité ?? 0) }}">
-                                    </div>
+
                                     <div class="col-md-3 mb-3">
                                         <label for="sku" class="form-label">Sku</label>
                                         <input type="text" name="sku" class="form-control" value="{{ old('sku', $produit->sku) }}">
@@ -121,5 +118,4 @@
 </div> <!-- container -->    
 
 @endsection
-
 

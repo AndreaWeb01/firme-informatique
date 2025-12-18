@@ -30,7 +30,7 @@
                     <a href="{{ route('produits.index') }}" class="btn btn-soft-danger"> Retour</a>
                     <p class="sub-header"></p>
 
-                    <p><img src="{{ url('/uploads/produits', $produit->image_principale ) }}" alt="" height="200" width="500"></p>
+                    <p><img src="{{ asset('storage/' . $produit->image_principale) }}" alt="" height="200" width="500"></p>
                     <p><b>Nom du produit:</b> {{ $produit->name }}</p>
                     <p><b>Prix du produit:</b> {{ $produit->prix }}</p>
                     <p><b>Code du produit:</b> {{ $produit->sku }}</p>

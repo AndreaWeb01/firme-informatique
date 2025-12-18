@@ -1,9 +1,6 @@
 @extends("layouts.front.app")
-
 @section('title', 'Notre Boutique')
-
 @section('banner')
-
 <div class="banner">
     <div class="imager">
         <div class="images">
@@ -15,11 +12,8 @@
         <a href="{{ route('boutique') }}" class="btn-yellow">Commencer vos achats</a>
     </div>
 </div>
-
 @endsection
-
 @section('content')
-
 <main>
     <section class="mb-4">
         <div class="wrap">
@@ -29,7 +23,6 @@
             </div>
         </div>
     </section>
-    
     <section class="py-5">
         <div class="wrap">
             <div class="service-solution">
@@ -38,19 +31,15 @@
                     <a href="#" class="filter-btn {{ $index === 0 ? 'active' : '' }}" data-id="{{ $type->id }}">
                         <div class="overlays"></div>
                         <img class="{{ $index === 0 ? 'actives' : '' }}" src="{{ asset('assets/frontend/image/backgroundF2.png') }}" alt="Matériel informatique">
-                    
                      <p>{{ $type->Nom_TypeProduit }}</p> </a>
                 </div> 
                  @endforeach 
-
            </div>
         </div>
     </section> 
-    
     <section class="py-5">
         <div class="wrap">
             <div class="cadreProduit" id="products-container">
- 
                  @include('home.partials.products', ['products' => $allproducts, 'categories' => $categories])
             </div>   
         </div>
@@ -62,6 +51,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.filter-btn');
     const container = document.getElementById('products-container');
+    let selectedTypeId = document.querySelector('.filter-btn.active') ? document.querySelector('.filter-btn.active').dataset.id : null;
+    let selectedCategoryId = document.querySelector('.filter-category-btn.active') ? document.querySelector('.filter-category-btn.active').dataset.categoryId : null;
 
     // Filtre par type de produit
     buttons.forEach(btn => {
@@ -85,8 +76,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const typeId = this.dataset.id;
+            selectedTypeId = typeId;
 
-            fetch(`/boutique/filter/${typeId}`)
+            fetch(`/boutique/filter-combined?type_id=${encodeURIComponent(selectedTypeId || '')}&category_id=${encodeURIComponent(selectedCategoryId || '')}`)
                 .then(res => res.text())
                 .then(html => {
                     container.innerHTML = html;
@@ -101,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             
             const categoryId = categoryBtn.dataset.categoryId;
+            selectedCategoryId = categoryId;
             
             // Retirer active de tous les boutons de catégories
             document.querySelectorAll('.filter-category-btn').forEach(btn => {
@@ -109,8 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
             
             categoryBtn.classList.add('active');
             
-            // Filtrer par catégorie (à implémenter selon vos besoins)
-            fetch(`/boutique/filter-category/${categoryId}`)
+            // Filtre combiné type + catégorie
+            fetch(`/boutique/filter-combined?type_id=${encodeURIComponent(selectedTypeId || '')}&category_id=${encodeURIComponent(selectedCategoryId || '')}`)
                 .then(res => res.text())
                 .then(html => {
                     container.innerHTML = html;
@@ -151,7 +144,7 @@ $(document).ready(function() {
                 } else {
                     data.forEach(p => {
                         html += `
-                            <div class="result-item" onclick="window.location.href='/boutique/${p.slug}'">
+                            <div class="result-item" onclick="window.location.href=routes.produit.replace(':slug', '${p.slug}').replace(':id', '${p.id}')">
                                 <img src="/storage/${p.image}" alt="${p.nom}" onerror="this.src='/assets/frontend/image/default-product.png'">
                                 <div>
                                     <p><strong>${p.nom}</strong></p>
