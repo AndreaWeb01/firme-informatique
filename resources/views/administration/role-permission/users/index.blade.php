@@ -3,10 +3,8 @@
 @section('contenu')
 
 
-<!-- Start Content-->
 <div class="container-fluid">
         
-    <!-- start page title -->
     <div class="py-3 py-lg-4">
         <div class="row">
             <div class="col-lg-6">
@@ -22,7 +20,6 @@
             </div>
         </div>
     </div>
-    <!-- end page title -->
 
     <div class="row">
         <div class="col-lg-12">
@@ -42,7 +39,7 @@
                         <table class="table mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Id</th>
+                                    <th>N°</th>
                                     <th>Nom</th>
                                     <th>Prenom</th>
                                     <th>Email</th>
@@ -70,14 +67,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ url('users/'.$user->id.'/edit') }}" class="btn btn-success">Modifier</a>
-                                            <a href="{{ url('users/'.$user->id.'/delete') }}" class="btn btn-danger">Delete</a>
-
+                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
                                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
-                                                    Supprimer
+                                                    <i class="mdi mdi-delete"></i>
                                                 </button>
                                             </form>
                                         </td>
@@ -87,13 +82,13 @@
                                 
                             </tbody>
                         </table>
-                    </div> <!-- end table-responsive-->
+                    </div>
                 </div>
-            </div> <!-- end card -->
-        </div> <!-- end col -->
+            </div>
+        </div> 
     </div>
-    <!-- end row -->
+   
     
-</div> <!-- container -->
+</div> 
 
 @endsection

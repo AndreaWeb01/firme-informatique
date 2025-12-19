@@ -144,7 +144,7 @@
 
             <li class="menu-item">
                 <a href="{{ route('permissions.index') }}" class="menu-link waves-effect waves-light">
-                    <span class="menu-icon"><i class="bx bx-rule"></i></span>
+                    <span class="menu-icon"><i class="fa-solid fa-key"></i></span>
                     <span class="menu-text"> Permissions </span>
                 </a>
             </li>

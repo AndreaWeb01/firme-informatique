@@ -9,7 +9,7 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        $permissions = Permission::get();
+        $permissions = Permission::orderBy('id', 'desc')->get();
         return view('administration.role-permission.permissions.index', compact('permissions'));
     }
 
@@ -56,6 +56,7 @@ class PermissionController extends Controller
     {
         $permission = Permission::find($permissionId);
         $permission->delete();
-        return redirect('permissions')->with('status', 'Permission supprimée avec succès');
+        return redirect()->route('permissions.index')->with('status', 'Permission supprimée avec succès');
+
     }
 }

@@ -11,81 +11,89 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::all();
+        // $roles = Role::all();
+        $roles = Role::with('permissions')->paginate(15);
         return view('administration.role-permission.roles.index', compact('roles'));
     }
 
     public function create()
     {
-        return view('administration.role-permission.roles.create');
+        $permissions = Permission::orderBy('id', 'desc')->get();
+        return view('administration.role-permission.roles.create', compact('permissions'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|unique:roles,name',
+            'permissions' => 'array', // les permissions doivent être un tableau
         ]);
 
-        $role = $request->name;
-
-        Role::create([
-            'name' => $role
+        $role = Role::create([
+            'name' => $request->name,
+            'guard_name' => 'web', // important si non défini dans modèle
         ]);
+
+        $role->syncPermissions($request->permissions);
 
         return redirect()->route('roles.index')->with('status', 'Role enregistré avec succès');
-
     }
+
 
     public function edit(Role $role)
     {
-        return view('administration.role-permission.roles.edit', compact("role"));
+        $permissions = Permission::orderBy('id', 'desc')->get();
+        return view('administration.role-permission.roles.edit', compact("role", "permissions"));
     }
 
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name,'.$role->id
+            'name' => 'required|unique:roles,name,'.$role->id,
+            'permissions' => 'array|required', // les permissions doivent être un tableau
         ]);
 
         $role->update([
-            'name' => $request->name
+            'name' => $request->name,
         ]);
 
-        return redirect('roles')->with('status','Role modifié avec succès');
+        $role->syncPermissions($request->permissions);
+
+        return redirect()->route('roles.index')->with('status','Role modifié avec succès');
     }
 
     public function destroy($roleId)
     {
         $role = Role::find($roleId);
         $role->delete();
-        return redirect('roles')->with('status','Role supprimé avec succès');
+        return redirect()->route('roles.index')->with('status','Role supprimé avec succès');
     }
 
-    public function addPermissionToRole($roleId)
-    {
-        $permissions = Permission::get();
-        $role = Role::findOrFail($roleId);
-        $rolePermissions = DB::table('role_has_permissions')
-                                ->where('role_has_permissions.role_id', $role->id)
-                                ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-                                ->all();
+    // public function addPermissionToRole($roleId)
+    // {
+    //     $permissions = Permission::get();
+    //     $role = Role::findOrFail($roleId);
+    //     $rolePermissions = DB::table('role_has_permissions')
+    //                             ->where('role_has_permissions.role_id', $role->id)
+    //                             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+    //                             ->all();
 
-        return view('administration.role-permission.roles.add-permissions', [
-            'role' => $role,
-            'permissions' => $permissions,
-            'rolePermissions' => $rolePermissions
-        ]);
-    }
+    //     return view('administration.role-permission.roles.add-permissions', [
+    //         'role' => $role,
+    //         'permissions' => $permissions,
+    //         'rolePermissions' => $rolePermissions
+    //     ]);
+    // }
 
-    public function givePermissionToRole(Request $request, $roleId)
-    {
-        $request->validate([
-            'permission' => 'required'
-        ]);
+    // public function givePermissionToRole(Request $request, $roleId)
+    // {
+    //     $request->validate([
+    //         'permission' => 'required'
+    //     ]);
 
-        $role = Role::findOrFail($roleId);
-        $role->syncPermissions($request->permission);
+    //     $role = Role::findOrFail($roleId);
+    //     $role->syncPermissions($request->permission);
 
-        return redirect()->route('roles.index')->with('status','Autorisations ajoutées au rôle');
-    }
+    //     return redirect()->route('roles.index')->with('status','Autorisations ajoutées au rôle');
+    // }
 }

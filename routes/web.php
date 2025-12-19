@@ -13,6 +13,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SousCategoryController;
 use App\Http\Controllers\TypeProduitController;
@@ -26,7 +27,7 @@ use Illuminate\Http\Request;
 
 // Search
 Route::get('/search-produits', [ProduitController::class, 'search'])->name('produits.search');
-Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 // Home & Static pages
 Route::get('/', [HomeController::class, 'accueil'])->name('accueil');
@@ -35,7 +36,6 @@ Route::get('/notre-boutique', [HomeController::class, 'boutique'])->name('boutiq
 Route::get('/boutique/{slug}', [HomeController::class, 'descriptionProduit'])->name('produit.description');
 Route::get('/mescommandes', [HomeController::class, 'mescommandes'])->name('mescommandes');
 Route::get('/detailcommande/{numero_commande}', [HomeController::class, 'detailcommande'])->name('detailcommande');
-
 
 
 Route::get('/conseils', [HomeController::class, 'conseils'])->name('conseils');
@@ -101,6 +101,7 @@ Route::post('/commandes/{commande}/changer-statut', [CommandeController::class, 
 | Administration / Back-office Routes
 | -------------------------------------------------------------------------- */
 Route::prefix('administration')->group(function () {
+    
     Route::get('/register', [AdminController::class, 'showRegisterForm'])->name('admin.register');
     Route::post('/registerstore', [AdminController::class, 'register'])->name('adminstore.register');
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
@@ -143,8 +144,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('users', UserController::class)->except(['show']);
     // Roles
     Route::resource('roles', RoleController::class)->except(['show']);
-    Route::get('roles/{role}/give-permissions', [RoleController::class, 'addPermissionToRole'])->name('roles.addPermissionToRole');
-    Route::put('roles/{role}/give-permissions', [RoleController::class, 'givePermissionToRole'])->name('roles.givePermissionToRole');
     // Permissions
     Route::resource('permissions', PermissionController::class)->except(['show']);
 });

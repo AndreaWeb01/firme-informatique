@@ -58,19 +58,23 @@
                                     <tr>
                                         <th scope="row">{{ $key + 1 }}</th>
                                         <td>{{ $role->name }}</td>
-                                        <td>{{ $role->permissions->pluck('name')->implode(', ') }}</td>
+                                        <td>
+                                            @foreach($role->permissions as $permission)
+                                            <span class="badge bg-primary">{{ $permission->name }}</span>
+                                            @endforeach
+                                        </td>
                                         <td>{{ $role->created_at->diffForHumans() }}</td>
                                         <td>
-                                            <a href="{{ route('roles.addPermissionToRole', $role->id) }}" class="btn btn-warning">
+                                            {{-- <a href="{{ route('roles.addPermissionToRole', $role->id) }}" class="btn btn-warning">
                                                 Autorisations
-                                            </a>
-                                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-success">Modifier</a> 
+                                            </a> --}}
+                                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a> 
 
                                             <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce rôle ?')">
-                                                    Supprimer
+                                                    <i class="mdi mdi-delete"></i>
                                                 </button>
                                             </form>
                                         </td>

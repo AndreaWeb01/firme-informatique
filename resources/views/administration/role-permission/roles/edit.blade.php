@@ -5,55 +5,71 @@
 
 <!-- Start Content-->
 <div class="container-fluid">
-        
-  <!-- start page title -->
-  <div class="py-3 py-lg-4">
-      <div class="row">
-          <div class="col-lg-6">
-              <h4 class="page-title mb-0">Modifier Role</h4>
-          </div>
-          <div class="col-lg-6">
-              <div class="d-none d-lg-block">
-              <ol class="breadcrumb m-0 float-end">
-                  <li class="breadcrumb-item"><a href="javascript: void(0);">Tableau de bord</a></li>
-                  <li class="breadcrumb-item active">Roles</li>
-              </ol>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!-- end page title -->
 
-  <div class="row">
-      <div class="col-lg-12">
-          <div class="card">
-              <div class="card-body">
-                  <a href="{{ route('roles.index') }}" class="btn btn-soft-danger"> Liste Roles</a>
-                  <p class="sub-header"></p>
+    <!-- start page title -->
+    <div class="py-3 py-lg-4">
+        <div class="row">
+            <div class="col-lg-6">
+                <h4 class="page-title mb-0">Modifier Role</h4>
+            </div>
+            <div class="col-lg-6">
+                <div class="d-none d-lg-block">
+                    <ol class="breadcrumb m-0 float-end">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tableau de bord</a></li>
+                        <li class="breadcrumb-item active">Roles</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
 
-                  <form action="{{ route('roles.update', $role->id) }}" method="POST">
-                      @csrf
-                      @method('PUT')
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ route('roles.index') }}" class="btn btn-soft-danger"> Liste Roles</a>
+                    <p class="sub-header"></p>
 
-                      <div class="mb-3">
-                          <label for="" class="form-label">Nom</label>
-                          <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ $role->name }}" required>
-                          @error('name')
-                              <div class="alert alert-danger">{{ $message }}</div>
-                          @enderror
-                      </div>
+                    <form action="{{ route('roles.update', $role->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
 
-                      <button type="submit" class="btn btn-primary">Soumettre</button>
-                  </form>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Nom</label>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ $role->name }}" required>
+                            @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-              </div> <!-- end card-body-->
-          </div> <!-- end card-->
-      </div> <!-- end col-->
+                        <div class="mb-4">
+                            <label for="permissions" class="form-label fw-bold">Permissions</label>
+                            <div class="row g-3">
+                            @foreach($permissions as $permission)
+                            <div class="col-md-4">
+                                <div class="form-check custom-checkbox">
+                                    <input class="form-check-input border-info" type="checkbox" name="permissions[]" value="{{ $permission->name }}" id="perm-{{ $permission->id }}" {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                                    <label class="form-check-label text-black" for="perm-{{ $permission->id }}">
+                                        {{ $permission->name }}
+                                    </label>
+                                </div>
+                            </div>
+                            @endforeach
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Soumettre</button>
+                    </form>
+
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
 
 
-      
-  </div>
-  <!-- end row -->
+
+    </div>
+    <!-- end row -->
 
 </div> <!-- container -->
 

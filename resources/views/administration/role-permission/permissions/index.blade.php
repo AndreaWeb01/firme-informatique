@@ -53,20 +53,20 @@
                                         <td colspan="4" class="text-center">Aucune permission pour l'instant</td>
                                     </tr>
                                 @else
-                                    @foreach ($permissions as $permission)
+                                    @foreach ($permissions as $key => $permission)
                                     <tr>
-                                        <th scope="row">{{ $permission->id }}</th>
+                                        <th scope="row">{{ $key + 1 }}</th>
                                         <td>{{ $permission->name }}</td>
                                         <td>{{ $permission->created_at->diffForHumans() }}</td>
                                         <td>
 
-                                            <a href="{{ url('permissions/'.$permission->id.'/edit') }}" class="btn btn-success">Modifier</a>
+                                            <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
 
                                             <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette autorisation ?')">
-                                                    Supprimer
+                                                    <i class="mdi mdi-delete"></i>
                                                 </button>
                                             </form>
                                         </td>

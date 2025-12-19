@@ -79,25 +79,24 @@
                                 <label for="">Roles</label>
                                 <select name="roles[]" class="form-control">
                                     <option value="">Selectionner le role</option>
-                                    @foreach ($roles as $role)
-
-                                    <option value="{{ $role }}" {{ in_array($role, $userRoles) ? 'selected':'' }}>{{ $role }}</option>
-                                    @endforeach
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role }}" {{ in_array($role, $userRoles) ? 'selected':'' }}>{{ $role }}</option>
+                                        @endforeach
                                 </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Soumettre</button>
                         </form>
 
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+                    </div> 
+                </div> 
+            </div> 
 
 
             
         </div>
-        <!-- end row -->
+       
 
-    </div> <!-- container -->
+    </div> 
 
 @endsection
