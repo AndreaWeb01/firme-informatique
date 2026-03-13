@@ -36,8 +36,8 @@
                                 @csrf
                                 <div class="mb-3 row">
                                     <div class="col-md-6 mb-3">
-                                        <label for="nomproduit" class="form-label">Nom</label>
-                                        <input type="text" name="nomproduit" class="form-control" id="nomproduit" placeholder="Entrez le nom du produit" >
+                                        <label for="nomproduit"  class="form-label">Nom</label>
+                                        <input type="text" value="{{ old('nomproduit') }}" name="nomproduit" class="form-control" id="nomproduit" placeholder="Entrez le nom du produit" >
                                         @error('nomproduit')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -70,11 +70,11 @@
                                 <div id="section-prix-stock" class="row mb-3">
                                     <div class="col-md-6 mb-3">
                                         <label for="prix" class="form-label">Prix</label>
-                                        <input type="number" step="0.01" name="prix" class="form-control" placeholder="Prix">
+                                        <input type="number" step="0.01" name="prix" value="{{ old('prix') }}" class="form-control" placeholder="Prix">
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="stock" class="form-label">Stock</label>
-                                        <input type="number" name="stock" class="form-control" placeholder="Stock" required>
+                                        <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" placeholder="Stock" required>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="sku" class="form-label">Sku</label>
@@ -89,8 +89,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Description </label>
-                                    <textarea name="description" class="form-control" id="" cols="30" rows="5" placeholder="Ecrivez la description de la categorie"></textarea> 
+                                    <label for="description"  class="form-label">Description </label>
+                                    <textarea name="description" value="{{ old('description') }}" class="form-control" id="" cols="30" rows="5" placeholder="Ecrivez la description de la categorie"></textarea> 
                                     @error('description')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror

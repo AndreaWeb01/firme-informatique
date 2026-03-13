@@ -4,16 +4,16 @@
 
 @section('banner')
 
-<div class="about-contents">
+<div class="center">
     <h1>QUI SOMMES NOUS</h1>
 </div>
 
 @endsection
 
 @section('content')
-<main>
+<main class="main-about">
        
-        <section class="mb-5">
+        <section class="aproesct01 mb-5">
             <div class="wrap">
                 <div class="content mt-4">
                     <div class="rights">

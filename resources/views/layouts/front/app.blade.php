@@ -21,23 +21,26 @@
   </head>
   <body>
     <header id="nav" class="@yield('headerClass', 'headernav')">
+      <div class="hero">
+        <div>
+      <div class="fixed-top mt-3">
       <div class="top-bar">
         <div class="container">
           <div class="container1">
             <span>
-              <i class="fas fa-phone icone-hide"></i> 
+              <i class="fas fa-phone icone-hide"></i>
               <span class="number-hide">+225 27 24 36 11 97 / +225 07 07 49 47 72</span>
-              <i class="fas fa-map-marker-alt ms-4 mobile-hide"></i> 
+              <i class="fas fa-map-marker-alt ms-4 mobile-hide"></i>
               <span class="adresse-hide">Angré Nouveau Chu</span>
             </span>
-          </div>   
+          </div>
           <div class="container2">
             <span class="">
               @if(auth()->check())
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                   @csrf
                   <button type="submit" class="btn btn-link text-white me-3" id="login-btn">Se déconnecter</button>
-                </form> 
+                </form>
                 <a href="{{ route('dashboard') }}" class="text-white me-3" id="login-btn">Tableau de bord</a>
               @else
                 <a href="#" class="text-white me-3" id="login-btn">Se connecter</a>
@@ -46,7 +49,7 @@
             <span>
               <a href="{{ route('contact') }}#devis" class="text-white text-decoration-none devis-hide">Demander un devis</a>
             </span>
-          </div>        
+          </div>
         </div>
       </div>
 
@@ -84,8 +87,8 @@
                   <i class="fas fa-search search-icon"></i>
 
                   <!-- Zone des suggestions -->
-                  <div id="suggestionsBox" 
-                      style="position:absolute; top:40px; left:0; width:100%; background:white; 
+                  <div id="suggestionsBox"
+                      style="position:absolute; top:40px; left:0; width:100%; background:white;
                               border:1px solid #ddd; display:none; z-index:999;">
                   </div>
               </div>
@@ -98,7 +101,7 @@
 
 
               <!-- Panier (toujours visible) -->
-              <div class="cart me-2" id="panier">
+              <div class="cart me-2" id="panier" style="cursor: pointer">
                   <i class="fas fa-shopping-cart"></i>
               </div>
             </div>
@@ -108,83 +111,95 @@
             </button>
           </div>
         </div>
-      </nav> 
+      </nav>
+      </div>
 
       <div class="wrap">
 
         @yield('banner')
-      
+
+      </div>
+      </div>
+
       </div>
 
 
     <form action="{{ route('login') }}" method="POST" class="login-form">
-      @csrf 
+      @csrf
       <div class="titles">
         <h1>connexion</h1>
       </div>
+      @if($errors->has('email') || $errors->has('password'))
+        <div class="alert alert-danger mb-2 py-2 small">{{ $errors->first('email') ?: $errors->first('password') }}</div>
+      @endif
       <div class="erreur">
-        <input type="email" name="email" id="email" placeholder="Entrer votre email ou numero de téléphone" class="box">
+        <input type="email" name="email" id="email" value="{{ old('email') }}" placeholder="Entrer votre email" class="box" required autocomplete="username">
       </div>
       <div class="erreur">
-        <input type="password" name="password"  id="password" placeholder="Entrer votre mot de passe " class="box">
-      </div>  
+        <input type="password" name="password" id="password" placeholder="Entrer votre mot de passe" class="box" required autocomplete="current-password">
+      </div>
 
       <button class="btn" type="submit">Se connecter</button>
         <div class="authentication">
-          <p>Un nouveau client ? <a id="sigin">S'inscrire.</a></p>
-          <p>mot de passe oublié ? <a href="#" id="removePass">Rénitialisé</a></p>
+          <p >Un nouveau client ? <a id="sigin" style="cursor: pointer">S'inscrire.</a></p>
+          <p>mot de passe oublié ? <a href="#" id="removePass" style="cursor: pointer">Rénitialisé</a></p>
         </div>
     </form>
-   
-   
+
+
     <form action="{{ route('password.email') }}" method="POST" class="update-form">
       @csrf
       <div class="titless">
-        <h1>mot de passe oublié</h1>
+        <h1>Mot de passe oublié</h1>
       </div>
+      @if(session('status'))
+        <div class="alert alert-success mb-2 py-2 small">{{ session('status') }}</div>
+      @endif
+      @error('email')
+        <div class="alert alert-danger mb-2 py-2 small">{{ $message }}</div>
+      @enderror
       <div class="erreur">
-        <input type="email" name="email" placeholder="Entrer votre email" class="box">
+        <input type="email" name="email" value="{{ old('email') }}" placeholder="Entrer votre email" class="box" required>
       </div>
       <button class="btn-password" type="submit">recupérer</button>
       <div class="authentication">
-        <p>je me souviens de mon mot de passe, <a id="update-pass">Se connecter.</a></p>
+        <p>je me souviens de mon mot de passe, <a id="update-pass" style="cursor: pointer">Se connecter.</a></p>
       </div>
     </form>
-        @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <form action="{{  route('adminstore.register') }}" method="POST" class="sigin-form">  
+
+    <form action="{{ route('register') }}" method="POST" class="sigin-form">
       @csrf
       <div class="titles">
-        <h1>Inscription </h1>
+        <h1>Inscription client</h1>
+      </div>
+      @if($errors->any())
+        <div class="alert alert-danger mb-2 py-2 small">
+          <ul class="mb-0 ps-3">
+            @foreach($errors->all() as $err)<li>{{ $err }}</li>@endforeach
+          </ul>
+        </div>
+      @endif
+      <div class="erreur">
+        <input type="text" name="name" id="signup-name" value="{{ old('name') }}" placeholder="Entrer votre nom" class="box" required>
       </div>
       <div class="erreur">
-        <input type="text" name="nom" id="nom" placeholder="Entrer votre nom" class="box">
+        <input type="text" name="firstname" id="signup-firstname" value="{{ old('firstname') }}" placeholder="Entrer votre prénom" class="box" required>
       </div>
       <div class="erreur">
-        <input type="text" name="prenom" id="prenom" placeholder="Entrer votre prenom" class="box">
+        <input type="email" name="email" id="signup-email" value="{{ old('email') }}" placeholder="Entrer votre email" class="box" required>
       </div>
       <div class="erreur">
-        <input type="email" name="email" id="email" placeholder="Entrer votre email " class="box">
+        <input type="tel" name="telephone" id="signup-telephone" value="{{ old('telephone') }}" placeholder="Numéro de téléphone (optionnel)" class="box">
       </div>
       <div class="erreur">
-        <input type="tel" name="telephone" id="telephone" placeholder="Entrer numero de téléphone" class="box">
+        <input type="password" name="password" id="signup-password" placeholder="Mot de passe (min. 8 caractères)" class="box" required minlength="8" autocomplete="new-password">
       </div>
       <div class="erreur">
-        <input type="password" name="motdepasse" id="motdepasse" placeholder="Entrer votre mot de passe " class="box">
+        <input type="password" name="password_confirmation" id="signup-password-confirmation" placeholder="Confirmer votre mot de passe" class="box" required autocomplete="new-password">
       </div>
-      <div class="erreur">
-        <input type="password" name="motdepasse_confirmation" id="motdepasse_confirmation" placeholder="Confirmer votre mot de passe" class="box">
-      </div>
-      <button class="btn-inscription" type="submit">S'inscrire</button> 
+      <button class="btn-inscription" type="submit">S'inscrire</button>
         <div class="authentication">
-          <p>Un nouveau client ? <a id="login-from-signup">Se connecter.</a></p>
+          <p>Déjà client ? <a id="login-from-signup" style="cursor: pointer">Se connecter.</a></p>
         </div>
     </form>
 
@@ -194,12 +209,15 @@
       <div class="wrap">
 
           <!-- Popup panier -->
-          <div class="carts" style="display: none; z-index: 1000;">
-            
+          <div class="carts mt-4 " style="display: none; z-index: 1000; margin-top: 10px;">
+
           </div>
 
           <!-- Si panier vide -->
-          <div class="empty-cart" style="display: none;">
+          <div class="empty-cart mt-4" style="display: none; margin-top: 10px; z-index: 1000">
+              <button type="button" class="empty-cart-close" aria-label="Fermer">
+                  <i class="fas fa-times" style="font-size: 20px; cursor: pointer; margin-right: 7px;"></i>
+              </button>
               <i class="fas fa-sad-tear"></i>
               <h5>Votre panier est vide !</h5>
           </div>
@@ -212,57 +230,64 @@
       <a href="#" class="back-to-top" id="backToTop">&#8679;</a>
       <footer>
         <div class="wraps">
-          <div class="contenus">
-            <div class="contenu1">
-              <div class="logoF">
-                <a href="{{ route('accueil') }}"><img src="{{ url('assets/frontend/image/FID 2.png') }}" alt="logo fid blanc"></a>
-              </div>
-              <div class="end1">
-                <a style="text-decoration: none; color:white;" href="https://www.facebook.com/p/FIRME-de-lInformatique-61554997681433/?locale=fr_FR" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                <!-- <i class="fab fa-linkedin linkedin-icon"></i> -->
-                <a style="text-decoration: none; color:white;" href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                <!-- <i class="fab fa-tiktok"></i> -->
-                {{-- <i class="fab fa-youtube"></i> --}}
-              </div>
-            </div>  
-            <div class="menu">
-              <h1>SERVICES</h1>
-              <p>Fourniture de consommables et accessoires informatique</p>
-              <p>Fourniture dE  MATERIELs informatique</p>
-              <p>Fourniture de sOLUTIONS informatique</p>
-              <p>ENTRETIEN ET MAINTENACE DE MATERIELS INFORMATIQUE</p>
-              <p>TRAVAUX DE CÂBLAGES RESEAUX INFORMATIQUES ET TELEPHONIQUES</p>
-            </div>
-            <div class="info1">
-              <h1>Contact</h1>
-              <div class="lieu">
-                  <i class="fas fa-map-marker-alt me-1"></i>
-                  <p>Angré Nouveau CHU</p>
-              </div>
-              <div class="lieu">
-                  <i class="fas fa-envelope me-1"></i>
-                  <p>contact@firme-informatique.com</p>
-              </div>
-              <div class="lieu">
-                  <i class="fas fa-phone"></i>
-                  <p>+225 01 01 73 50 02</p>
+          <div class="footer-grid">
+
+            {{-- Colonne 1 : Logo --}}
+            <div class="footer-col footer-logo-col">
+              <a href="{{ route('accueil') }}">
+                <img src="{{ url('assets/frontend/image/FID 2.png') }}" alt="logo fid blanc">
+              </a>
+              <div class="footer-social">
+                <a href="https://www.facebook.com/p/FIRME-de-lInformatique-61554997681433/?locale=fr_FR" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
               </div>
             </div>
+
+            {{-- Colonne 2 : Services --}}
+            <div class="footer-col footer-services-col">
+              <h2>Services</h2>
+              <ul>
+                <li>Fourniture de consommables et accessoires informatique</li>
+                <li>Fourniture de matériels informatique</li>
+                <li>Fourniture de solutions informatique</li>
+                <li>Entretien et maintenance de matériels informatique</li>
+                <li>Travaux de câblages réseaux informatiques et téléphoniques</li>
+              </ul>
+            </div>
+
+            {{-- Colonne 3 : Contact --}}
+            <div class="footer-col footer-contact-col">
+              <h2>Contact</h2>
+              <div class="footer-contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Angré Nouveau CHU</span>
+              </div>
+              <div class="footer-contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>contact@firme-informatique.com</span>
+              </div>
+              <div class="footer-contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+225 01 01 73 50 02</span>
+              </div>
+            </div>
+
           </div>
-          <p class="copy" style="padding-bottom: 3rem; margin-top: 2rem; text-align: center; color: white;"> &copy; Conçu par <a href="https://attouco.com/" style="text-decoration: none; color: white;">FIRME ATTOU & CO</a></p>        
+          <p class="footer-copy">&copy; Conçu par <a href="https://attouco.com/">FIRME ATTOU & CO</a></p>
         </div>
       </footer>
 
       <script>
-      
+
         document.addEventListener('DOMContentLoaded', function () {
           const addToCartBtn = document.getElementById('addToCart');
           const panierIcon = document.getElementById('panier');
           const cartsDiv = document.querySelector('.carts');
           const emptyCartDiv = document.querySelector('.empty-cart');
+          const emptyCartCloseBtn = document.querySelector('.empty-cart-close');
           const wrapDiv = document.querySelector('.wrap');
 
-          
+
           // Ajouter un produit au panier (bouton unique pour page description)
           if (addToCartBtn) {
               addToCartBtn.addEventListener('click', function () {
@@ -282,8 +307,11 @@
                       body: JSON.stringify(data)
                   })
                   .then(res => res.json())
-                  .then(() => {
-                      // alert('Produit ajouté au panier !');
+                  .then((data) => {
+                      if (data && data.success === false) {
+                          alert(data.message || 'Stock insuffisant.');
+                          return;
+                      }
                       loadCart();
                   });
               });
@@ -313,8 +341,11 @@
                       body: JSON.stringify(data)
                   })
                   .then(res => res.json())
-                  .then(() => {
-                      // alert('Produit ajouté au panier !');
+                  .then((data) => {
+                      if (data && data.success === false) {
+                          alert(data.message || 'Stock insuffisant.');
+                          return;
+                      }
                       loadCart();
                   })
                   .catch(error => {
@@ -323,9 +354,33 @@
               }
           });
 
-          // Cliquer sur l’icône panier
+          // Cliquer sur l’icône panier (toggle ouvrir/fermer)
           if (panierIcon) {
-              panierIcon.addEventListener('click', loadCart);
+              panierIcon.addEventListener('click', function () {
+                  if (!cartsDiv || !emptyCartDiv) return;
+
+                  const cartVisible = cartsDiv.style.display === 'block';
+                  const emptyVisible = emptyCartDiv.style.display === 'block';
+
+                  // Si l'un des deux (panier plein ou panier vide) est visible, on le masque
+                  if (cartVisible || emptyVisible) {
+                      cartsDiv.style.display = 'none';
+                      emptyCartDiv.style.display = 'none';
+                      return;
+                  }
+
+                  // Sinon, on charge/affiche le mini-panier
+                  loadCart();
+              });
+          }
+
+          // Fermer le popup panier vide en cliquant sur le bouton "Fermer"
+          if (emptyCartCloseBtn) {
+              emptyCartCloseBtn.addEventListener('click', function () {
+                  if (!emptyCartDiv || !cartsDiv) return;
+                  emptyCartDiv.style.display = 'none';
+                  cartsDiv.style.display = 'none';
+              });
           }
 
           // Charger le mini-panier
@@ -343,12 +398,8 @@
                       let total = 0;
 
                       panier.forEach(produit => {
-                        // console.log(produit); 
-
                           const quantity = produit.quantity || 1;
                           total += parseFloat(produit.prix) * quantity;
-
-                          
 
                           cartsDiv.innerHTML += `
                               <div class="carts-product" data-id="${produit.id}" data-price="${produit.prix}">
@@ -365,6 +416,9 @@
                                       <span class="number">${quantity}</span>
                                       <button class="increment">+</button>
                                   </div>
+                                  <div class="remove">
+                                      <i class="fas fa-times delete-icon" style="cursor: pointer; color: red;"></i>
+                                  </div>
                               </div>
                           `;
                       });
@@ -376,7 +430,7 @@
                           </div>
                           <div class="action">
                               <div class="gotocart"><a href="{{ route('panier.afficher') }}">Aller au panier</a></div>
-                              <div class="gotobuy"><a href="#">Payer maintenant</a></div>
+                              <div class="gotobuy"><a href="{{ route('confirm.payment') }}">payer maintenant</a></div>
                           </div>
                       `;
 
@@ -384,8 +438,8 @@
                       emptyCartDiv.style.display = 'none';
                       addQuantityEvents();
 
-                      // Ajouter événement pour le bouton "Payer maintenant"
-                      
+                      // Faire apparaître directement le popup panier à l'écran
+                      cartsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
 
                   wrapDiv.style.display = 'block';
@@ -401,43 +455,75 @@
                   const decrementBtn = product.querySelector('.decrement');
                   const numberSpan = product.querySelector('.number');
                   const productId = product.dataset.id;
+                  const deleteIcon = product.querySelector('.delete-icon');
 
                   if (incrementBtn) {
                     incrementBtn.addEventListener('click', () => {
                     let quantity = parseInt(numberSpan.textContent);
                     quantity++;
-                    numberSpan.textContent = quantity;
-                    updateQuantityOnServer(productId, quantity);
-                    updateTotal();
+                    updateQuantityOnServer(productId, quantity).then((data) => {
+                      if (data && data.success === false) {
+                        alert(data.message || 'Stock insuffisant.');
+                      }
+                      if (data && typeof data.quantity !== 'undefined') {
+                        numberSpan.textContent = data.quantity;
+                      } else {
+                        numberSpan.textContent = quantity;
+                      }
+                      updateTotal();
+                    });
                   });
                   }
-                  
+
 
                   if (decrementBtn) {
                     decrementBtn.addEventListener('click', () => {
                       let quantity = parseInt(numberSpan.textContent);
                       if (quantity > 1) {
                           quantity--;
-                          numberSpan.textContent = quantity;
-                          updateQuantityOnServer(productId, quantity);
-                          updateTotal();
+                          updateQuantityOnServer(productId, quantity).then((data) => {
+                            if (data && data.success === false) {
+                              alert(data.message || 'Stock insuffisant.');
+                            }
+                            if (data && typeof data.quantity !== 'undefined') {
+                              numberSpan.textContent = data.quantity;
+                            } else {
+                              numberSpan.textContent = quantity;
+                            }
+                            updateTotal();
+                          });
                       }
                   });
                   }
-                  
+
+                  if (deleteIcon) {
+                      deleteIcon.addEventListener('click', () => {
+                          fetch("{{ route('panier.supprimer') }}", {
+                              method: 'POST',
+                              headers: {
+                                  'Content-Type': 'application/json',
+                                  'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                              },
+                              body: JSON.stringify({ id: productId })
+                          }).then(() => {
+                              // Recharger le contenu du mini-panier après suppression
+                              loadCart();
+                          });
+                      });
+                  }
+
               });
           }
 
           function updateQuantityOnServer(productId, quantity) {
-            // console.log(`Updating ${productId} to quantity ${quantity}`);
-            fetch("{{ route('panier.majpanier') }}", {
+            return fetch("{{ route('panier.majpanier') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify({ id: productId, quantity })
-            });
+            }).then(res => res.json());
           }
 
 
@@ -520,25 +606,41 @@
                   incrementBtn.addEventListener('click', () => {
                     let qty = parseInt(numberSpan.textContent);
                     qty++;
-                    numberSpan.textContent = qty;
-                    updateQuantityOnServer(produit.id, qty);
-                    updateTotalTable();
+                    updateQuantityOnServer(produit.id, qty).then((data) => {
+                      if (data && data.success === false) {
+                        alert(data.message || 'Stock insuffisant.');
+                      }
+                      if (data && typeof data.quantity !== 'undefined') {
+                        numberSpan.textContent = data.quantity;
+                      } else {
+                        numberSpan.textContent = qty;
+                      }
+                      updateTotalTable();
+                    });
                 });
                 }
-                
+
 
                 if (decrementBtn && numberSpan) {
                   decrementBtn.addEventListener('click', () => {
                     let qty = parseInt(numberSpan.textContent);
                     if (qty > 1) {
                         qty--;
-                        numberSpan.textContent = qty;
-                        updateQuantityOnServer(produit.id, qty);
-                        updateTotalTable();
+                        updateQuantityOnServer(produit.id, qty).then((data) => {
+                          if (data && data.success === false) {
+                            alert(data.message || 'Stock insuffisant.');
+                          }
+                          if (data && typeof data.quantity !== 'undefined') {
+                            numberSpan.textContent = data.quantity;
+                          } else {
+                            numberSpan.textContent = qty;
+                          }
+                          updateTotalTable();
+                        });
                     }
                   });
                 }
-                
+
 
                 if (deleteIcon) {
                   deleteIcon.addEventListener('click', () => {
@@ -555,7 +657,7 @@
                     });
                 });
                 }
-                
+
             });
 
             updateTotalTable();
@@ -640,65 +742,44 @@
   });
       </script>
 <script>
-document.getElementById('searchInput').addEventListener('keyup', function () {
+const searchInput = document.getElementById('searchInput');
+const searchIcon = document.querySelector('.search-icon');
 
-    let query = this.value.trim();
-    let box = document.getElementById('suggestionsBox');
+function runSearch() {
+    if (!searchInput) return;
+
+    let query = searchInput.value.trim();
 
     if (query.length === 0) {
-        box.style.display = 'none';
         return;
     }
 
-    fetch(`/search?query=${query}`)
-        .then(res => res.json())
-        .then(results => {
+    // Redirige vers la page boutique avec le terme de recherche
+    window.location.href = "{{ route('boutique') }}" + "?q=" + encodeURIComponent(query);
+}
 
-            if (results.length === 0) {
-                box.innerHTML = "<div style='padding:10px;'>Aucun résultat</div>";
-                box.style.display = 'block';
-                return;
-            }
+if (searchInput) {
+    // Valider la recherche avec la touche Entrée
+    searchInput.addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+            runSearch();
+        }
+    });
+}
 
-            let html = "";
-
-            results.forEach(item => {
-
-                // Produit
-                if (item.name) {
-                    let link = routes.produit.replace(':slug', item.slug);
-                    html += `
-                        
-                        <a href="${link}" class="suggest-item">
-                            ${item.name}
-                        </a>
-                        <br>
-                    `;
-                }
-
-                // Conseil
-                else if (item.titre) {
-                    let link = routes.conseil.replace(':slug', item.slug);
-                    html += `
-                        <a href="${link}" class="suggest-item">
-                          ${item.titre}
-                        </a>
-                        <br>
-                    `;
-                }
-            });
-
-            box.innerHTML = html;
-            box.style.display = 'block';
-        });
-});
+if (searchIcon) {
+    // Valider la recherche au clic sur l'icône
+    searchIcon.addEventListener('click', function () {
+        runSearch();
+    });
+}
 </script>
 
 
 
- 
 
-      
+
+
 
       <script src="{{ url('assets/frontend/js/back.js') }}"></script>
       <script src="{{ url('assets/frontend/js/counter.js') }}"></script>

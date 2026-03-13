@@ -43,7 +43,6 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Nom</th>
-                                    <th>Permissions</th>
                                     <th>Crée à</th>
                                     <th>Actions</th>
                                 </tr>
@@ -58,12 +57,11 @@
                                     <tr>
                                         <th scope="row">{{ $key + 1 }}</th>
                                         <td>{{ $role->name }}</td>
-                                        <td>{{ $role->permissions->pluck('name')->implode(', ') }}</td>
                                         <td>{{ $role->created_at->diffForHumans() }}</td>
                                         <td>
-                                            <a href="{{ route('roles.addPermissionToRole', $role->id) }}" class="btn btn-warning">
+                                            {{-- <a href="{{ route('roles.addPermissionToRole', $role->id) }}" class="btn btn-warning">
                                                 Autorisations
-                                            </a>
+                                            </a> --}}
                                             <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-success">Modifier</a> 
 
                                             <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display: inline;">

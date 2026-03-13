@@ -4,7 +4,7 @@
 
  <!-- Start Content-->
  <div class="container-fluid">
-        
+
     <!-- start page title -->
     <div class="py-3 py-lg-4">
         <div class="row">
@@ -43,7 +43,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description (optionel)</label>
-                            <textarea name="description" class="form-control" id="description" cols="30" rows="8" >{{ $category->description }}</textarea> 
+                            <textarea name="description" class="form-control" id="description" cols="30" rows="8" >{{ $category->description }}</textarea>
                             @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -52,11 +52,11 @@
                     </form>
 
                 </div>
-            </div> 
-        </div> 
+            </div>
+        </div>
 
 
-        
+
     </div>
     <!-- end row -->
 

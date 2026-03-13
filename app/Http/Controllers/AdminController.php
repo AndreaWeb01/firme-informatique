@@ -13,7 +13,7 @@ class AdminController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('admin.register');
+        return view('auth.register');
     }
 
     public function register(Request $request)
@@ -23,19 +23,27 @@ class AdminController extends Controller
             'prenom' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users',
             'motdepasse' => 'required|min:8|confirmed',
+            'role' => 'required|in:administrateur,client',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->nom,
             'prenom' => $request->prenom,
             'email' => $request->email,
             'password' => Hash::make($request->motdepasse),
+
         ]);
 
-        $admin = User::where('email', $request->email)->first();
-        $admin->assignRole('Client');
+        // Assigner le rôle à l'utilisateur (utilise le guard par défaut "administrateur")
+        $user->assignRole($request->role);
 
-        return redirect()->route('admin.dashboard');
+        // redirection selon le rôle attribué
+        if ($user->hasRole('administrateur')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        // rediriger vers la page d'accueil publique
+        return redirect()->route('accueil');
     }
 
     public function login()
@@ -43,28 +51,28 @@ class AdminController extends Controller
         return view('admin.login');
     }
 
-    public function loginstore(Request $request)
+    public function loginstore(\App\Http\Requests\Auth\LoginRequest $request)
     {
         $request->authenticate();
 
         $request->session()->regenerate();
-        
+
         // Vérifier si l'utilisateur est un admin
         $user = User::find(Auth::id());
-        if ($user->hasRole('Administrateur')) {
+        if ($user && $user->hasRole('administrateur')) {
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Utilisateur "classique" : redirection vers la page d'accueil
+        return redirect()->intended(route('accueil', absolute: false));
     }
 
-    
+
     public function dashboard()
     {
-            $commandesrecent = Commande::orderBy('created_at', 'desc')
-                               ->limit(10)
-                               ->get();
-     
+            $commandesrecent = Commande::orderBy('created_at', 'desc')->limit(10)->get();
+
+
     return view('dashboard-admin', [
         'produits'  => Produit::count(),
         'commandes' => Commande::count(),

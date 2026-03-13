@@ -4,18 +4,20 @@
 
 @section('banner')
 
-<div class="about-contents">
+<div class="center">
+<div class="about-content">
     <h1>CONSEIL ...</h1>
-    <p style="text-align: center;">Consultez nos conseils pour booster votre productivité, sécuriser vos données et pour 
-être au parfum des dernières actualités du milieu de la Tech – l'informatique n'aura 
+    <p>Consultez nos conseils pour booster votre productivité, sécuriser vos données et pour
+être au parfum des dernières actualités du milieu de la Tech – l'informatique n'aura
 plus de secrets pour vous ! </p>
+</div>
 </div>
 
 @endsection
 
 @section('content')
 
-<main>
+<main class="main-conseils">
     <section class="py-3 mb-5">
         <div class="wrap">
             <div class="cadreActu">
@@ -24,7 +26,7 @@ plus de secrets pour vous ! </p>
                     <a href="{{ route('conseils.show', $conseil->slug) }}">
                         <div class="cadre1">
                             <div class="cadImage">
-                                <img src="{{ url('uploads/conseils', $conseil->image) }}" alt="">
+                                <img src="{{ asset('storage/' . $conseil->image) }}" alt="">
                             </div>
                             <div class="conseil-titre">
                                 <p>{{ $conseil->titre }}</p>
@@ -38,9 +40,9 @@ plus de secrets pour vous ! </p>
                         </div>
                     </a>
                 @endforeach
-                
+
             </div>
-            
+
         </div>
     </section>
 </main>

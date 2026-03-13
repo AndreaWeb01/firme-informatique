@@ -4,7 +4,7 @@
 
 <!-- Start Content-->
 <div class="container-fluid">
-        
+
     <!-- start page title -->
     <div class="py-3 py-lg-4">
         <div class="row">
@@ -21,17 +21,28 @@
             </div>
         </div>
     </div>
-    <!-- end page title -->
 
+
+    <!-- end page title -->
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <p class="sub-header"></p>
-                    @if (session('status'))
+                    <div class="mb-3">
+                        <div></div>
+                        <a href="{{ route('actuconseils.create') }}" class="btn btn-soft-danger">Ajouter un conseil</a>
+                    </div>
+
+                    @if (session('success'))
                         <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('message'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('message') }}
                         </div>
                     @endif
 
@@ -42,6 +53,7 @@
                                     <th>N°</th>
                                     <th>Image</th>
                                     <th>Titre</th>
+                                    <th>Statut</th>
                                     <th>Publié le</th>
                                     <th>Actions</th>
                                 </tr>
@@ -50,19 +62,26 @@
 
                                 @if ($actuconseils->isEmpty())
                                     <tr>
-                                        <td colspan="5" class="text-center">Aucun conseils pour l'instant</td>
+                                        <td colspan="6" class="text-center">Aucun conseils pour l'instant</td>
                                     </tr>
                                 @else
                                     @foreach ($actuconseils as $key => $conseils)
                                     <tr>
-                                        <th scope="row">{{ $key + 1 }}</th>
-                                        <td><img src="{{ url('uploads/conseils', $conseils->image) }}" alt="" width="50" height="50"></td>
+                                        <th scope="row">{{ method_exists($actuconseils, 'firstItem') ? ($actuconseils->firstItem() + $key) : ($key + 1) }}</th>
+                                        <td><img src="{{ asset('storage/' . $conseils->image) }}" alt="" width="50" height="50"></td>
                                         <td>{{ $conseils->titre }}</td>
+                                        <td>
+                                            @if($conseils->statut)
+                                                <span class="badge bg-success">Publié</span>
+                                            @else
+                                                <span class="badge bg-secondary">Brouillon</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $conseils->created_at->diffForHumans() }}</td>
                                         <td>
 
                                             <a href="{{ route('actuconseils.show', $conseils->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>
-                                            <!-- <a href="{{ route('actuconseils.edit', $conseils->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a> -->
+                                            <a href="{{ route('actuconseils.edit', $conseils->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
 
                                             <form action="{{ route('actuconseils.destroy', $conseils->id) }}" method="POST" style="display: inline;">
                                                 @csrf
@@ -70,21 +89,27 @@
                                                 <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet conseil?')">
                                                     <i class="mdi mdi-delete"></i>
                                                 </button>
-                                            </form> 
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach
                                 @endif
-                                
+
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->
+
+                    @if (method_exists($actuconseils, 'links'))
+                        <div class="mt-3">
+                            {{ $actuconseils->links() }}
+                        </div>
+                    @endif
                 </div>
             </div> <!-- end card -->
         </div> <!-- end col -->
     </div>
     <!-- end row -->
-    
+
 </div> <!-- container -->
 
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Payment;
 
 class Commande extends Model
 {
@@ -31,5 +32,19 @@ class Commande extends Model
     public function items()
     {
         return $this->hasMany(CommandeItem::class);
+    }
+
+    //
+    public function produits()
+    {
+        return $this->belongsToMany(Produit::class)
+                    ->withPivot('quantite', 'prix')
+                    ->withTimestamps();
+    }
+
+    //
+    public function paiement()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

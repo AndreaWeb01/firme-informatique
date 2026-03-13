@@ -12,7 +12,7 @@
     </div>
     <div class="contents">
         <h1>Bienvenue ! Vous êtes au bon endroit, Ici on parle d’informatique ! <br>
-            Matériel informatique, système de sécurité, réseaux et 
+            Matériel informatique, système de sécurité, réseaux et
             maintenance<br>
             On s’occupe de tout ! </h1>
         <a href="{{ route('boutique') }}" class="btn-yellow">Commencer vos achats</a>
@@ -22,7 +22,7 @@
 @endsection
 
 @section("content")
-<main>
+<main class="main-accueil">
     <section class="mb-4">
         <div class="wrap">
             <div class="title">
@@ -38,7 +38,7 @@
                     <div class="overlay"></div>
                     <img src="{{ url('assets/frontend/image/materiel-info.jpg')}}" alt="">
                     <p>Fourniture de matériels, accessoires informatiques et consommables</p>
-                    <a href="{{ route('accessoiresmaterielinfo',1) }}">En savoir plus</a>  
+                    <a href="{{ route('accessoiresmaterielinfo',1) }}">En savoir plus</a>
                 </div>
                 <div class="service">
                     <div class="service1">
@@ -86,24 +86,31 @@
                 @foreach ($productsRecents as $product)
                 <div class="cadre">
                     <div class="cadImage">
-                        <img src="{{ url('storage/'. $product->image_principale) }}" alt="">        
+                        <img src="{{ url('storage/'. $product->image_principale) }}" alt="">
+                    </div>
+                    <div class="search-cart">
+                        <button class="add-to-cart-btn"
+                                data-id="{{ $product->id }}"
+                                data-name="{{ $product->name }}"
+                                data-price="{{ $product->prix }}"
+                                data-image="{{ asset('storage/' . $product->image_principale) }}"
+                                title="Ajouter au panier">
+                            <div class="cart"><i class="fas fa-shopping-cart"></i></div>
+                        </button>
                     </div>
                     <a href="{{ route('produit.description', ['slug' => $product->slug, 'id' => $product->id]) }}">
-                        <div class="search-cart">
-                            <div class="cart"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="product-detail">
+                            <p>{{ $product->name }}</p>
+                        </div>
+                        <div class="prix">
+                            <p>{{ $product->prix }} Fcfa</p>
+                        </div>
+                        <div class="price">
+                            <p>{{ $product->prix }} Fcfa</p>
                         </div>
                     </a>
-                    <div class="product-detail">
-                        <p>{{ $product->name }}</p>
-                    </div>
-                    <div class="prix">
-                        <p>{{ $product->prix }} Fcfa</p>
-                    </div>
-                    <div class="price">
-                        <p>{{ $product->prix }} Fcfa</p>    
-                    </div>
-            </div>
-            @endforeach
+                </div>
+                @endforeach
         </div>
     </section>
     <section class="py-5 describe">
@@ -169,7 +176,7 @@
                 </div>
                 <div class="patern-image">
                     <img src="{{ url('assets/frontend/image/logo_AFB.png')}}" alt="">
-                </div>   
+                </div>
             </div>
         </div>
     </section>
@@ -182,17 +189,17 @@
     </section>
     <section class="py-5">
         <div class="wrap">
-            <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">  
+            <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
                 @foreach ($productsRecents as $productsRecent)
                     <div class="cadre">
                         <div class="cadImage">
                             <img src="{{ url('storage/'. $productsRecent->image_principale)}}" alt="">
                         </div>
                         <div class="search-cart">
-                        <button href="#" class="add-to-cart-btn" 
-                                        data-id="{{ $productsRecent->id }}" 
-                                        data-name="{{ $productsRecent->name }}" 
-                                        data-price="{{ $productsRecent->prix }}" 
+                        <button href="#" class="add-to-cart-btn"
+                                        data-id="{{ $productsRecent->id }}"
+                                        data-name="{{ $productsRecent->name }}"
+                                        data-price="{{ $productsRecent->prix }}"
                                         data-image="{{ asset('storage/' . $productsRecent->image_principale) }}"
                                         title="Ajouter au panier">
                                     <div class="cart"><i class="fas fa-shopping-cart"></i></div>
@@ -232,14 +239,14 @@
                                 <div class="testimonial-content">
                                     <img src="{{ url('assets/frontend/image/quote_7350737 1.png')}}" alt="" class="image1">
                                     <p class="testimonial-text">
-                                        J'espère que la semaine commence bien de votre côté. 
-                                        Je vous remercie pour toutes les démarches, 
+                                        J'espère que la semaine commence bien de votre côté.
+                                        Je vous remercie pour toutes les démarches,
                                         c'est apprécié ! Je reste à l'écoute . Excellente journée
                                     </p>
                                     <img src="{{ url('assets/frontend/image/quote_7350737 2.png')}}" alt="" class="image2">
                                 </div>
                             </div>
-                            
+
                             <div class="swiper-slide">
                                 <div class="testimonial-header">
                                     <!-- <img src="image/portrait.jpg" alt="Kouakou Lorrain" class="testimonial-img"> -->
@@ -248,13 +255,13 @@
                                 <div class="testimonial-content">
                                     <img src="{{ url('assets/frontend/image/quote_7350737 1.png')}}" alt="" class="image1">
                                     <p class="testimonial-text">
-                                        Vous faites un excellent travail en concentrant vos services sur la satisfaction client, 
-                                        ce qui manque à beaucoup d'entreprises dans nos pays. 
+                                        Vous faites un excellent travail en concentrant vos services sur la satisfaction client,
+                                        ce qui manque à beaucoup d'entreprises dans nos pays.
                                     </p>
                                     <img src="{{ url('assets/frontend/image/quote_7350737 2.png') }}" alt="" class="image2">
                                 </div>
                             </div>
-    
+
                             <div class="swiper-slide">
                                 <div class="testimonial-header">
                                     <p class="testimonial-name mt-3"><strong>Kouakou Lorrain</strong></p>
@@ -263,8 +270,8 @@
                                     <img src="{{ url('assets/frontend/image/quote_7350737 1.png')}}" alt="" class="image1">
                                     <p class="testimonial-text">
                                         Ipsum dolor sit amet consectetur elit, sapiente quasi!
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                        Ad, inventore consequuntur perferendis quod 
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        Ad, inventore consequuntur perferendis quod
                                     </p>
                                     <img src="{{ url('assets/frontend/image/quote_7350737 2.png')}}" alt="" class="image2">
                                 </div>
@@ -273,7 +280,7 @@
                     </div>
                 </div>
             </div>
-        </div>   
+        </div>
     </section>
     <section class="mb-4 py-5">
         <div class="wrap">
@@ -289,13 +296,17 @@
                     <a href="{{ route('conseils.show', $conseilsRecent->slug ) }}">
                     <div class="cadre1">
                         <div class="cadImage">
-                            <img src="{{ url('uploads/conseils', $conseilsRecent->image)}}" alt="">
+                            <img src="{{ asset('storage/' . $conseilsRecent->image)}}" alt="">
                         </div>
                         <div class="conseil-titre">
                             <p>{{ $conseilsRecent->titre }}</p>
                         </div>
-                        <div class="text-actu">
+                        {{-- <div class="text-actu">
                             <p>{{ $conseilsRecent->description }}</p>
+                            
+                        </div> --}}
+                        <div class="text-actu">
+                            <p>{!! Str::limit(strip_tags($conseilsRecent->description ), 100) !!}</p>
                         </div>
                         <div class="conseil-date mt-4">
                             <p>Publié le {{ $conseilsRecent->created_at->format('d/m/Y') }}</p>

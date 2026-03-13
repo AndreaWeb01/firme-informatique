@@ -34,7 +34,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="nomcategorie" class="form-label">Nom categorie</label>
-                            <input type="text" name="nomcategorie" class="form-control" id="nomcategorie" placeholder="Entrez le nom de la categorie" required>
+                            <input type="text" name="nomcategorie" class="form-control" id="nomcategorie" placeholder="Entrez le nom de la categorie" value="{{ old('nomcategorie') }}" required>
                             @error('nomcategorie')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -42,12 +42,17 @@
 
                         <div class="mb-3">
                             <label for="typeproduit" class="form-label">Type produit</label>
-                            <select name="typeproduit" id="typeproduit" class="form-control">
-                                <option>Choisir un type produit</option>
+                            <select name="typeproduit" id="typeproduit" class="form-control" required>
+                                <option value="">Choisir un type produit</option>
                                 @foreach ($typesProduits as $type)
-                                    <option value="{{ $type->id }}">{{ $type->Nom_TypeProduit }}</option>
+                                    <option value="{{ $type->id }}" {{ old('typeproduit') == $type->id ? 'selected' : '' }}>
+                                        {{ $type->Nom_TypeProduit }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('typeproduit')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
                         </div>
                         
                         <button class="btn btn-primary" type="submit">Soumettre</button>

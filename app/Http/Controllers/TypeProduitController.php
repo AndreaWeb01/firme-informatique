@@ -23,7 +23,7 @@ class TypeProduitController extends Controller
     public function create()
     {
         return view('administration.typeproduits.create');
-        
+
     }
 
     /**
@@ -54,33 +54,54 @@ class TypeProduitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    // public function edit(TypeProduits $typeProduits)
+    // {
+    //     return view('administration.typeproduits.edit', compact('typeProduits'));
+    // }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, TypeProduits $typeProduits)
+    // {
+    //     $request->validate([
+    //         'nomtypeproduit'     => 'required|string|max:255',
+    //     ]);
+
+    //     $typeProduits->update([
+    //         'Nom_TypeProduit' => $request->nomtypeproduit,
+    //         ]);
+
+    //     return redirect()->route('typeproduits.index')->with('success', 'Type Produit modifié avec succès.');
+    // }
+
+
     public function edit(TypeProduits $typeProduits)
-    {
-        return view('administration.typeproduits.edit', compact('typeProduits'));
-    }
+{
+    return view('administration.typeproduits.edit', compact('typeProduits'));
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TypeProduits $typeProduits)
-    {
-        $request->validate([
-            'nomtypeproduit'     => 'required|string|max:255',
-        ]);
+public function update(Request $request, TypeProduits $typeProduits)
+{
+    $request->validate([
+        'nomtypeproduit' => 'required|string|max:255',
+    ]);
 
-        $typeProduits->update([
-            'Nom_TypeProduit' => $request->nomtypeproduit,
-            ]);
+    $typeProduits->update([
+        'Nom_TypeProduit' => $request->nomtypeproduit,
+    ]);
 
-        return redirect()->route('typeproduits.index')->with('success', 'Type Produit modifié avec succès.');   
-    }
+    return redirect()
+        ->route('typeproduits.index')
+        ->with('success', 'Type Produit modifié avec succès.');
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-        $typeProduits = TypeProduits::findOrFail($id);  
+        $typeProduits = TypeProduits::findOrFail($id);
         $typeProduits->delete();
 
         return redirect()->route('typeproduits.index')->with('success', 'Type Produit supprimé avec succès.');

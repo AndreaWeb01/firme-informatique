@@ -65,7 +65,7 @@
                     </form>
 
                     <div class="authentication mt-3">
-                        <p>Nouveau sur la plateforme ? <a href="{{ route('accueil') }}">Créer un compte</a></p>
+                        <p>Nouveau sur la plateforme ? <a href="{{ route('admin.register') }}">Créer un compte</a></p>
                     </div>
                 </div>
             </div>

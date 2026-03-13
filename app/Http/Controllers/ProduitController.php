@@ -30,7 +30,7 @@ class ProduitController extends Controller
      */
     public function create()
     {
-        $typeproduits = TypeProduits::with('categories')->get(); 
+        $typeproduits = TypeProduits::with('categories')->get();
         return view('administration.produits.create', compact('typeproduits'));
     }
 
@@ -73,10 +73,10 @@ class ProduitController extends Controller
             // Handle secondary images (limit to 3)
             if ($request->hasFile('images')) {
                 $images = array_slice($request->file('images'), 0, 3);
-                
+
                 foreach ($images as $image) {
                     $chemin = $this->uploadImage($image, 'produit_images');
-                    
+
                     ImageProduit::create([
                         'produit_id' => $produit->id,
                         'chemin_image' => $chemin,
@@ -99,7 +99,7 @@ class ProduitController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            
+
             // Clean up uploaded images if transaction fails
             if (isset($imagePath)) {
                 Storage::delete($imagePath);
@@ -120,7 +120,7 @@ class ProduitController extends Controller
 
     $userId = auth()->id() ?? null; // Assurez-vous que l'utilisateur est connecté
 
- 
+
     // Récupérer le produit
     $product = Produit::findOrFail($produit->id);
     $produit->load('images', 'categorie', 'stocks');
@@ -132,7 +132,7 @@ class ProduitController extends Controller
      */
     public function edit(Produit $produit)
     {
-        $typeproduits = TypeProduits::with('categories')->get(); 
+        $typeproduits = TypeProduits::with('categories')->get();
         return view('administration.produits.edit', compact('produit', 'typeproduits'));
     }
 
@@ -189,10 +189,10 @@ class ProduitController extends Controller
                 $currentImagesCount = $produit->images()->count();
                 $maxNewImages = max(0, 3 - $currentImagesCount);
                 $images = array_slice($request->file('images'), 0, $maxNewImages);
-                
+
                 foreach ($images as $image) {
                     $chemin = $this->uploadImage($image, 'produit_images');
-                    
+
                     ImageProduit::create([
                         'produit_id' => $produit->id,
                         'chemin_image' => $chemin,
@@ -268,7 +268,7 @@ class ProduitController extends Controller
         $counter = 1;
 
         $query = Produit::where('slug', $slug);
-        
+
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);
         }
@@ -277,7 +277,7 @@ class ProduitController extends Controller
             $slug = $originalSlug . '-' . $counter;
             $counter++;
             $query = Produit::where('slug', $slug);
-            
+
             if ($excludeId) {
                 $query->where('id', '!=', $excludeId);
             }
@@ -293,7 +293,7 @@ class ProduitController extends Controller
     {
         $extension = $file->getClientOriginalExtension();
         $filename = time() . '_' . uniqid() . '.' . $extension;
-        
+
         // Store in storage/app/public directory
         return $file->storeAs($directory, $filename, 'public');
     }
@@ -311,6 +311,7 @@ class ProduitController extends Controller
 
                 $query->where(function($q) use ($term) {
                     $q->where('name', 'LIKE', '%' . $term . '%')
+                      ->orWhere('description', 'LIKE', '%' . $term . '%')
                       ->orWhereHas('categorie', function($sub) use ($term) {
                           $sub->where('Nom_Categorie', 'LIKE', '%' . $term . '%');
                       });
@@ -332,7 +333,7 @@ class ProduitController extends Controller
                 });
 
             return response()->json($produits);
-        
+
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Erreur lors de la recherche',

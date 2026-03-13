@@ -44,13 +44,15 @@
                                     <th>Produit</th>
                                     <th>Quantité</th>
                                     <th>Mouvement</th>
+                                    <th>Stock Actuel</th>
+                                    <th>Date de création</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if ($stocks->isEmpty())
                                     <tr>
-                                        <td colspan="4" class="text-center">Aucun stock pour l'instant</td>
+                                        <td colspan="7" class="text-center">Aucun stock pour l'instant</td>
                                     </tr>
                                 @else
                                     @foreach ($stocks as $key => $stock)
@@ -59,8 +61,10 @@
                                         <td>{{ $stock->produit->name }}</td>
                                         <td>{{ $stock->quantité }}</td>
                                         <td>{{ $stock->mouvement }}</td>
+                                        <td>{{ $stockActuelParProduit[$stock->produit_id] ?? 0 }}</td>
+                                        <td>{{ optional($stock->created_at)->format('d/m/Y H:i') }}</td>
                                         <td>
-                                            <a href="{{ route('stocks.show', $stock->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>    
+                                            <a href="{{ route('produits.show', $stock->produit_id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>    
                                              <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
                                             <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST" style="display: inline;">
                                                 @csrf

@@ -42,25 +42,46 @@
                                     <img src="{{ asset('storage/'.$image->chemin_image )}}" alt="">
                                 </div>
                              @endforeach
-                            
+
                         </div>
                     </div>
                     <div class="explit-product">
                         <h6>{{ $produit->name }}</h6>
                         <h5>{{ $produit->prix }} FCFA</h5>
-                        <div class="title">
-                            <h1>DESCRIPTION</h2>
+
+                        @php
+                            $stockActuel = $produit->stockDisponible();
+                        @endphp
+                        <p style="margin-top: 10px; font-weight: 600;">
+                            Stock actuel :
+                            @if ($stockActuel > 0)
+                                <span style="color: green;">{{ $stockActuel }} en stock</span>
+                            @else
+                                <span style="color: red;">Rupture de stock</span>
+                            @endif
+                        </p>
+
+                        <div class="title" style="margin-top: 15px;">
+                            <h1>DESCRIPTION</h1>
                         </div>
                         <p>
-                            {{ $produit->description }}</p><p>
-                           
+                            {{ $produit->description }}
                         </p>
-                        <button 
-                        id="addToCart" 
-                        data-id="{{ $produit->id }}" 
-                        data-name="{{ $produit->name }}"
-                        data-price="{{ $produit->prix }}" 
-                        ata-image="{{ url('/storage/'. $produit->image_principale )}}">Ajouter au panier</button>
+
+                        <button
+                            id="addToCart"
+                            data-id="{{ $produit->id }}"
+                            data-name="{{ $produit->name }}"
+                            data-price="{{ $produit->prix }}"
+                            data-image="{{ url('/storage/'. $produit->image_principale )}}"
+                            @if ($stockActuel <= 0) disabled class="btn-disabled" style="background:#ccc; cursor:not-allowed;" @endif
+                        >
+                            @if ($stockActuel <= 0)
+                                Indisponible
+                            @else
+                                Ajouter au panier
+                            @endif
+                        </button>
                     </div>
                 </div>
            </div>
@@ -82,33 +103,34 @@
                         <div class="cadImage">
                             <img src="{{ url('storage/'. $vue->produit->image_principale )}}" alt="">
                         </div>
-                        <a href="#">
-                            <div class="search-cart">
+                        <div class="search-cart">
+                            <button class="add-to-cart-btn"
+                                    data-id="{{ $vue->produit->id }}"
+                                    data-name="{{ $vue->produit->name }}"
+                                    data-price="{{ $vue->produit->prix }}"
+                                    data-image="{{ asset('storage/' . $vue->produit->image_principale) }}"
+                                    title="Ajouter au panier">
                                 <div class="cart"><i class="fas fa-shopping-cart"></i></div>
+                            </button>
+                        </div>
+                        <a href="{{ route('produit.description', ['slug' => $vue->produit->slug, 'id' => $vue->produit->id]) }}">
+                            <div class="product-detail">
+                                <p>{{ $vue->produit->name }}</p>
+                            </div>
+                            <div class="prix">
+                                <p>{{ $vue->produit->prix }} FCFA</p>
+                            </div>
+                            <div class="price">
+                                <p>{{ $vue->produit->prix }} FCFA</p>
                             </div>
                         </a>
-                     
-                        
-                        <div class="product-detail">
-                            <p>{{ $vue->produit->name }}</p>
-                        </div>
-                        <div class="prix">
-                            <p>{{ $vue->produit->prix }} FCFA</p>
-                        </div>
-                        <div class="price">
-                            <p>{{ $vue->produit->prix }} FCFA</p>
-                        </div>
- 
-                       
-               
-                     
-                    </div> 
+                    </div>
                     @endforeach
                 </div>
             </div>
         </section>
 
     </main>
-    
+
 
 @endsection

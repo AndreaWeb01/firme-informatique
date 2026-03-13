@@ -39,13 +39,13 @@
             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <img src="{{ url('assets/backend/images/users/avatar-4.jpg') }}" alt="user-image" class="rounded-circle">
                 <span class="ms-1 d-none d-md-inline-block">
-                    {{-- {{ ucwords(Auth::user()->name) }} <i class="mdi mdi-chevron-down"></i> --}} coucou 
+                    {{ ucwords(Auth::user()->name) }} <i class="mdi mdi-chevron-down"></i> 
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
                 <!-- item-->
                 <div class="dropdown-header noti-title">
-                    <h6 class="text-overflow m-0">Welcome !</h6>
+                    <h6 class="text-overflow ml-4">Welcome !</h6>
                 </div>
 
                 <!-- item-->
@@ -57,7 +57,7 @@
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i> Deconnexion</a>
+                <a class="mb-2 m-2" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i> Deconnexion</a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

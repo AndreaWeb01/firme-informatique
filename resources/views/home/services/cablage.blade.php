@@ -22,7 +22,7 @@
                     </div>
                     <div class="cadImages1">
                         <img src="{{ url('assets/frontend/image/electric-cable.jpg') }}" alt="" >
-                    </div>    
+                    </div>
                 </div>
                 <div class="right">
                     <div class="cadImages2 mb-3">
@@ -30,50 +30,50 @@
                     </div>
                     <div class="cadImages2">
                         <img src="{{ url('assets/frontend/image/women-cable.jpg') }}" alt="" >
-                    </div>    
+                    </div>
                 </div>
                 <div class="lefts">
-                    <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                    <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
                         nisi ut aliquip ex ea commodo consequat
                     </p>
                     <div class="btn-contact mt-5">
                         <a href="{{ route('contact') }}">Contactez-nous</a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -93,14 +93,14 @@
                 @foreach ($conseilsRecents as $conseilsRecent)
                     <div class="cadre2">
                         <div class="cadImage">
-                            <img src="{{ url('uploads/conseils', $conseilsRecent->image)}}" alt="">
+                            <img src="{{ asset('storage/' . $conseilsRecent->image)}}" alt="">
                         </div>
                         <div class="conseil-titre">
                             <p>{{ $conseilsRecent->titre }}</p>
                         </div>
                     </div>
                 @endforeach
-            
+
 
                 {{-- <div class="cadre2">
                     <div class="cadImage">
@@ -109,16 +109,16 @@
                     <div class="conseil-titre">
                         <p>Lorem ipsum dolor sit amet, </p>
                     </div>
-                    
+
                 </div> --}}
-                
-                
+
+
             </div>
-            
+
         </div>
     </section>
 
-       
+
 
     </main>
 @endsection

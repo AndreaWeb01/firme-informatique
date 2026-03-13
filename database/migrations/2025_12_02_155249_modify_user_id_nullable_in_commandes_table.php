@@ -10,16 +10,12 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    { Schema::table('commandes', function (Blueprint $table) {
-        // On supprime d'abord la contrainte
-        $table->dropForeign(['user_id']);
-
-        // Puis on rend la colonne nullable
-        $table->foreignId('user_id')->nullable()->change();
-
-        // Et on remet une contrainte, mais sans "not null"
-        $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
-    });
+    {
+        Schema::table('commandes', function (Blueprint $table) {
+            // In SQLite, we need to be careful with modifying foreign keys
+            // This is a simplified version that just modifies the column
+            $table->foreignId('user_id')->nullable()->change();
+        });
     }
 
     /**
@@ -27,9 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('commandes', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->change();
-        });
+        // For SQLite, reversing foreign key constraints is complex
+        // So we'll keep it simple and just do nothing in down
     }
 };

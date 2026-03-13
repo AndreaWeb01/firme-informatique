@@ -30,7 +30,7 @@ class RoleController extends Controller
 
         Role::create([
             'name' => $role,
-            'guard_name' => 'web'
+            'guard_name' => 'administrateur'
         ]);
 
         return redirect()->route('roles.index')->with('status', 'Role enregistré avec succès');
@@ -46,13 +46,13 @@ class RoleController extends Controller
     {
         $request->validate([
             'name' => 'required|string|unique:roles,name,'.$role->id.'|max:255',
-            
+
         ]);
 
         $role->update([
             'name' => $request->name,
-            'guard_name' => 'web'
-            
+            'guard_name' => 'administateur'
+
         ]);
 
         return redirect()->route('roles.index')->with('status','Role modifié avec succès');

@@ -18,13 +18,13 @@
 
 @section('content')
 <main>
-    <section class="mb-4">
+    <section class="detail-commande">
         <div class="wrap">
             <p class="return"><a href="{{ route('accueil') }}">Accueil</a> / <a href="{{ route('mescommandes') }}">Mes commandes</a> / Détail</p>
         </div>
     </section>
 
-    <section class="py-4">
+    <section class="detail-cmd">
         <div class="wrap">
             <div class="row g-3">
                 <div class="col-md-3">

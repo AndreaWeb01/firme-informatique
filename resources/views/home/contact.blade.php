@@ -4,16 +4,19 @@
 
 @section('banner')
 
-<div class="about-contents">
-    <h1 class="mb-2">CONTACT</h1>
-    <p style="text-align: center;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem temporibus error ullam fuga qui voluptatibus repellat earum dolore, illo doloribus neque fugit eos eligendi, a nihil quae. Quia, obcaecati nesciunt?</p>
-    <a href="#">Contactez-nous</a>
+
+<div class="center">
+    <div class="about-content">
+        <h1 class="mb-2">CONTACT</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem temporibus error ullam fuga qui voluptatibus repellat earum dolore, illo doloribus neque fugit eos eligendi, a nihil quae. Quia, obcaecati nesciunt?</p>
+        <a href="#">Contactez-nous</a>
+    </div>
 </div>
 
 @endsection
 
 @section("content")
-    <main>
+    <main class="main-contact">
         <section class="mb-2 py-2">
             <div class="wrap">
                 <div class="devis-info-contact">

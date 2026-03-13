@@ -13,7 +13,7 @@
 
 @section('content')
 
-<main>
+<main class="main-one-conseil">
     <section class="py-3">
         <div class="wrap">
             <div class="contenu-conseil">
@@ -23,16 +23,16 @@
                 <div class="mb-5">
                     <p class="publication"> publié le {{ $conseil->created_at->format('d/m/Y') }}</p>
                 </div>
-                
+
                 <div class="letexte">
                     <p>
-                        {{ $conseil->description }}
+                        {!! nl2br(e($conseil->description)) !!}
                     </p>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </section>
 
     <section class="mb-2 py-5">
@@ -47,22 +47,22 @@
         <div class="wrap">
             <div class="cadreActu">
                 @foreach($conseilsRecents as $key => $conseilsRecent)
-                    <a href="detailActu.html">
+                    <a href="{{ route('conseils.show', $conseilsRecent->slug) }}">
                         <div class="cadre1">
                             <div class="cadImage">
-                                <img src="{{ url('uploads/conseils', $conseilsRecent->image) }}" alt="">
+                                <img src="{{ asset('storage/' . $conseilsRecent->image) }}" alt="">
                             </div>
                             <div class="conseil-titre">
                                 <p>{{ $conseilsRecent->titre }} </p>
                             </div>
                             <div class="text-actu">
-                                <p>{!! Str::limit(strip_tags($conseil->description ), 100) !!}</</p>
+                                <p>{!! Str::limit(strip_tags($conseilsRecent->description), 100) !!}</p>
                             </div>
-                            
+
                         </div>
                     </a>
                 @endforeach
-                   
+
              <!-- <a href="detailActu.html">
                     <div class="cadre1">
                         <div class="cadImage">
@@ -78,7 +78,7 @@
                             <p>Publié le 30/01/2025</p>
                         </div>
                     </div>
-                </a>   
+                </a>
                 <a href="detailActu.html">
                     <div class="cadre1">
                         <div class="cadImage">
@@ -94,7 +94,7 @@
                             <p>Publié le 30/01/2025</p>
                         </div>
                     </div>
-                </a>    
+                </a>
             -->
             </div>
         </div>

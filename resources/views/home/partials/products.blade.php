@@ -1,34 +1,38 @@
-<div class="categorie">
-    <div class="search-carts">
-        <div class="search-boxs">
-            <input type="text" id="search-input" placeholder="Rechercher..." autocomplete="off">
-            <span class="separator">|</span>
-            <i class="fas fa-search search-icon"></i>
-        </div>
+@php
+    $showCategories = $showCategories ?? true;
+@endphp
 
-        <div id="search-results"></div>
+@if ($showCategories)
+    <div class="categorie">
+        <div class="category-produit mt-3">
+            <div class="category-title">
+                <h6>Categories</h6>
 
-        <div id="loader" style="display:none;">
-            <div class="spinner"></div>
-        </div>
-    </div>
+                <div class="category-list">
+                    {{-- Bouton "Tous" pour afficher toutes les catégories --}}
+                    @php
+                        $currentCategory = $selectedCategoryId ?? 'all';
+                    @endphp
 
-    <div class="category-produit mt-3">
-        <div class="category-title">
-            <h6>Categories</h6>
-
-            <div class="category-list">
-                @foreach ($categories as $index => $category)
                     <a href="#"
-                       class="filter-category-btn {{ $index === 0 ? 'active' : '' }}"
-                       data-category-id="{{ $category->id }}">
-                        {{ $category->Nom_Categorie }}
+                       class="filter-category-btn {{ $currentCategory === 'all' ? 'active' : '' }}"
+                       data-category-id="all">
+                        Tous
                     </a>
-                @endforeach
+
+                    {{-- Boutons pour chaque catégorie --}}
+                    @foreach ($categories as $category)
+                        <a href="#"
+                           class="filter-category-btn {{ (string)$currentCategory === (string)$category->id ? 'active' : '' }}"
+                           data-category-id="{{ $category->id }}">
+                            {{ $category->Nom_Categorie }}
+                        </a>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif
 
 <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
 

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -16,21 +17,19 @@ class BrandController extends Controller
             'imgmarque' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Enregistrer la marque
         $marque = new Brand();
         $marque->nom = $request->nommarque;
         $marque->description = $request->description;
 
         // Gérer l'upload du logo si présent
         if ($request->hasFile('imgmarque')) {
-
             $file = $request->file('imgmarque');
             $extension = $file->getClientOriginalExtension();
+            $filename = "brands_" . time() . '_' . uniqid() . '.' . $extension;
 
-            $imagename = "brands_".time().'.'.$extension;
-            $file->move('uploads/brands/', $imagename);
-
-            $marque->logo = $imagename;
+            // Utiliser le disque 'public' pour stocker les fichiers
+            $imagePath = $file->storeAs('brands', $filename, 'public');
+            $marque->logo = $imagePath;
         }
 
         $marque->save();

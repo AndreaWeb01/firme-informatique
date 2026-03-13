@@ -4,7 +4,7 @@
 
 <!-- Start Content-->
 <div class="container-fluid">
-        
+
     <!-- start page title -->
     <div class="py-3 py-lg-4">
         <div class="row">
@@ -27,9 +27,9 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <a href="{{ route('produits.create') }}" class="btn btn-soft-danger"> Ajouter un produit</a>
-                    
+
                     <p class="sub-header"></p>
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -50,8 +50,8 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>         
-                                
+                            <tbody>
+
                                 @if ($produits->isEmpty())
                                     <tr>
                                         <td colspan="6" class="text-center">Aucun produit pour l'instant</td>
@@ -79,13 +79,13 @@
                                                 <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet produit ?')">
                                                     <i class="mdi mdi-delete"></i>
                                                 </button>
-                                            </form> 
+                                            </form>
                                         </td>
-                                       
+
                                     </tr>
                                     @endforeach
                                 @endif
-                                
+
                             </tbody>
                         </table>
                     </div> <!-- end table-responsive-->
@@ -94,7 +94,7 @@
         </div> <!-- end col -->
     </div>
     <!-- end row -->
-    
+
 </div> <!-- container -->
 
 @endsection

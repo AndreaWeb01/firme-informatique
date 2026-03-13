@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stock;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,21 @@ class PanierController extends Controller
 
     public function confirm_pay()
     {
-        return view('home.panier.confirm_payment');
+        // Récupération similaires aux autres pages
+        if (auth()->check()) {
+            $userId = auth()->id();
+            $recentlyViewed = \App\Models\RecentlyViewed::where('user_id', $userId)
+                ->latest()
+                ->take(5)
+                ->with('produit')
+                ->get();
+        } else {
+            $views = session()->get('recently_viewed', []);
+            $recentProducts = \App\Models\Produit::whereIn('id', $views)->get();
+            $recentlyViewed = $recentProducts->map(fn($p) => (object)['produit' => $p]);
+        }
+
+        return view('home.panier.confirm_payment', compact('recentlyViewed'));
     }
 
 
@@ -35,12 +50,12 @@ class PanierController extends Controller
 
     // public function ajouter(Request $request)
     // {
-        
+
     // }
 
     // public function afficher()
     // {
-        
+
     // }
 
 
@@ -48,9 +63,32 @@ class PanierController extends Controller
     public function mettreAJourQuantite(Request $request)
     {
         $id = $request->input('id');
-        $quantity = $request->input('quantity');
+        $quantity = (int) $request->input('quantity');
 
         $panier = session()->get('panier', []);
+
+        $stockActuel = (int) Stock::where('produit_id', $id)->sum('quantité');
+
+        // Si plus de stock: on retire du panier
+        if ($stockActuel <= 0) {
+            $panier = array_filter($panier, fn ($item) => $item['id'] != $id);
+            session()->put('panier', array_values($panier));
+
+            return response()->json([
+                'success' => false,
+                'message' => "Stock indisponible pour ce produit.",
+                'stock' => $stockActuel,
+                'quantity' => 0,
+            ], 409);
+        }
+
+        // Clamp à [1..stockActuel]
+        if ($quantity < 1) {
+            $quantity = 1;
+        }
+        if ($quantity > $stockActuel) {
+            $quantity = $stockActuel;
+        }
 
         // Mise à jour avec un foreach
         foreach ($panier as &$item) {
@@ -73,7 +111,11 @@ class PanierController extends Controller
         //     Log::info("Après :", $panier);
         // }
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'stock' => $stockActuel,
+            'quantity' => $quantity,
+        ]);
     }
 
 }

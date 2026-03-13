@@ -45,13 +45,12 @@ class RegisteredUserController extends Controller
                         'password' => Hash::make($request->password),
                     ]);
         $user = User::where('email', $request->email)->first();
-        $user->assignRole('Client');
-    
+        $user->assignRole('client');
+
         event(new Registered($user));
 
         Auth::login($user);
 
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('accueil', absolute: false));
     }
 }

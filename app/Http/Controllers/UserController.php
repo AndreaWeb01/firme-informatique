@@ -11,9 +11,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all()->filter(function ($user) {
-            return !$user->hasRole('superadmin');
-        });
+        // Afficher tous les utilisateurs (si besoin, on pourra exclure uniquement un rôle spécial comme "superadmin")
+        $users = User::all();
         return view('administration.role-permission.users.index', compact('users'));
     }
 
@@ -31,23 +30,28 @@ class UserController extends Controller
             'firstname' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|max:20',
-        
+            'confirm_password' => 'required|string|same:password',
+            'roles' => 'required|array',
+            'roles.*' => 'string|exists:roles,name',
         ]);
+
         $user = User::create([
-                        'name' => $request->name,
-                        'prenom' => $request->firstname,
-                        'email' => $request->email,
-                        'password' => Hash::make($request->password),
-                    ]);
-        $user = User::where('email', $request->email)->first();
-        $user->assignRole('Client');
+            'name' => $request->name,
+            'prenom' => $request->firstname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Assigner les rôles sélectionnés (administrateur, client, etc.)
+        $user->syncRoles($request->roles);
+
         return redirect()->route('users.index')->with('status','Utilisateur créé avec succès');
     }
     public function edit(User $user)
     {
 
 
-        $roles = Role::where('name', '!=', 'superadmin')->pluck('name', 'name')->all();
+        $roles = Role::where('name', '!=', 'administrateur')->pluck('name', 'name')->all();
         $userRoles = $user->roles->pluck('name', 'name')->all();
         return view('administration.role-permission.users.edit', compact('user', 'roles', 'userRoles'));
     }

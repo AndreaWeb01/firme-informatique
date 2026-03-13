@@ -1,4 +1,4 @@
-                                    <div class="categorie">
+                                    {{-- <div class="categorie">
                                         <div class="search-carts">
                                             <div class="search-boxs">
                                                 <input type="text" id="search-input" placeholder="Rechercher..." autocomplete="off">
@@ -9,8 +9,8 @@
                                             <div id="loader" style="display:none;">
                                                 <div class="spinner"></div>
                                             </div>
-                                        </div>                                      
-                                    </div>
+                                        </div>
+                                    </div> --}}
                                     <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
                                         @forelse ($solutions as $product)
                                         <div class="cadre">

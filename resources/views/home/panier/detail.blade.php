@@ -20,8 +20,8 @@
 
 @section("content")
 
-<main>
-       
+<main class="main-panier">
+
     <section class="">
         <div class="wrap">
         <p class="return"><a href="{{ route('accueil') }}">Accueil</a>/ <a href="{{ route('boutique') }}">Boutique</a>/ Panier</p>
@@ -55,11 +55,11 @@
                 <a href="{{ route('confirm.payment') }}">payer maintenant</a>
             </div>
         </div>
-        
+
         </div>
     </section>
 
-    
+
     <section class="">
         <div class="wrap">
             <div class="title">
@@ -68,7 +68,7 @@
         </div>
     </section>
 
-    <section class="">
+    {{-- <section class="">
         <div class="wrap">
             <div class="cadres" data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
                 <div class="cadre">
@@ -118,11 +118,11 @@
                             <div class="cart"><i class="fas fa-shopping-cart"></i></div>
                         </div>
                     </a>
-                    
+
                     <div class="product-detail">
                         <p>microphone PPPPPPPPP
                             PPPPPPPP PPPPPP PPPPPP</p>
-                        
+
                     </div>
                     <p class="prix">200 0000 Fcfa</p>
                     <div class="price">
@@ -144,7 +144,7 @@
                     <div class="prix">
                         <p>200 0000 Fcfa</p>
                     </div>
-                    
+
                     <div class="price">
                         <p>200 0000 Fcfa</p>
                     </div>
@@ -170,8 +170,8 @@
                 </div>
             </div>
         </div>
-    </section>
-      
+    </section> --}}
+
 </main>
 
 @endsection

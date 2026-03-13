@@ -9,17 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    
+
     public function up(): void
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('sku');
+            $table->string('sku')->nullable();
             $table->string('image_principale');
             $table->text('description');
-            $table->integer('prix');
+            $table->decimal('prix', 10, 2);
             $table->boolean('statut')->default(true);
             $table->boolean('en_vedette')->default(true);
             $table->foreignId('categorie_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');

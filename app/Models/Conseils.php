@@ -8,8 +8,10 @@ class Conseils extends Model
 {
     protected $fillable = [
         'titre',
+        'slug',
         'image',
-        'description'
+        'description',
+        'statut',
     ];
 }
 

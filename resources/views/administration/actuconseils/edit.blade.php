@@ -4,7 +4,7 @@
 
  <!-- Start Content-->
  <div class="container-fluid">
-        
+
     <!-- start page title -->
     <div class="py-3 py-lg-4">
         <div class="row">
@@ -39,7 +39,7 @@
                                 <input type="file" name="imgconseil" class="form-control" id="imgconseil">
                                  @if($actuconseil->image)
                                     <div>
-                                        <img src="{{ asset('uploads/conseils/' . $actuconseil->image) }}" alt="Image actuelle" width="100">
+                                        <img src="{{ asset('storage/' . $actuconseil->image) }}" alt="Image actuelle" width="100">
                                     </div>
                                 @endif
                                 @error('imgconseil')
@@ -53,24 +53,28 @@
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description </label>
-                            <textarea name="description" class="form-control" id="" cols="30" rows="8" placeholder="Ecrivez la description de la categorie">{{ $actuconseil->description }}</textarea> 
+                            <textarea name="description" class="form-control" id="" cols="30" rows="8" placeholder="Ecrivez la description du conseil">{{ old('description', $actuconseil->description) }}</textarea>
                             @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="statut" name="statut" {{ old('statut', $actuconseil->statut) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="statut">Publier</label>
                         </div>
                         <button class="btn btn-primary" type="submit">Soumettre</button>
                     </form>
 
                 </div>
-            </div> 
-        </div> 
+            </div>
+        </div>
 
 
-        
+
     </div>
     <!-- end row -->
 

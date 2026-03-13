@@ -1,0 +1,1757 @@
+@media screen and (min-width: 300px) and (max-width: 760px) {
+    .headernav {
+        height: 620px;
+    }
+
+    .headernave {
+        height: 500px;
+    }
+
+    .about-contents h1 {
+        margin-top: 90px;
+        font-size: 2.8rem;
+    }
+
+    .headernav3 .about-contents h1,
+    .headernav2 .about-contents h1,
+    .headernav1 .about-contents h1 {
+        margin-top: 110px;
+        font-size: 2.6rem;
+    }
+
+    .lefts1 p {
+        font-size: 14px;
+    }
+
+    .search-box input {
+        display: none;
+    }
+
+    .search-box .search-icon {
+        display: none;
+    }
+
+    .search-box .separator {
+        display: none;
+    }
+
+    .banner .imager .images {
+        height: 300px;
+    }
+
+    .banner .contents h1 {
+        font-size: 18px;
+    }
+
+    .content .left {
+        width: 100%;
+    }
+
+    .content .right {
+        display: none;
+    }
+
+    .contenus {
+        display: block;
+        margin-top: 125px;
+    }
+
+    .contenu1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+        justify-content: start;
+    }
+
+    .contenu1 .logoF {
+        width: 30%;
+    }
+
+    .menu {
+        width: 100%;
+        text-align: start;
+        margin-top: 40px;
+    }
+
+    .menu h1 {
+        text-align: start;
+    }
+
+    .menu p {
+        font-size: 16px;
+        text-transform: lowercase;
+    }
+
+    .contenus .info1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        /* align-items: center; */
+        margin-top: 40px;
+        /* text-align: center; */
+    }
+
+    .contenus .info1 h1 {
+        text-align: start;
+    }
+
+    .contenus .info1 .lieu {
+        margin-left: 0px;
+    }
+
+    .content {
+        flex-direction: column;
+    }
+
+    .content .rights {
+        width: 100%;
+    }
+
+    .content .left1 {
+        width: 100%;
+    }
+
+    .content .lefts {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .devis-info-contact {
+        flex-direction: column;
+    }
+
+    .devis-info-contact .devis {
+        width: 100%;
+    }
+
+    .devis-info-contact .contacts-info {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .devis-info-contact .contacts-info .fid-number {
+        width: 32%;
+        margin-bottom: 0;
+    }
+
+    .devis-info-contact .contacts-info .fid-number p {
+        margin-bottom: 0;
+    }
+
+    .content1 {
+        flex-direction: column;
+    }
+
+    .content1 .right1,
+    .content1 .lefts1 {
+        width: 100%;
+    }
+
+    .content .rights .cadImages4 {
+        display: none;
+    }
+
+    .contacts-info .cadImages3 {
+        display: none;
+    }
+
+    .devis-info-contact.mt-5 {
+        margin-top: 0 !important;
+    }
+
+    .whyFid h1 {
+        font-size: 16px;
+    }
+
+    .whyFid .carac {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .whyFid .carac .carac1 h4 {
+        font-size: 16px;
+    }
+
+    .whyFid .carac .carac1 p {
+        font-size: 14px;
+    }
+
+    .paie .totalproduct .productPrice h6 {
+        font-size: 14px;
+    }
+
+    .paie .cart-form h5 {
+        font-size: 16px;
+    }
+
+    .table-dash th,
+    .table-dash td {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .top-bar {
+        font-size: 12px;
+    }
+
+    .banner {
+        margin-top: 50px;
+    }
+
+    .banner .imager .images {
+        height: 250px;
+    }
+
+    .materiel p {
+        font-size: 18px;
+    }
+
+    .service1a p,
+    .service2a p {
+        font-size: 18px;
+    }
+
+    .service1a a,
+    .service2a a {
+        font-size: 14px;
+        top: 180px;
+    }
+
+    .moreText p {
+        top: 50px;
+    }
+
+    .titles::before {
+        background-color: #fff;
+    }
+
+    .titless::before {
+        background-color: #fff;
+    }
+
+    .tableau .gotobuy a {
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 790px) {
+
+    .adresse-hide,
+    .mobile-hide {
+        display: none;
+    }
+
+    .devis-info-contact .contacts-info {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .devis-info-contact .contacts-info .fid-number {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .devis-info-contact .contacts-info .fid-number p {
+        margin-bottom: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .devis-hide {
+        display: none;
+    }
+
+    .wrap .title {
+        margin-top: 70px;
+    }
+
+    .main-boutique {
+        margin-top: 150px;
+    }
+
+    .return {
+        padding-top: 10px;
+    }
+
+    /* Désactivation du polygone du header sur mobile/tablette */
+    .headernav .wrap,
+    .headernavCon,
+    .headernav1,
+    .headernav2,
+    .headernav3 {
+        clip-path: none;
+    }
+
+    .headernav {
+        height: 660px;
+        margin-bottom: 50px;
+    }
+
+    .banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 0px;
+        /* padding: 30px 0; */
+        margin-top: 0px;
+    }
+
+    .banner .imager,
+    .banner .contents {
+        width: 100%;
+    }
+
+    .banner .contents h1 {
+        margin-bottom: 25px;
+    }
+
+    .banner .imager .images {
+        height: auto;
+    }
+
+    .banner .imager .images img {
+        object-fit: contain;
+    }
+
+    .btn-yellow {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .return {
+        margin-top: 55px;
+    }
+
+    .materiel p {
+        font-size: 16px;
+        top: 200px;
+        margin: 0px 20px;
+        padding: 0;
+    }
+
+    .service1a p,
+    .service2a p {
+        font-size: 16px;
+        top: 40px;
+        margin: 0px 20px;
+        padding: 0;
+    }
+
+    .materiel a {
+        top: 300px;
+        margin-left: 10px;
+    }
+
+    .service1a a,
+    .service2a a {
+        top: 130px;
+        margin-left: 10px;
+    }
+
+    .testimonials {
+        display: block;
+    }
+
+    .testimonial {
+        width: 100%;
+    }
+
+    .testimonials .parte {
+        width: 100%;
+    }
+
+    .swiper {
+        margin-top: 50px;
+    }
+
+    .info1 .lieu p {
+        font-size: 14px;
+    }
+
+    .category-name {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .cadreProduit {
+        flex-direction: column;
+    }
+
+    .cadre .cadImage {
+        height: 100px;
+    }
+
+    .cadreProduit .cadres {
+        width: 100%;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 10px;
+    }
+
+    .cadreProduit .categorie {
+        width: 100%;
+    }
+
+    .cadreProduit .categorie .category-produit {
+        border: none;
+        padding: 0;
+    }
+
+    .cadreProduit .categorie .category-produit .category-title {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .cadreProduit .categorie .category-produit .category-title p {
+        display: block;
+        font-weight: 600;
+        color: #083ea9;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .hidden-categories {
+        transition: all 0.3s ease;
+    }
+
+    .large-img .caImg {
+        height: 300px;
+    }
+
+    .table thead th,
+    .table tbody td h6 {
+        font-size: 12px;
+        padding: 0.5rem;
+    }
+
+    .table .carts-product .products-img .caImgs {
+        width: 120px;
+        height: 90px;
+    }
+
+    .tableau .gotobuy a {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 728px) {
+    .cadreProduit .cadres {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .service-solution {
+        flex-direction: column;
+    }
+
+    .service-solution .serviceF {
+        width: 100%;
+    }
+
+    .serviceF p {
+        top: 80px;
+    }
+
+    .cadreActu,
+    .cadreprojet {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .headernav3,
+    .headernav2,
+    .headernav1 {
+        height: 500px;
+    }
+
+    .headernav3 .about-contents h1,
+    .headernav2 .about-contents h1,
+    .headernav1 .about-contents h1 {
+        margin-top: 90px;
+        font-size: 2rem;
+    }
+
+    .form .btns {
+        font-size: 18px;
+    }
+
+    .carts {
+        right: 40px;
+        width: 500px;
+    }
+
+    .sim-img .caImgs {
+        height: 150px;
+    }
+
+    .table .carts-product {
+        gap: 10px;
+    }
+
+    .table .carts-product .product-name h6,
+    .table .productPrice h6 {
+        font-size: 14px;
+    }
+
+    .table .carts-product .products-img .caImgs {
+        width: 90px;
+        height: 70px;
+    }
+}
+
+@media screen and (max-width: 620px) {
+
+    .service .service1,
+    .service .service2 {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .service1a p,
+    .service2a p {
+        top: 120px;
+    }
+
+    .materiel a {
+        top: 300px;
+        margin-left: 10px;
+    }
+
+    .service1a a,
+    .service2a a {
+        top: 180px;
+        margin-left: 10px;
+    }
+
+    .content .left .carac {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .title h1,
+    .titles h1,
+    .titless h1,
+    .titlesss h1 {
+        font-size: 18px;
+    }
+
+    .titlesss::before {
+        background-color: #fff;
+    }
+
+    .product-details .explit-product .title h1 {
+        font-size: 18px;
+    }
+
+    .about-contents h1 {
+        font-size: 2rem;
+    }
+
+    .headernav3,
+    .headernav2,
+    .headernav1 {
+        height: 550px;
+    }
+
+    .headernav3 .about-contents h1,
+    .headernav2 .about-contents h1,
+    .headernav1 .about-contents h1 {
+        font-size: 1.6rem;
+    }
+
+    .paie .cart-form .carts-form {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .title,
+    .cadres,
+    .content,
+    .patern,
+    .testimonials,
+    .cadreActu,
+    .return,
+    .cadreProduit,
+    .contenus,
+    .service-solution,
+    .cadreEquipe,
+    .contenu-conseil,
+    .devis-info-contact,
+    .frame,
+    .content1,
+    .whyFid,
+    .devis-texte,
+    .product-details,
+    .paie,
+    .tableau {
+        padding: 0 50px;
+    }
+
+    .vide-cart h5 {
+        font-size: 24px;
+    }
+
+    .vide-cart i {
+        font-size: 64px;
+    }
+}
+
+@media screen and (max-width: 579px) {
+    .cadreProduit .cadres {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .form,
+    .authentications {
+        width: 25rem;
+    }
+
+    .login-form .box,
+    .sigin-form .box,
+    .update-form .box,
+    .form .box {
+        font-size: 14px;
+        padding: 0.8rem;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .form .btns {
+        font-size: 16px;
+    }
+
+    .title::before {
+        height: 35px;
+    }
+
+    .sim-img .caImgs {
+        height: 100px;
+    }
+
+    .product-details .explit-product a {
+        font-size: 14px;
+    }
+
+    .paie .pay-form .btn-paye {
+        width: 85%;
+    }
+
+    .carts {
+        right: 30px;
+        width: 400px;
+    }
+
+    .carts .carts-product .products-img .caImgs {
+        height: 100px;
+    }
+
+    .carts .carts-product .product-name h6 {
+        font-size: 12px;
+    }
+
+    .carts .action .gotobuy a,
+    .carts .action .gotocart a {
+        font-size: 14px;
+        padding: 15px 10px;
+        border-radius: 5px;
+    }
+
+    .DashAdresse {
+        padding: 20px 50px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .top-bar {
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .top-bar .container .container1 {
+        display: none;
+    }
+
+    .top-bar .container .container2 {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .login-form.active,
+    .sigin-form.active,
+    .update-form.active {
+        right: 8%;
+    }
+
+    .login-form,
+    .sigin-form,
+    .update-form {
+        width: 20rem;
+    }
+
+    .login-form .box,
+    .sigin-form .box,
+    .update-form .box,
+    .form .box {
+        font-size: 12px;
+        padding: 0.6rem;
+    }
+
+    .login-form .btn,
+    .sigin-form .btn-inscription,
+    .update-form .btn-password {
+        padding: 0.4rem;
+        font-size: 14px;
+    }
+
+    .banner .contents h1 {
+        font-size: 16px;
+    }
+
+    /* Désactivation du polygone du header sur petits mobiles */
+    .headernav .wrap,
+    .headernavCon,
+    .headernav1,
+    .headernav2,
+    .headernav3 {
+        clip-path: none;
+    }
+
+    .headernav {
+        height: 530px;
+    }
+
+    .service1a p,
+    .service2a p {
+        top: 50px;
+    }
+
+    .materiel a {
+        top: 300px;
+        margin-left: 10px;
+    }
+
+    .service1a a,
+    .service2a a {
+        top: 130px;
+        margin-left: 10px;
+    }
+
+    .title,
+    .cadres,
+    .content,
+    .patern,
+    .testimonials,
+    .cadreActu,
+    .cadreProduit,
+    .contenus,
+    .service-solution,
+    .cadreEquipe,
+    .contenu-conseil,
+    .devis-info-contact,
+    .frame,
+    .content1,
+    .whyFid,
+    .devis-texte,
+    .product-details,
+    .paie,
+    .tableau,
+    .dash-board,
+    .div-addis {
+        padding: 0 50px;
+    }
+
+    .headernav {
+        margin-bottom: 50px;
+    }
+
+    .category-title h6 {
+        font-size: 14px;
+    }
+
+    .cadreE .cadImage {
+        height: 100px;
+    }
+
+    .cadreE .fonction h3 {
+        font-size: 14px;
+    }
+
+    .fonction {
+        margin-top: -20px;
+    }
+
+    .headernave {
+        height: 400px;
+        clip-path: none;
+    }
+
+    .headernaves {
+        height: 550px;
+        clip-path: none;
+    }
+
+    .content .rights .cadImages {
+        height: 300px;
+    }
+
+    .contenu-conseil .titre h2 {
+        font-size: 16px;
+        margin-top: 55px;
+    }
+
+    .titre.mb-4 {
+        margin-bottom: 0.5rem !important;
+    }
+
+    .about-contents a {
+        font-size: 14px;
+    }
+
+    .headernav3 .about-contents h1,
+    .headernav2 .about-contents h1,
+    .headernav1 .about-contents h1 {
+        font-size: 1.2rem;
+    }
+
+    .whyFid h1 {
+        font-size: 14px;
+    }
+
+    .whyFid .carac .carac1 h4 {
+        font-size: 14px;
+    }
+
+    .form .btns {
+        font-size: 14px;
+    }
+
+    .product-details .explit-product a {
+        width: 60%;
+    }
+
+    .message {
+        width: 20rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .empty-cart {
+        right: 50px;
+    }
+
+    .headernav {
+        margin-bottom: 300px;
+    }
+
+    .prix p {
+        font-size: 12px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .title h1 {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .product-details .explit-product .title h1 {
+        font-size: 14px;
+    }
+
+    .product-details .explit-product .title::before {
+        height: 25px;
+    }
+
+    .title::before {
+        height: 25px;
+    }
+
+    .contenu1 .logoF {
+        width: 50%;
+    }
+
+    .content .left h2 {
+        font-size: 14px;
+    }
+
+    .content .left h1 {
+        font-size: 16px;
+    }
+
+    .content .rights .cadImages {
+        height: 200px;
+    }
+
+    .stat-block p {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .cadImages1 {
+        height: 200px;
+    }
+
+    .content1 .lefts1 .btn-contact a {
+        font-size: 14px;
+    }
+
+    .message {
+        width: 15rem;
+    }
+
+    h1 {
+        font-size: 16px !important;
+    }
+
+    .carts {
+        right: 20px;
+        width: 350px;
+        padding: 15px 10px;
+    }
+
+    .carts .carts-product {
+        gap: 15px;
+    }
+
+    .carts .carts-product .products-img .caImgs {
+        height: 80px;
+    }
+
+    .carts .action .gotobuy a,
+    .carts .action .gotocart a {
+        font-size: 14px;
+        padding: 10px 8px;
+        border-radius: 5px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .empty-cart {
+        right: 30px;
+    }
+
+    .cadres {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+
+    .title,
+    .cadres,
+    .content,
+    .patern,
+    .testimonials,
+    .cadreActu,
+    .return,
+    .cadreProduit,
+    .contenus,
+    .service-solution,
+    .cadreEquipe,
+    .contenu-conseil,
+    .devis-info-contact,
+    .frame,
+    .content1,
+    .whyFid,
+    .devis-texte,
+    .product-details,
+    .paie,
+    .tableau,
+    .dash-board,
+    .div-addis {
+        padding: 0 20px;
+    }
+
+    .py-5 {
+        padding-top: 1rem !important;
+    }
+
+    .about-contents h1 {
+        font-size: 1.3rem;
+    }
+
+    .about-contents p {
+        font-size: 12px;
+    }
+
+    .formulaire form {
+        padding: 10px 5px;
+    }
+
+    .form,
+    .authentications {
+        width: 20rem;
+    }
+
+    .sim-img .caImgs {
+        height: 80px;
+    }
+
+    .large-img .caImg {
+        height: 200px;
+    }
+
+    .paie .pay-form .btn-paye {
+        font-size: 14px;
+    }
+
+    .message {
+        width: 15rem;
+    }
+
+    .message p {
+        font-size: 12px !important;
+    }
+
+    .titlesss h1 {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .carts {
+        right: 20px;
+        width: 300px;
+        padding: 15px 8px;
+    }
+
+    .carts .carts-product {
+        gap: 10px;
+    }
+
+    .carts .carts-product .products-img .caImgs {
+        height: 80px;
+    }
+
+    .carts .action .gotobuy a,
+    .carts .action .gotocart a {
+        font-size: 12px;
+        padding: 10px 8px;
+        border-radius: 5px;
+    }
+}
+
+@media (max-width: 360px) {
+    .empty-cart {
+        right: 18px;
+    }
+
+    .prix,
+    p,
+    .lefts1 p {
+        font-size: 12px;
+    }
+
+    .whyFid .carac .carac1 p {
+        display: none;
+    }
+
+    .whyFid .carac .carac1 img {
+        width: 40px;
+    }
+
+    .service1a p,
+    .service2a p {
+        top: 40px;
+        font-size: 14px;
+    }
+
+    .materiel p {
+        font-size: 12px;
+    }
+
+    .materiel a {
+        top: 300px;
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+    .service1a a,
+    .service2a a {
+        top: 110px;
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+    .menu p {
+        font-size: 12px;
+    }
+
+    .info1 .lieu p {
+        font-size: 12px;
+    }
+
+    .title,
+    .cadres,
+    .content,
+    .patern,
+    .testimonials,
+    .cadreActu,
+    .return {
+        padding: 0 20px;
+    }
+
+    .cadreE .fonction h3 {
+        font-size: 12px;
+    }
+
+    .left1 p,
+    .content .lefts p {
+        font-size: 12px;
+    }
+
+    .contenu-conseil .titre h2 {
+        font-size: 14px;
+    }
+
+    .form,
+    .authentications {
+        width: 15rem;
+    }
+
+    .titlesss::before {
+        height: 25px;
+    }
+
+    .form .btns {
+        font-size: 12px;
+    }
+
+    .paie .cart-form .carts-form .product-name h6 {
+        font-size: 12px;
+    }
+
+    .paie .cart-form .carts-form .productPrice h6 {
+        font-size: 12px;
+    }
+
+    .login-form,
+    .sigin-form,
+    .update-form {
+        width: 18rem;
+        padding: 0.8rem;
+    }
+
+    .login-form.active,
+    .sigin-form.active,
+    .update-form.active {
+        right: 5%;
+    }
+
+    .navbar>.container,
+    .navbar>.container-fluid,
+    .navbar>.container-lg,
+    .navbar>.container-md,
+    .navbar>.container-sm,
+    .navbar>.container-xl,
+    .navbar>.container-xxl {
+        display: flex;
+        flex-wrap: nowrap !important;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .carts {
+        right: 10px;
+        width: 300px;
+        padding: 15px 4px;
+    }
+
+    .bloc1 h5,
+    .bloc2 a,
+    .paiement-info h5,
+    .livraison-adresse h5 {
+        font-size: 14px !important;
+    }
+
+    .DashAdresse {
+        padding: 20px 30px;
+    }
+}
+
+@media (max-width: 320px) {
+    .empty-cart i {
+        font-size: 24px;
+    }
+
+    .empty-cart h5 {
+        font-size: 16px;
+    }
+
+    .empty-cart {
+        width: 250px;
+        height: 150px;
+    }
+
+    .service1a p,
+    .service2a p {
+        font-size: 12px;
+    }
+
+    .materiel p {
+        font-size: 12px;
+    }
+
+    .service1a a,
+    .service2a a {
+        top: 100px;
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+    .title,
+    .cadres,
+    .content,
+    .patern,
+    .testimonials,
+    .cadreActu {
+        padding: 0 20px;
+    }
+
+    .title h1,
+    .titles h1,
+    .titless h1,
+    .titlesss h1 {
+        font-size: 12px;
+    }
+
+    .product-details .explit-product .title h1 {
+        font-size: 12px;
+    }
+
+    .product-details .explit-product .title::before {
+        height: 25px;
+    }
+
+    .content .left p,
+    .testimonial-content p {
+        font-size: 12px;
+    }
+
+    .banner .contents h1 {
+        font-size: 14px;
+    }
+
+    .btn-yellow {
+        font-size: 12px;
+    }
+
+    .headernav {
+        height: 470px;
+        margin-bottom: 50px;
+    }
+
+    .headernav3 .about-contents h1,
+    .headernav2 .about-contents h1,
+    .headernav1 .about-contents h1 {
+        font-size: 1rem;
+    }
+
+    .login-form,
+    .sigin-form,
+    .update-form {
+        padding: 0.8rem 0.4rem;
+    }
+
+    .carts {
+        right: 5px;
+        width: 300px;
+        padding: 15px 4px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+
+    .navbar>.container,
+    .navbar>.container-fluid,
+    .navbar>.container-lg,
+    .navbar>.container-md,
+    .navbar>.container-sm,
+    .navbar>.container-xl,
+    .navbar>.container-xxl {
+        display: flex;
+        flex-wrap: wrap !important;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: #fff;
+}
+
+@media screen and (min-width: 1500px) {
+    .wrap {
+        max-width: 1550px;
+        margin: 0 auto;
+        margin-top: -15px;
+    }
+
+    .wraps {
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+
+    .cadreActu {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .wraps {
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+
+    .content .left h1 {
+        margin-top: 150px;
+    }
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    .services {
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .headernav {
+        margin-top: -18px;
+    }
+
+    .service1a,
+    .service2a {
+        width: 100%;
+        height: auto;
+    }
+
+    .materiel p {
+        font-size: 24px;
+        top: 200px;
+        margin: 0px 50px;
+        padding: 0;
+    }
+
+    .service1a p,
+    .service2a p {
+        font-size: 24px;
+        top: 80px;
+        margin: 0px 50px;
+        padding: 0;
+    }
+
+    .materiel a {
+        top: 300px;
+        margin-left: 40px;
+    }
+
+    .service1a a,
+    .service2a a {
+        top: 220px;
+        margin-left: 40px;
+    }
+
+    .dash-board .dash-link {
+        padding: 30px 20px;
+    }
+}
+
+@media screen and (max-width: 1150px) {
+    .navbar-nav .nav-link {
+        font-size: 14px;
+    }
+
+    .headernav {
+        margin-top: -15px;
+    }
+
+    .banner .imager .images {
+        height: 350px;
+    }
+
+    .headernav {
+        height: 700px;
+    }
+
+    .top-bar {
+        font-size: 12px;
+    }
+
+    .top-bar .container .container1 {
+        width: 70%;
+    }
+
+    .top-bar .container .container2 {
+        width: 30%;
+    }
+
+    .content .right .cadImage img {
+        object-fit: contain;
+    }
+
+    .content .left h1 {
+        font-size: 18px;
+    }
+
+    .content .left h2 {
+        font-size: 16px;
+    }
+
+    .content .left p {
+        font-size: 14px;
+        margin-bottom: 0rem;
+    }
+
+    .serviceF p {
+        font-size: 14px;
+    }
+
+    .cadreEquipe {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .cadreE .fonction h3 {
+        font-size: 18px;
+    }
+
+    .product-details .explit-product a {
+        width: 50%;
+    }
+
+    .paie .pay-form .btn-paye {
+        font-size: 18px;
+    }
+
+    .tableau .gotobuy a {
+        width: 30%;
+    }
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1366px) {
+    /* Tes styles ici */
+
+    .main-about {
+        margin-top: 650px;
+    }
+
+    .main-conseils {
+        margin-top: 650px;
+    }
+
+    .main-contact {
+        margin-top: 650px;
+    }
+
+    .cadreActu {
+        margin-top: 100px;
+    }
+
+    .devis-info-contact {
+        margin-top: 90px;
+    }
+
+    .aprosect01 {
+        margin-top: 100px;
+    }
+
+
+}
+
+
+@media screen and (min-width: 820px) and (max-width: 1180px) {
+    .main-accueil {
+        margin-top: 250px;
+    }
+
+    .main-boutique {
+        margin-top: 250px;
+    }
+
+    .main-about {
+        margin-top: 650px;
+    }
+
+    .main-conseils {
+        margin-top: 600px;
+    }
+
+    .main-contact {
+        margin-top: 600px;
+    }
+}
+
+
+
+@media screen and (max-width: 1000px) {
+    .search-box input {
+        display: none;
+    }
+
+    .search-box .search-icon {
+        display: none;
+    }
+
+    .search-box .separator {
+        display: none;
+    }
+
+    .cadreEquipe {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 100px 30px;
+    }
+
+    .contenu-conseil .titre h2 {
+        font-size: 18px;
+    }
+
+    .product-details .explit-product a {
+        width: 50%;
+    }
+
+    .paie {
+        flex-direction: column;
+    }
+
+    .paie .pay-form {
+        width: 100%;
+    }
+
+    .paie .cart-form {
+        width: 100%;
+        padding: 20px 10px;
+    }
+
+    .paie .pay-form .contacts-form .inform-contact .bloc2 a {
+        font-size: 14px;
+    }
+
+    .dash-board {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .tableau-dash {
+        width: 100%;
+    }
+
+    .dash-board .dash-link {
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+        box-shadow: none;
+        width: 100%;
+        height: auto;
+    }
+
+    .dash-link a {
+        flex-wrap: nowrap;
+    }
+
+    .DashAdresse {
+        width: 100%;
+    }
+
+    .dash-board .dash-link {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .menu-mobile {
+        display: none;
+    }
+
+    .menu-mobile.open {
+        display: block;
+    }
+
+    .title h1 {
+        font-size: 18px;
+    }
+
+    .title::before {
+        height: 35px;
+    }
+
+    .adresselivre {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .top-bar .container .container1 {
+        width: 60%;
+    }
+
+    .headernav {
+        margin-top: -15px;
+    }
+
+    .top-bar .container .container2 {
+        width: 40%;
+    }
+
+    .search-box input {
+        display: block;
+    }
+
+    .search-box .search-icon {
+        display: block;
+    }
+
+    .search-box .separator {
+        display: block;
+    }
+
+    .login-form.active,
+    .sigin-form.active,
+    .update-form.active {
+        right: 8%;
+    }
+
+    .testimonials .testimonial h1 {
+        font-size: 18px;
+    }
+
+    .testimonials .testimonial p {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    footer {
+        background-image: url("../image/footer-responsive.png");
+    }
+
+    footer .copy {
+        padding-bottom: 3rem;
+        margin-top: 2rem;
+        text-align: center;
+        color: white;
+    }
+
+    .logoF img {
+        margin-top: 20px;
+    }
+
+    .menu {
+        width: 40%;
+        margin-top: 20px;
+        color: #fff;
+    }
+
+    .menu h1 {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .menu p {
+        font-size: 14px;
+    }
+
+    .contenus .info1 {
+        margin-top: 20px;
+        color: #fff;
+        width: 30%;
+        font-weight: bold;
+    }
+
+    .contenus .info1 h1 {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .contenus .info1 .lieu {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 30px;
+        margin-left: 50px;
+    }
+
+    .cadreProduit .cadres {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) !important;
+        padding: 0 !important;
+    }
+
+    .cadre .cadImage {
+        height: 150px;
+    }
+
+    .cadreActu,
+    .cadreprojet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-details {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .product-details .product-img {
+        width: 100%;
+    }
+
+    .product-details .explit-product {
+        width: 100%;
+    }
+
+    .product-details .explit-product h5 {
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        /* Juste en dessous du navbar */
+        left: 0;
+        width: 100%;
+        background-color: white;
+        /* Mets ton fond ici */
+        z-index: 1000;
+        padding: 20px 20px;
+    }
+
+    .navbar-collapse ul {
+        flex-direction: column;
+        /* align-items: center; */
+    }
+
+    .navbar-collapse .search-cart {
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    .navbar-toggler {
+        z-index: 1100;
+    }
+
+    .navbar {
+        position: relative;
+    }
+
+    p.mb-5 {
+        margin-bottom: 0 !important;
+    }
+
+    p.mt-4 {
+        margin-top: 0 !important;
+    }
+}

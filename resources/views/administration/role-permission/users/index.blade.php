@@ -53,7 +53,7 @@
                             <tbody>
                                 @if($users->isEmpty())
                                     <tr>
-                                        <td colspan="5" class="text-center">Aucun utilisateur crée pour l'instant</td>
+                                        <td colspan="6" class="text-center">Aucun utilisateur crée pour l'instant</td>
                                     </tr>
                                 @else
                                     @foreach ($users as $key => $user)

@@ -17,22 +17,13 @@ class SearchController extends Controller
         if (!$query) {
             return response()->json([]);
         }
+        // Recherche uniquement sur les produits de la boutique
         $produits = Produit::where('name', 'LIKE', '%' . $term . '%')
             ->orWhere('description', 'LIKE', '%' . $term . '%')
             ->limit(5)
             ->get(['id', 'slug', 'name']);
 
-        $conseils = Conseils::where('titre', 'LIKE', '%' . $term . '%')
-            ->orWhere('description', 'LIKE', '%' . $term . '%')
-            ->limit(5)
-            ->get(['id', 'slug', 'titre']);
-            
-           
-            $results = $produits
-            ->concat($conseils)
-            ->values();
-            
-            return response()->json($results);
+        return response()->json($produits->values());
 
     }
 }

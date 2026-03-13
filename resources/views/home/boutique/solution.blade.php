@@ -21,7 +21,7 @@
 @section("content")
 
 <main>
-    <section class="mb-4">
+    <section class="main-sect01 mb-4">
         <div class="wrap">
             <p class="return"><a href="{{ route('accueil') }}">Accueil</a> / Fourniture de solutions informatiques</p>
             <div class="title">

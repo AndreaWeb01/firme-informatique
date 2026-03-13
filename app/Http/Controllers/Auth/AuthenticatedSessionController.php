@@ -30,14 +30,15 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        
+
         // Vérifier si l'utilisateur est un admin
         $user = User::find(Auth::id());
-        if ($user->hasRole('Administrateur')) {
+        if ($user && $user->hasRole('administrateur')) {
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Utilisateur "classique" : redirection vers la page d'accueil
+        return redirect()->intended(route('accueil', absolute: false));
     }
 
     /**
@@ -45,7 +46,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::guard(config('auth.defaults.guard'))->logout();
 
         $request->session()->invalidate();
 

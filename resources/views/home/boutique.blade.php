@@ -14,7 +14,7 @@
 </div>
 @endsection
 @section('content')
-<main>
+<main class="main-boutique">
     <section class="mb-4">
         <div class="wrap">
             <p class="return"><a href="{{ route('accueil') }}">Accueil</a> / Notre boutique</p>
@@ -26,24 +26,52 @@
     <section class="py-5">
         <div class="wrap">
             <div class="service-solution">
-                @foreach ($types as $index => $type)
-                <div class="serviceF">
-                    <a href="#" class="filter-btn {{ $index === 0 ? 'active' : '' }}" data-id="{{ $type->id }}">
+                {{-- Bouton "Tous les types" par défaut --}}
+                {{-- <div class="serviceF">
+                    <a href="#"
+                       class="filter-btn active"
+                       data-id="all">
                         <div class="overlays"></div>
-                        <img class="{{ $index === 0 ? 'actives' : '' }}" src="{{ asset('assets/frontend/image/backgroundF2.png') }}" alt="Matériel informatique">
-                     <p>{{ $type->Nom_TypeProduit }}</p> </a>
-                </div> 
-                 @endforeach 
+                        <img class="actives"
+                             src="{{ asset('assets/frontend/image/backgroundF2.png') }}"
+                             alt="Tous les types">
+                        <p>Tous les types</p>
+                    </a>
+                </div> --}}
+
+                {{-- Boutons pour chaque type de produit --}}
+                @foreach ($types as $type)
+                <div class="serviceF">
+                    <a href="#"
+                       class="filter-btn"
+                       data-id="{{ $type->id }}">
+                        <div class="overlays"></div>
+                        <img src="{{ asset('assets/frontend/image/backgroundF2.png') }}"
+                             alt="Matériel informatique">
+                        <p>{{ $type->Nom_TypeProduit }}</p>
+                    </a>
+                </div>
+                @endforeach
            </div>
         </div>
-    </section> 
+    </section>
     <section class="py-5">
         <div class="wrap">
             <div class="cadreProduit" id="products-container">
-                 @include('home.partials.products', ['products' => $allproducts, 'categories' => $categories])
-            </div>   
+                 @include('home.partials.products', [
+                    'products' => $products,
+                    'categories' => $categories,
+                    'selectedCategoryId' => $selectedCategoryId ?? 'all',
+                    // Sur la page principale, on masque les catégories au chargement
+                    'showCategories' => false,
+                 ])
+            </div>
         </div>
     </section>
+
+    {{-- produits récemment vus --}}
+    @include('home.partials.recently_viewed')
+
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -91,17 +119,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const categoryBtn = e.target.closest('.filter-category-btn');
         if (categoryBtn) {
             e.preventDefault();
-            
+
             const categoryId = categoryBtn.dataset.categoryId;
             selectedCategoryId = categoryId;
-            
+
             // Retirer active de tous les boutons de catégories
             document.querySelectorAll('.filter-category-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
+
             categoryBtn.classList.add('active');
-            
+
             // Filtre combiné type + catégorie
             fetch(`/boutique/filter-combined?type_id=${encodeURIComponent(selectedTypeId || '')}&category_id=${encodeURIComponent(selectedCategoryId || '')}`)
                 .then(res => res.text())
@@ -117,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 $(document).ready(function() {
     console.log('Script de recherche chargé');
     console.log('Input trouvé:', $('#search-input').length);
-    
+
     // Recherche avec délégation d'événements
     $(document).on('keyup', '#search-input', function() {
         let search = $(this).val();

@@ -125,6 +125,8 @@
     .success { background: #28c76f; }
     .warning { background: #ff9f43; }
     .danger  { background: #ea5455; }
+    .primary { background: #0261CD; }
+    .info    { background: #17a2b8; }
 
     /* ----------- PRODUITS ----------- */
     .product-list {
@@ -198,13 +200,12 @@
   <!-- Graph + Table + Products -->
     <div class="rowx">
 
-      
-        <div class="chart-box">
+        <!-- <div class="chart-box">
             <h2>Ventes Mensuelles</h2>
             <div class="chart-placeholder">
                 Graphique ici (ApexCharts possible)
             </div>
-        </div>
+        </div> -->
 
         <div class="table-box">
             <h2>Dernières Commandes</h2>
@@ -221,13 +222,22 @@
                     <td>{{ $commander->numero_commande }}</td>
                     <td>{{ $commander->user->name ?? $commander->nom }}</td>    
                     <td>{{ $commander->montant_total }}</td>
-                    <td><span class="badge {{ $commander->statut == 'payée' ? 'success' : ($commander->statut == 'en_attente' ? 'warning' : 'danger') }}">{{ $commander->statut }}</span></td>  
+                    @php
+                        $statut = strtolower((string)($commander->statut ?? ''));
+                        $badgeClass = match($statut) {
+                            'en_attente' => 'warning',
+                            'validee', 'validée' => 'success',
+                            'annulee', 'annulée' => 'danger',
+                            'en_livraison' => 'primary',
+                            'livree', 'livrée', 'payee', 'payée' => 'success',
+                            default => 'danger',
+                        };
+                    @endphp
+                    <td><span class="badge {{ $badgeClass }}">{{ $commander->statut }}</span></td>  
                 </tr>
             @endforeach 
             </table>
         </div>
-
-
     </div>
 
  </div>

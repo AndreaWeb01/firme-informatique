@@ -9,6 +9,7 @@ use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PanierController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProfileController;
@@ -17,6 +18,8 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\SousCategoryController;
 use App\Http\Controllers\TypeProduitController;
 use App\Http\Controllers\UserController;
+use GuzzleHttp\Middleware;
+use App\Models\Stock;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -63,6 +66,16 @@ Route::prefix('panier')->group(function () {
     Route::get('/', [PanierController::class, 'afficher'])->name('panier.afficher');
     Route::post('/ajouter', function (Request $request) {
         $id = $request->input('id');
+
+        $stockActuel = (int) Stock::where('produit_id', $id)->sum('quantité');
+        if ($stockActuel <= 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Stock indisponible pour ce produit.',
+                'stock' => $stockActuel,
+            ], 409);
+        }
+
         $produit = [
             'id' => $id,
             'name' => $request->input('name'),
@@ -75,16 +88,33 @@ Route::prefix('panier')->group(function () {
         $found = false;
         foreach ($panier as &$item) {
             if ($item['id'] == $id) {
-                $item['quantity'] += 1;
+                $newQty = ((int) ($item['quantity'] ?? 1)) + 1;
+                if ($newQty > $stockActuel) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Stock insuffisant. Stock disponible: {$stockActuel}.",
+                        'stock' => $stockActuel,
+                        'quantity' => $item['quantity'] ?? 1,
+                    ], 409);
+                }
+                $item['quantity'] = $newQty;
                 $found = true;
                 break;
             }
         }
         if (!$found) {
+            if (1 > $stockActuel) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Stock insuffisant. Stock disponible: {$stockActuel}.",
+                    'stock' => $stockActuel,
+                    'quantity' => 0,
+                ], 409);
+            }
             $panier[] = $produit;
         }
         session()->put('panier', $panier);
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'stock' => $stockActuel]);
     })->name('panier.ajouter');
     Route::get('/produits', function () {
         return response()->json(session()->get('panier', []));
@@ -102,32 +132,41 @@ Route::post('/commandes/{commande}/changer-statut', [CommandeController::class, 
 | Administration / Back-office Routes
 | -------------------------------------------------------------------------- */
 Route::prefix('administration')->group(function () {
+    // Inscription admin accessible (création de compte)
     Route::get('/register', [AdminController::class, 'showRegisterForm'])->name('admin.register');
     Route::post('/registerstore', [AdminController::class, 'register'])->name('adminstore.register');
+
+    // Dashboard réservé aux administrateurs authentifiés
+    Route::middleware(['auth', 'role:administrateur'])->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    });
+
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('/loginstore', [AdminController::class, 'loginstore'])->name('admin.loginstore');
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware('auth')->name('admin.dashboard');
 });
 /* --------------------------------------------------------------------------
 | Dashboard Management Routes
 | -------------------------------------------------------------------------- */
-Route::prefix('dashboard')->middleware('auth','role:Administrateur')->group(function () {
+Route::prefix('dashboard')->group(function () {
     Route::get('/devis', [DashboardController::class, 'liste_devis'])->name('devis.index');
     Route::get('/devis/{devis}', [DashboardController::class, 'show_devis'])->name('devis.show');
     Route::delete('/devis/{devis}', [DashboardController::class, 'destroy_devis'])->name('devis.destroy');
-     Route::resource('commandes', CommandeController::class)->except(['show']);
+    Route::resource('commandes', CommandeController::class)->except(['show']);
     Route::resources([
-    'typeproduits' => TypeProduitController::class,
-    'actuconseils' => ActuConseilsController::class,
-    'categories'   => CategoryController::class,
-    'produits'     => ProduitController::class,
-    'stocks'       => StockController::class,
-  
-]);
-Route::get('/commandes/{commande}/valider', [CommandeController::class, 'valider'])->name('commandes.valider');
-Route::get('/commandes/{commande}/annuler', [CommandeController::class, 'annuler'])->name('commandes.annuler');
-Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::get('/commandes/{commande}', [CommandeController::class, 'show'])->name('commandes.show');
+        'typeproduits' => TypeProduitController::class,
+        'actuconseils' => ActuConseilsController::class,
+        'categories' => CategoryController::class,
+        'produits' => ProduitController::class,
+        'stocks' => StockController::class,
+
+    ]);
+    Route::get('/commandes/{commande}/valider', [CommandeController::class, 'valider'])->name('commandes.valider');
+    Route::get('/commandes/{commande}/annuler', [CommandeController::class, 'annuler'])->name('commandes.annuler');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/commandes/{commande}', [CommandeController::class, 'show'])->name('commandes.show');
 });
 
 /* --------------------------------------------------------------------------
@@ -142,7 +181,7 @@ Route::post('brands', [BrandController::class, 'store'])->name('brands.store');
 /* --------------------------------------------------------------------------
 | Users & Roles & Permissions Management
 | -------------------------------------------------------------------------- */
-Route::prefix('admin')->middleware('auth','role:Administrateur')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     // Users
     Route::resource('users', UserController::class)->except(['show']);
     // Roles
@@ -156,13 +195,29 @@ Route::prefix('admin')->middleware('auth','role:Administrateur')->group(function
 /* --------------------------------------------------------------------------
 | Authenticated User Profile Routes
 | -------------------------------------------------------------------------- */
-Route::middleware('auth','role:Client')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/mescommandes', [HomeController::class, 'dashboard'])->name('mescommandes');
+    Route::get('/mes-devis', [HomeController::class, 'mesDevis'])->name('mesdevis');
     Route::get('/detailcommande/{numero_commande}', [HomeController::class, 'detailcommande'])->name('detailcommande');
 });
 
+
+Route::get('/payer/{commande}', [PaymentController::class, 'payer'])->name('paiement.payer');
+
+Route::post('/payment/create', [PaymentController::class, 'create'])
+    ->name('payment.create');
+
+Route::get('/payment/callback', [PaymentController::class, 'callback'])
+    ->name('payment.callback');
+
+Route::post('/payment/webhook', [PaymentController::class, 'webhook'])
+    ->name('payment.webhook');
+
+Route::get('/payment', function () {
+    return view('payment.form');
+});
 /* --------------------------------------------------------------------------
 | Auth routes (Laravel Breeze / Fortify / etc.)
 | -------------------------------------------------------------------------- */
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

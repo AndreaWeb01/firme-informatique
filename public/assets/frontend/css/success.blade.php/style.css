@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.success-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 60px 40px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    animation: scaleIn 0.6s ease-out;
+}
+
+.success-icon svg {
+    width: 50px;
+    height: 50px;
+    stroke: white;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+h1 {
+    color: #1a202c;
+    font-size: 32px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.success-message {
+    color: #718096;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.success-details {
+    background: #f7fafc;
+    border-left: 4px solid #48bb78;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: #718096;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #1a202c;
+    font-weight: 600;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+    background: #f7fafc;
+}
+
+.confirmation-number {
+    background: #edf2f7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: "Courier New", monospace;
+    color: #2d3748;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.checkmark {
+    animation: checkmark 0.8s ease-in-out;
+}
+
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 83;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .success-container {
+        padding: 40px 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}

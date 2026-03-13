@@ -4,7 +4,7 @@
 
      <!-- Start Content-->
  <div class="container-fluid">
-        
+
     <!-- start page title -->
     <div class="py-3 py-lg-4">
         <div class="row">
@@ -30,19 +30,19 @@
                     <a href="{{ route('actuconseils.index') }}" class="btn btn-soft-danger"> Retour</a>
                     <p class="sub-header"></p>
 
-                    <p><img src="{{ url('uploads/conseils', $actuconseil->image )}}" alt="" width="100" width="100"></p>
+                    <p><img src="{{ asset('storage/' . $actuconseil->image )}}" alt="" width="100" width="100"></p>
                     <p><strong>Nom:</strong> {{ $actuconseil->titre }}</p>
                     <p><strong>Description:</strong> {{ $actuconseil->description }}</p>
 
 
-                 
+
 
                 </div>
-            </div> 
-        </div> 
+            </div>
+        </div>
 
 
-        
+
     </div>
     <!-- end row -->
 

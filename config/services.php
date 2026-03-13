@@ -14,6 +14,11 @@ return [
     |
     */
 
+    'moneyfusion' => [
+    'api_url'   => env('MONEYFUSION_API_URL'),
+    'check_url' => env('MONEYFUSION_CHECK_URL'),
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

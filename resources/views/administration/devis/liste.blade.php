@@ -63,16 +63,7 @@
                                         <td>{{ $devis->created_at->diffForHumans() }}</</td>
                                         <td>
 
-                                            <a href="{{ route('actuconseils.show', $devis->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>
-                                            <a href="{{ route('actuconseils.edit', $devis->id) }}" class="btn btn-success"><i class="mdi mdi-file-edit"></i></a>
-
-                                            <form action="{{ route('actuconseils.destroy', $devis->id) }}" method="POST" style="display: inline;"> 
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette categorie?')">
-                                                    <i class="mdi mdi-delete"></i>
-                                                </button>
-                                            </form>   
+                                            <a href="{{ route('devis.show', $devis->id) }}" class="btn btn-primary"><i class="mdi mdi-eye"></i></a>
                                             
                                         </td>
                                     </tr>

@@ -21,14 +21,45 @@ class HomeController extends Controller
         $categories = Category::all();
         $type = TypeProduits::with('categories')->get();
         // return view('home.accueil');
-        return view('home.accueil', compact('conseilsRecents', 'productsRecents', 'categories', 'type'));  
+        return view('home.accueil', compact('conseilsRecents', 'productsRecents', 'categories', 'type'));
     }
-    public function boutique()
+    public function boutique(Request $request)
     {
         $types = TypeProduits::with('categories')->get();
-        $allproducts = Produit::with('categorie')->get();
+
+        // Recherche éventuelle transmise par le header (paramètre q)
+        $search = $request->get('q');
+
+        $productsQuery = Produit::with('categorie');
+        if ($search) {
+            $productsQuery->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%')
+                  ->orWhere('description', 'LIKE', '%' . $search . '%');
+            });
+        }
+        $products = $productsQuery->get();
         $categories = Category::all();
-        return view('home.boutique', compact('types', 'allproducts', 'categories'));
+        // Catégorie sélectionnée par défaut : "all"
+        $selectedCategoryId = 'all';
+
+        // Récupérer les produits récemment vus (utilisateur ou session)
+        if (auth()->check()) {
+            $userId = auth()->id();
+            $recentlyViewed = RecentlyViewed::where('user_id', $userId)
+                ->latest()
+                ->take(5)
+                ->with('produit')
+                ->get();
+        } else {
+            $views = session()->get('recently_viewed', []);
+            $recentProducts = Produit::whereIn('id', $views)->get();
+            $recentlyViewed = $recentProducts->map(fn($p) => (object)['produit' => $p]);
+        }
+
+        // Sur la page principale, on masque le bloc "Catégories" (il s'affichera après clic sur un type)
+        $showCategories = false;
+
+        return view('home.boutique', compact('types', 'products', 'categories', 'recentlyViewed', 'selectedCategoryId', 'showCategories'));
     }
     public function filterAjax($id)
     {
@@ -52,29 +83,38 @@ class HomeController extends Controller
         // Filtrer les produits par catégorie
         $products = Produit::where('categorie_id', $id)->get();
         $categories = Category::all();
+        $selectedCategoryId = $id;
 
-        return view('home.partials.products', compact('products', 'categories'))->render();
+        $showCategories = true;
+
+        return view('home.partials.products', compact('products', 'categories', 'selectedCategoryId', 'showCategories'))->render();
     }
     public function filterCombined(Request $request)
     {
         $typeId = $request->get('type_id');
         $categoryId = $request->get('category_id');
-        
+
         $query = Produit::query();
-        
+
         if ($typeId && $typeId !== 'all') {
             $categoryIds = Category::where('ID_TypeProduit', $typeId)->pluck('id');
             $query->whereIn('categorie_id', $categoryIds);
+            // Ne garder que les catégories du type sélectionné
+            $categories = Category::where('ID_TypeProduit', $typeId)->get();
+        } else {
+            // Aucun type précis : toutes les catégories restent visibles
+            $categories = Category::all();
         }
-        
+
         if ($categoryId && $categoryId !== 'all') {
             $query->where('categorie_id', $categoryId);
         }
-        
+
         $products = $query->get();
-        $categories = Category::all();
-        
-        return view('home.partials.products', compact('products', 'categories'))->render();
+        // Si aucune catégorie précise, on reste sur "all"
+        $selectedCategoryId = $categoryId ?: 'all';
+
+        return view('home.partials.products', compact('products', 'categories', 'selectedCategoryId'))->render();
     }
     public function search(Request $request)
     {
@@ -93,20 +133,37 @@ class HomeController extends Controller
 
     public function descriptionProduit($slug, $id)
 {
- /*   $userId = auth()->id()?? null; // Assurez-vous que l'utilisateur est connecté
-
-    // Enregistrer le produit comme récemment vu
-    RecentlyViewed::updateOrCreate(
-        ['user_id' => $userId, 'produit_id' => $id],
-        ['created_at' => now()] // Optionnel : mise à jour de la date
-    );
-*/
-    // Récupérer le produit
+    // Récupérer le produit principal
     $produit = Produit::where('slug', $slug)->firstOrFail();
-    $produits = RecentlyViewed::
-        with('produit') // Charger les détails du produit
-        ->get();
-   
+
+    // Gestion des produits récemment vus selon l'utilisateur (ou session)
+    if (auth()->check()) {
+        $userId = auth()->id();
+        // insert/update
+        RecentlyViewed::updateOrCreate(
+            ['user_id' => $userId, 'produit_id' => $id],
+            ['created_at' => now(), 'updated_at' => now()]
+        );
+
+        // récupérer les 5 derniers produits vus par l'utilisateur
+        $produits = RecentlyViewed::where('user_id', $userId)
+            ->latest()
+            ->with('produit')
+            ->take(5)
+            ->get();
+    } else {
+        // invité : on enregistre l'id dans la session (liste FIFO de 5)
+        $views = session()->get('recently_viewed', []);
+        // retirer l'id si déjà présent pour le remettre en tête
+        $views = array_filter($views, fn($v) => $v !== $id);
+        array_unshift($views, $id);
+        $views = array_slice($views, 0, 5);
+        session()->put('recently_viewed', $views);
+
+        $produits = Produit::whereIn('id', $views)->get()->map(function ($p) {
+            return (object) ['produit' => $p];
+        });
+    }
 
     return view('home.descriptionproduit', compact('produit', 'produits'));
 }
@@ -119,16 +176,19 @@ class HomeController extends Controller
 
     public function conseils()
     {
-        $conseils = Conseils::all();
+        $conseils = Conseils::where('statut', true)->latest()->get();
         return view('home.conseils', compact('conseils'));
     }
 
     public function conseilshow($slug)
     {
-        $conseilsRecents = Conseils::where('statut', true)->latest()->take(3)->get();
-
-        // Récupérer l'article par son slug
         $conseil = Conseils::where('slug', $slug)->firstOrFail();
+
+        $conseilsRecents = Conseils::where('statut', true)
+            ->where('id', '!=', $conseil->id)
+            ->latest()
+            ->take(3)
+            ->get();
 
         // Retourner la vue avec l'article
         return view('home.conseilshow', compact('conseil', 'conseilsRecents'));
@@ -242,9 +302,24 @@ class HomeController extends Controller
         $commandes = Commande::where('user_id', auth()->user()->id)->get();
         return view('dashboard', compact('commandes', 'products'));
     }
+
+    /**
+     * Show logged-in user's devis list
+     */
+    public function mesDevis()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à vos devis.');
+        }
+
+        $userEmail = auth()->user()->email;
+        $devis = Devis::where('email', $userEmail)->get();
+
+        return view('home.mesdevis', compact('devis'));
+    }
     public function detailcommande($numero_commande)
     {
         $commande = Commande::where('numero_commande', $numero_commande)->firstOrFail();
         return view('home.detailcommande', compact('commande'));
-    }   
+    }
 }
